@@ -13,12 +13,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(to bottom right, #0f172a, #1e293b, #0f172a);
   color: white;
-  min-width: 1024px;
-  overflow-x: auto;
-}
-
-#root {
-  min-width: 1024px;
 }
 
 /* Custom scrollbar for better UX */
