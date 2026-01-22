@@ -12,6 +12,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import SalesAgentDashboard from './components/SalesAgentDashboard';
 import AdminDashboard from './components/AdminDashboard';
 import PurchaseFlow from './components/PurchaseFlow';
 import ClaimFlow from './components/ClaimFlow';
@@ -518,7 +519,7 @@ export default function DeviceInsurance() {
 
       {currentView === 'dashboard' && user && (
         <>
-          {user.role === 'Policy Owner' || user.role === 'Sales Agent' ? (
+          {user.role === 'Policy Owner' ? (
             <Dashboard
               user={user}
               onPurchaseClick={startFlow}
@@ -536,6 +537,23 @@ export default function DeviceInsurance() {
               }}
               onPolicyClick={handlePolicyClick}
               onClaimDetailClick={handleClaimDetailClick}
+            />
+          ) : user.role === 'Sales Agent' ? (
+            <SalesAgentDashboard
+              user={user}
+              onPurchaseClick={startFlow}
+              onClaimClick={() => {
+                setClaimFormData({
+                  policyId: '',
+                  claimType: '',
+                  incidentDate: '',
+                  description: '',
+                  estimatedCost: '',
+                  deviceOutlet: ''
+                });
+                setCurrentView('claim');
+                setClaimStep(1);
+              }}
             />
           ) : (
             <AdminDashboard

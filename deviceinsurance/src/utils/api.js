@@ -5,7 +5,7 @@
 // For Vite, you can use: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 const API_BASE_URL = (typeof process !== 'undefined' && process.env?.REACT_APP_API_BASE_URL) 
   ? process.env.REACT_APP_API_BASE_URL 
-  : 'https://insure.collegeerp.co.ke';
+  : 'http://localhost:8000';
 
 export const fetchPricingPlans = async () => {
   try {
@@ -251,6 +251,52 @@ export const fetchPolicies = async (accessToken) => {
     return data;
   } catch (error) {
     console.error('Error fetching policies:', error);
+    throw error;
+  }
+};
+
+export const searchPolicies = async (searchQuery, accessToken) => {
+  try {
+    const headersList = {
+      "Accept": "*/*",
+      "User-Agent": "DeviceShield App"
+    };
+
+    // Add Authorization header with Bearer token
+    if (accessToken) {
+      headersList["Authorization"] = `Bearer ${accessToken}`;
+    } else {
+      throw new Error('Access token is required to search policies');
+    }
+
+    if (!searchQuery || !searchQuery.trim()) {
+      throw new Error('Search query is required');
+    }
+
+    const response = await fetch(`${API_BASE_URL}/policies/policies-search/?search=${encodeURIComponent(searchQuery.trim())}`, {
+      method: "GET",
+      headers: headersList
+    });
+
+    if (!response.ok) {
+      // Check if it's a 404 with specific error message
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await response.json();
+        if (errorData.detail === "Policies not found.") {
+          // Return empty array for not found
+          return [];
+        }
+        throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+      }
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    // The API returns an array directly
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Error searching policies:', error);
     throw error;
   }
 };
