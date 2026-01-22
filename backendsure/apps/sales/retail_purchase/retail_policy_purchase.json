@@ -1,0 +1,94 @@
+{
+    "product": 1,
+    "start_date": "2025-07-30",
+    "members": [
+        {
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "johndoe@gmail.com",
+            "gender": "Male",
+            "phone_number": "0745491093",
+            "id_number": "363662728",
+            "address": "228-90119",
+            "town": "Matuu",
+            "country": "Kenya",
+            "cover_amount": 25000,
+            "premium": 95
+        }
+    ],
+    "dependents": [
+        {
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "janedoe@gmail.com",
+            "gender": "Female",
+            "phone_number": "0745491093",
+            "id_number": "363662728D",
+            "relationship": "Spouse",
+            "cover_amount": 500000,
+            "premium": 180,
+            "date_of_birth": "2000-10-20",
+            "dependent_type": "Dependent"
+
+        },
+        {
+            "first_name": "James",
+            "last_name": "Smith",
+            "email": "jamesmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728D",
+            "relationship": "Son",
+            "cover_amount": 1000000,
+            "premium": 250,
+            "date_of_birth": "2000-10-20",
+            "dependent_type": "Dependent"
+        },
+        {
+            "first_name": "John",
+            "last_name": "Smith",
+            "email": "johnsmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728D",
+            "relationship": "Niece",
+            "cover_amount": 200000,
+            "premium": 130,
+            "date_of_birth": "2000-10-20",
+            "dependent_type": "Extended"
+        }
+    ],
+    "beneficiaries": [
+        {
+            "first_name": "James",
+            "last_name": "Smith",
+            "email": "jamesmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728B",
+            "relationship": "Son",
+            "percentage": 80,
+            "date_of_birth": "2000-10-20"
+        },
+        {
+            "first_name": "John",
+            "last_name": "Smith",
+            "email": "johnsmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728B",
+            "relationship": "Spouse",
+            "percentage": 20,
+            "date_of_birth": "2000-10-20"
+        }
+    ],
+    "payment_details": {
+        "bank_name": "Equity Bank Kenya",
+        "account_type": "Savings",
+        "account_name": "Paul Ndambo Ngila",
+        "account_number": "0800727627356",
+        "branch_code": "099832",
+        "debit_order_date": "3",
+        "source_of_funds": "Employment"
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "product": 7,
+    "product_type": "motor",
+    "start_date": "2025-08-01",
+    "owner": {
+        "first_name": "James",
+        "last_name": "Mutuku",
+        "email": "james.mutuku@example.com",
+        "phone_number": "0722000111",
+        "id_number": "28765432",
+        "date_of_birth": "1987-02-10",
+        "address": "228-90119",
+        "county": "Machakos",
+        "sub_county": "Machakos Town",
+        "ward": "Kola",
+        "gender": "Male",
+        "occupation": "Boda Boda Rider",
+        "country": "Kenya"
+    },
+    "vehicles": [
+        {
+            "registration_number": "KDA123X",
+            "make": "Toyota",
+            "model": "Axio",
+            "year_of_manufacture": 2017,
+            "engine_number": "2NZ123456",
+            "chassis_number": "JTD123456789XYZ",
+            "vehicle_value": 950000,
+            "usage_type": "private",
+            "cover_type": "comprehensive",
+            "color": "White",
+            "cover_amount": 2000000,
+            "premium": 2000,
+            "windscreen_cover": 20000,
+            "political_violence_cover": true,
+            "excess_protector": true
+        },
+        {
+            "registration_number": "KEA123X",
+            "make": "Audi",
+            "model": "A6 Sportback",
+            "year_of_manufacture": 2025,
+            "engine_number": "ADSB00192",
+            "chassis_number": "ABSB123456789XYZ",
+            "vehicle_value": 19500000,
+            "usage_type": "private",
+            "cover_type": "comprehensive",
+            "color": "White",
+            "cover_amount": 5000000,
+            "premium": 10000,
+            "windscreen_cover": 20000,
+            "political_violence_cover": true,
+            "excess_protector": true
+        }
+    ],
+    
+    "payment_details": {
+        "payment_method": "bank",
+        "bank_name": "Equity Bank Kenya",
+        "account_type": "Savings",
+        "account_name": "Alice Otieno Ayieko",
+        "account_number": "0800727628272",
+        "branch_code": "90119",
+        "debit_order_date": "3",
+        "source_of_funds": "Employment"
+    },
+    "beneficiaries": [
+        {
+            "first_name": "James",
+            "last_name": "Smith",
+            "email": "jamesmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728B",
+            "relationship": "Son",
+            "percentage": 100,
+            "date_of_birth": "2000-10-20"
+        }
+    ]
+}

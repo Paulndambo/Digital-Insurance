@@ -1,0 +1,75 @@
+{
+    "product": "Pet Insurance",
+    "product_type": "pet_insurance",
+    "start_date": "2025-08-01",
+    "owner": {
+        "first_name": "Lilian",
+        "last_name": "Wambua",
+        "email": "lilian.wambua@example.com",
+        "phone_number": "0711223344",
+        "id_number": "30214567",
+        "date_of_birth": "1987-02-10",
+        "address": "228-90119",
+        "county": "Machakos",
+        "sub_county": "Machakos Town",
+        "ward": "Kola",
+        "gender": "Male",
+        "occupation": "Boda Boda Rider",
+        "country": "Kenya",
+        "scanned_id_card": "",
+        "passport_photo": ""
+    },
+    "pets": [
+        {
+            "name": "Max",
+            "type": "dog",
+            "breed": "German Shepherd",
+            "gender": "Male",
+            "date_of_birth": "2022-04-12",
+            "microchip_number": "123456789XYZ",
+            "cover_type": "comprehensive",
+            "neutered": true,
+            "vaccinated": true,
+            "cover_amount": 100000,
+            "premium": 350,
+            "ownership_document": ""
+        },
+        {
+            "name": "Jessy",
+            "type": "dog",
+            "breed": "German Shepherd",
+            "gender": "Female",
+            "date_of_birth": "2025-04-12",
+            "microchip_number": "123456789XYB",
+            "cover_type": "accident_only",
+            "neutered": true,
+            "vaccinated": true,
+            "cover_amount": 200000,
+            "premium": 300,
+            "ownership_document": ""
+        }
+    ],
+    "payment_details": {
+        "payment_method": "bank",
+        "bank_name": "Equity Bank Kenya",
+        "account_type": "Savings",
+        "account_name": "Alice Otieno Ayieko",
+        "account_number": "0800727628272",
+        "branch_code": "90119",
+        "debit_order_date": "3",
+        "source_of_funds": "Employment"
+    },
+    "beneficiaries": [
+        {
+            "first_name": "James",
+            "last_name": "Smith",
+            "email": "jamesmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728B",
+            "relationship": "Son",
+            "percentage": 100,
+            "date_of_birth": "2000-10-20"
+        }
+    ]
+}

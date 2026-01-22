@@ -1,0 +1,58 @@
+{
+  "product": 6,
+  "product_type": "personal_accident",
+  "start_date": "2025-08-01",
+  "members": [
+    {
+      "first_name": "Alice",
+      "last_name": "Otieno",
+      "email": "alice.otieno@example.com",
+      "gender": "Female",
+      "phone_number": "0712345678",
+      "id_number": "29876543",
+      "occupation": "Boda Boda Rider",
+      "date_of_birth": "1993-04-12",
+      "address": "228",
+      "county": "Nairobi",
+      "sub_county": "Westlands",
+      "ward": "Parklands",
+      "country": "Kenya",
+      "cover_amount": 500000,
+      "premium": 500
+    }
+  ],
+  "payment_details": {
+    "bank_name": "Equity Bank Kenya",
+    "account_type": "Savings",
+    "account_name": "Alice Otieno Ayieko",
+    "account_number": "0800727628272",
+    "branch_code": "90119",
+    "debit_order_date": "3",
+    "source_of_funds": "Employment"
+  },
+  "dependents": [],
+  "beneficiaries": [
+    {
+        "first_name": "James",
+        "last_name": "Smith",
+        "email": "jamesmith@gmail.com",
+        "gender": "Male",
+        "phone_number": "0746740960",
+        "id_number": "363662728B",
+        "relationship": "Son",
+        "percentage": 80,
+        "date_of_birth": "2000-10-20"   
+    },
+    {
+        "first_name": "Mutuku",
+        "last_name": "Otieno",
+        "email": "mutukuotieno@gmail.com",
+        "gender": "Male",
+        "phone_number": "0746740960",
+        "id_number": "363662728B",
+        "relationship": "Brother",
+        "percentage": 20,
+        "date_of_birth": "2000-10-20"   
+    }
+  ]
+}

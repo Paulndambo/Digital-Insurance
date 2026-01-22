@@ -1,0 +1,142 @@
+{
+    "product": 2,
+    "start_date": "2025-07-30",
+    "members": [
+        {
+            "first_name": "Irene",
+            "last_name": "Doe",
+            "email": "irenedoe@gmail.com",
+            "gender": "Female",
+            "phone_number": "0745491093",
+            "id_number": "363662728G",
+            "address": "228-90119",
+            "town": "Matuu",
+            "country": "Kenya",
+            "cover_amount": 25000,
+            "premium": 95
+        },
+        {
+            "first_name": "John",
+            "last_name": "Smith",
+            "email": "johnsmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0745491093",
+            "id_number": "363662727G",
+            "address": "228-90119",
+            "town": "Matuu",
+            "country": "Kenya",
+            "cover_amount": 25000,
+            "premium": 95
+        }
+
+    ],
+    "dependents": [
+        {
+            "main_member_id_number": "363662728G",
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "janedoe@gmail.com",
+            "gender": "Female",
+            "phone_number": "0745491093",
+            "id_number": "363662728D",
+            "relationship": "Spouse",
+            "cover_amount": 500000,
+            "premium": 180,
+            "date_of_birth": "2000-10-20",
+            "dependent_type": "Dependent"
+
+        },
+        {
+            "main_member_id_number": "363662728G",
+            "first_name": "James",
+            "last_name": "Smith",
+            "email": "jamesmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728D",
+            "relationship": "Son",
+            "cover_amount": 1000000,
+            "premium": 250,
+            "date_of_birth": "2000-10-20",
+            "dependent_type": "Dependent"
+        },
+        {
+            "main_member_id_number": "363662728G",
+            "first_name": "John",
+            "last_name": "Smith",
+            "email": "johnsmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728D",
+            "relationship": "Niece",
+            "cover_amount": 200000,
+            "premium": 130,
+            "date_of_birth": "2000-10-20",
+            "dependent_type": "Extended"
+        },
+        {
+            "main_member_id_number": "363662727G",
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "janedoe@gmail.com",
+            "gender": "Female",
+            "phone_number": "0745491093",
+            "id_number": "363662728D",
+            "relationship": "Spouse",
+            "cover_amount": 500000,
+            "premium": 180,
+            "date_of_birth": "2000-10-20",
+            "dependent_type": "Dependent"
+
+        },
+        {
+            "main_member_id_number": "363662727G",
+            "first_name": "James",
+            "last_name": "Smith",
+            "email": "jamesmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728D",
+            "relationship": "Son",
+            "cover_amount": 1000000,
+            "premium": 250,
+            "date_of_birth": "2000-10-20",
+            "dependent_type": "Dependent"
+        }
+    ],
+    "beneficiaries": [
+        {
+            "main_member_id_number": "363662727G",
+            "first_name": "James",
+            "last_name": "Smith",
+            "email": "jamesmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728B",
+            "relationship": "Son",
+            "percentage": 100,
+            "date_of_birth": "2000-10-20"
+        },
+        {
+            "main_member_id_number": "363662728G",
+            "first_name": "John",
+            "last_name": "Smith",
+            "email": "johnsmith@gmail.com",
+            "gender": "Male",
+            "phone_number": "0746740960",
+            "id_number": "363662728B",
+            "relationship": "Spouse",
+            "percentage": 100,
+            "date_of_birth": "2000-10-20"
+        }
+    ],
+    "payment_details": {
+        "bank_name": "ABSA Bank Kenya",
+        "account_type": "Savings",
+        "account_name": "Wamwaitu Self-Help Group",
+        "account_number": "2463728291",
+        "branch_code": "3030",
+        "debit_order_date": "15",
+        "source_of_funds": "Contributions"
+    }
+}

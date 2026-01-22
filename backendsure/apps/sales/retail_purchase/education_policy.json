@@ -1,0 +1,43 @@
+{
+  "product": 1,
+  "product_type": "education",
+  "start_date": "2025-07-30",
+  "members": [
+    {
+      "first_name": "Jonnie",
+      "last_name": "Mutuku",
+      "email": "jonniemutuku@gmail.com",
+      "gender": "Male",
+      "phone_number": "0745491093",
+      "id_number": "363662728J",
+      "address": "228-90119",
+      "town": "Matuu",
+      "country": "Kenya",
+      "cover_amount": 2000000,
+      "premium": 1500
+    }
+  ],
+  "dependents": [],
+  "beneficiaries": [
+    {
+      "first_name": "James",
+      "last_name": "Smith",
+      "email": "jamesmith@gmail.com",
+      "gender": "Male",
+      "phone_number": "0746740960",
+      "id_number": "363662728B",
+      "relationship": "Son",
+      "percentage": 100,
+      "date_of_birth": "2000-10-20"
+    }
+  ],
+  "payment_details": {
+    "bank_name": "Equity Bank Kenya",
+    "account_type": "Savings",
+    "account_name": "Paul Ndambo Ngila",
+    "account_number": "0800727627356",
+    "branch_code": "099832",
+    "debit_order_date": "3",
+    "source_of_funds": "Employment"
+  }
+}

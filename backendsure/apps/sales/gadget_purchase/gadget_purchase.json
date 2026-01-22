@@ -1,0 +1,32 @@
+{
+    "start_date": "2026-01-18",
+    "premium": 1800,
+    "pricing": 1,
+    "cover_amount": 180000,
+    "cover_type": "Partial Cover",
+    "policy_owner": {
+        "first_name": "Brian",
+        "last_name": "Otieno",
+        "email": "brian.otieno@example.com",
+        "phone_number": "0712345678",
+        "id_number": "29561234",
+        "gender": "Male"
+    },
+    "devices": [
+        {
+            "device_type": "smartphone",
+            "device_brand": "Apple",
+            "device_model": "iPhone 14 Pro",
+            "purchase_date": "2024-06-01",
+            "device_cost": 180000,
+            "description": "16gb Ram, 500gb SSD, Yellow, 6 Inch Screen, 150g weigh",
+            "imei_number": "357845678901234",
+            "serial_number": "F2LZP12345XYZ"
+        }
+    ],
+    "payment_details": {
+        "payment_method": "Mpesa",
+        "account_name": "Alice Otieno Ayieko",
+        "phone_number": "0712345678"
+    }
+}

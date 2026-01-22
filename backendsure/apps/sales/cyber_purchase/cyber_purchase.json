@@ -1,0 +1,46 @@
+{
+    "product": 7,
+    "product_type": "cyber",
+    "start_date": "2025-08-01",
+    "owner": {
+        "first_name": "Brian",
+        "last_name": "Otieno",
+        "email": "brian.otieno@example.com",
+        "phone_number": "0712345678",
+        "id_number": "29561234",
+        "date_of_birth": "1987-02-10",
+        "address": "228-90119",
+        "county": "Machakos",
+        "sub_county": "Machakos Town",
+        "ward": "Kola",
+        "gender": "Male",
+        "occupation": "Boda Boda Rider",
+        "country": "Kenya"
+    },
+    "businesses": [
+        {
+            "name": "TengenezaPay Ltd",
+            "industry": "Fintech",
+            "registration_number": "PVT123456",
+            "contact_email": "info@tengenezapay.co.ke",
+            "size": "medium",
+            "annual_revenue": 85000000,
+            "employee_count": 42,
+            "has_security_measures": true,
+            "has_incident_response_plan": true,
+            "cover_limit": 10000000,
+            "premium": 5000,
+            "cover_type": "comprehensive"
+        }
+    ],
+    "payment_details": {
+        "payment_method": "bank",
+        "bank_name": "Equity Bank Kenya",
+        "account_type": "Savings",
+        "account_name": "Alice Otieno Ayieko",
+        "account_number": "0800727628272",
+        "branch_code": "90119",
+        "debit_order_date": "3",
+        "source_of_funds": "Employment"
+    }
+}

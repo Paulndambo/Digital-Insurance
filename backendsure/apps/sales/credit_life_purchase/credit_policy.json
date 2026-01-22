@@ -1,0 +1,46 @@
+{
+  "product": 3,
+  "product_type": "credit_life",
+  "start_date": "2025-07-30",
+  "members": [
+    {
+    "first_name": "Joseph",
+    "last_name": "Kasyoki",
+    "email": "josephkasyoki@gmail.com",
+    "gender": "Male",
+    "phone_number": "0745491093",
+    "id_number": "36366272",
+    "address": "228-90119",
+    "town": "Matuu",
+    "country": "Kenya"
+    }
+   ],
+  "creditors": [
+    {
+    "creditor_name": "Equity Bank",
+    "contact_person_name": "James Smith",
+    "contact_person_email": "jamesmith@gmail.com",
+    "contact_person_phone_number": "0746740960",
+    "address": "228-90119",
+    "town": "Matuu",
+    "country": "Kenya",
+    "date_registered": "2025-07-24",
+    "status": "Active",
+    "loan_reference_number": "EQ-LOAN-20250724-001",
+    "loan_amount": 750000,
+    "outstanding_balance": 750000,
+    "premium": 300,
+    "term_months": 36,
+    "declining_term": true
+  }
+],
+  "payment_details": {
+    "bank_name": "ABSA Bank Kenya",
+    "account_type": "Savings",
+    "account_name": "Paul Ndambo",
+    "account_number": "2463728291",
+    "branch_code": "3030",
+    "debit_order_date": "15",
+    "source_of_funds": "Salary"
+  }
+}
