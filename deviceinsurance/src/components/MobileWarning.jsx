@@ -5,6 +5,12 @@ const MobileWarning = () => {
   const [isDismissed, setIsDismissed] = useState(false);
 
   useEffect(() => {
+    // Check if warning was previously dismissed
+    const wasDismissed = sessionStorage.getItem('mobileWarningDismissed') === 'true';
+    if (wasDismissed) {
+      setIsDismissed(true);
+    }
+
     // Check if user is on mobile device
     const checkMobile = () => {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
