@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slideIn {
+    animation: slideIn 0.6s ease-out;
+  }
+  
+  .animate-bounceIn {
+    animation: bounceIn 0.8s ease-out;
+  }
+  
+  .form-input {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all duration-200;
+  }
+  
+  .form-input-error {
+    @apply border-red-500 focus:ring-red-500 focus:border-red-500;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-pink-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+  }
+  
+  .btn-pet {
+    @apply bg-gradient-to-r from-purple-400 to-pink-400 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-500 hover:to-pink-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-lg border border-gray-100;
+  }
+  
+  .card-hover {
+    @apply hover:shadow-xl hover:border-orange-200 transition-all duration-200;
+  }
+  
+  .card-pet {
+    @apply bg-gradient-to-br from-orange-50 to-pink-50 rounded-xl shadow-lg border border-orange-100 hover:shadow-xl hover:border-orange-200 transition-all duration-200;
+  }
+  
+  .pet-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(251, 146, 60, 0.1) 2px, transparent 2px),
+      radial-gradient(circle at 75% 75%, rgba(236, 72, 153, 0.1) 2px, transparent 2px);
+    background-size: 20px 20px;
+  }
+  
+  .paw-print {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f97316' opacity='0.1'%3E%3Cpath d='M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM6 8C7.1 8 8 8.9 8 10C8 11.1 7.1 12 6 12C4.9 12 4 11.1 4 10C4 8.9 4.9 8 6 8ZM18 8C19.1 8 20 8.9 20 10C20 11.1 19.1 12 18 12C16.9 12 16 11.1 16 10C16 8.9 16.9 8 18 8ZM12 16C13.1 16 14 16.9 14 18C14 19.1 13.1 20 12 20C10.9 20 10 19.1 10 18C10 16.9 10.9 16 12 16Z'/%3E%3C/svg%3E");
+    background-size: 24px 24px;
+    background-repeat: repeat;
+  }
+  
+  .spinner {
+    @apply animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-orange-600 to-pink-600 bg-clip-text text-transparent;
+  }
+  
+  .bg-gradient-primary {
+    @apply bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50;
+  }
+  
+  .bg-gradient-secondary {
+    @apply bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50;
+  }
+  
+  .bg-gradient-pet {
+    @apply bg-gradient-to-br from-orange-100 via-pink-100 to-purple-100;
+  }
+  
+  .border-pet {
+    @apply border-orange-200;
+  }
+  
+  .shadow-pet {
+    @apply shadow-lg shadow-orange-200/20;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #f97316, #ec4899);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #ea580c, #db2777);
+}
+
+/* Global focus styles */
+*:focus {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+}
+
+/* Pet-themed selection */
+::selection {
+  background: rgba(251, 115, 22, 0.3);
+  color: #1f2937;
+}
+
+/* Pet-themed scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Pet-themed form focus */
+input:focus, select:focus, textarea:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(251, 115, 22, 0.1);
+}
+
+/* Pet-themed button hover effects */
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(251, 115, 22, 0.3);
+}
+
+.btn-pet:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
+}

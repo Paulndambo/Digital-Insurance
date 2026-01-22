@@ -1,0 +1,25 @@
+{
+  "name": "PetGuard - Pet Insurance in Kenya",
+  "short_name": "PetGuard",
+  "description": "Comprehensive pet insurance coverage in Kenya. Protect your furry family with accident, illness, and wellness coverage.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["insurance", "pets", "health"],
+  "lang": "en",
+  "dir": "ltr"
+}
