@@ -1,7 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Search, Store, ChevronDown, ChevronUp, Loader2, AlertCircle } from 'lucide-react';
 import { fetchDeviceOutlets } from '../utils/api';
 import { getStoredAccessToken } from '../utils/storage';
+import DeviceOutletRegisterForm from './DeviceOutletRegisterForm';
 
 const DeviceOutletsTable = () => {
   const [outlets, setOutlets] = useState([]);
@@ -13,28 +14,34 @@ const DeviceOutletsTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Fetch device outlets from API
-  useEffect(() => {
-    const loadOutlets = async () => {
+  const loadOutlets = useCallback(async (options = {}) => {
+    const { silent = false } = options;
+    if (!silent) {
       setLoading(true);
       setError('');
-      try {
-        const accessToken = getStoredAccessToken();
-        if (!accessToken) {
-          throw new Error('Authentication required. Please log in.');
-        }
-        const data = await fetchDeviceOutlets(accessToken);
-        setOutlets(data.results || []);
-      } catch (err) {
-        console.error('Error loading device outlets:', err);
+    }
+    try {
+      const accessToken = getStoredAccessToken();
+      if (!accessToken) {
+        throw new Error('Authentication required. Please log in.');
+      }
+      const data = await fetchDeviceOutlets(accessToken);
+      setOutlets(data.results || []);
+    } catch (err) {
+      console.error('Error loading device outlets:', err);
+      if (!silent) {
         setError(err.message || 'Failed to load device outlets');
-      } finally {
+      }
+    } finally {
+      if (!silent) {
         setLoading(false);
       }
-    };
-
-    loadOutlets();
+    }
   }, []);
+
+  useEffect(() => {
+    loadOutlets();
+  }, [loadOutlets]);
 
   // Filter and sort
   const filteredAndSortedOutlets = useMemo(() => {
@@ -121,8 +128,13 @@ const DeviceOutletsTable = () => {
         </div>
       )}
 
-      {/* Search */}
+      {/* Register + search */}
       {!loading && !error && (
+        <>
+        <DeviceOutletRegisterForm
+          accessToken={getStoredAccessToken()}
+          onSuccess={() => loadOutlets({ silent: true })}
+        />
         <div className="bg-white/5 rounded-xl p-4 mb-6 backdrop-blur-sm border border-white/10">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -138,6 +150,7 @@ const DeviceOutletsTable = () => {
             />
           </div>
         </div>
+        </>
       )}
 
       {/* Table */}

@@ -107,7 +107,11 @@ const Header = ({
                   Quote
                 </button>
               )}
-              {(currentView === 'login' || currentView === 'purchase' || currentView === 'request-quote') && (
+              {(currentView === 'login' ||
+                currentView === 'purchase' ||
+                currentView === 'request-quote' ||
+                currentView === 'become-outlet' ||
+                currentView === 'sales-agent-onboarding') && (
                 <button
                   onClick={onLoginClick}
                   className="flex items-center gap-2 rounded-lg bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-400"

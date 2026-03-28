@@ -1,31 +1,29 @@
 import React, { useState } from 'react';
-import BrandLogo from './BrandLogo';
 import {
-  Shield,
+  ArrowRight,
+  Store,
   Zap,
-  Clock,
-  ChevronRight,
-  Lock,
+  DollarSign,
+  Headphones,
+  CheckCircle2,
+  TrendingUp,
+  Shield,
+  Users,
   FileText,
-  Home,
+  Wallet,
+  Star,
   PhoneCall,
   MessageCircle,
-  CheckCircle2,
-  DollarSign,
-  Star,
-  Wallet,
+  ChevronRight,
+  Home,
   ClipboardCheck,
-  Headphones,
-  Calculator,
-  ArrowRight,
-  TrendingUp,
   Menu,
   X,
+  BadgePercent,
+  BarChart3,
+  Handshake,
   LogIn,
-  Store,
 } from 'lucide-react';
-import { devices } from '../constants/devices';
-import { formatCurrency } from '../constants/currency';
 import { BRAND_NAME, BRAND_EMAIL } from '../constants/branding';
 
 const SUPPORT_TEL = '+254745491093';
@@ -53,19 +51,8 @@ const SectionTitle = ({ eyebrow, title, description }) => (
   </div>
 );
 
-const DEVICE_CATEGORIES = [
-  { id: 'all', label: 'All items' },
-  { id: 'electronics', label: 'Electronics' },
-  { id: 'appliance', label: 'Appliances' },
-  { id: 'other', label: 'Other' },
-];
-
-const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegister }) => {
+const BecomeOutletPage = ({ onBack, onRegister, onLoginClick }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('all');
-
-  const filteredDevices =
-    activeCategory === 'all' ? devices : devices.filter((d) => d.group === activeCategory);
 
   return (
     <div className="bg-[#0b0f1a] text-white">
@@ -73,7 +60,12 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
       {/* ── Sticky Navbar ── */}
       <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0b0f1a]/90 backdrop-blur-xl">
         <Container className="flex items-center justify-between py-3.5">
-          <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={onBack}
+            className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
+            aria-label="Back to home"
+          >
             <img
               src="/coverkit-icon.png"
               alt=""
@@ -81,27 +73,25 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
               aria-hidden="true"
             />
             <span className="text-base font-bold tracking-tight text-white lg:text-lg">{BRAND_NAME}</span>
-          </div>
+          </button>
 
-          <nav className="hidden items-center gap-7 md:flex lg:gap-9" aria-label="Main navigation">
-            <a href="#coverage" className="text-sm font-medium text-slate-400 transition hover:text-white lg:text-base">
-              Coverage
+          <nav className="hidden items-center gap-7 md:flex lg:gap-9" aria-label="Outlet page navigation">
+            <a href="#benefits" className="text-sm font-medium text-slate-400 transition hover:text-white lg:text-base">
+              Benefits
+            </a>
+            <a href="#commissions" className="text-sm font-medium text-slate-400 transition hover:text-white lg:text-base">
+              Commissions
             </a>
             <a href="#how-it-works" className="text-sm font-medium text-slate-400 transition hover:text-white lg:text-base">
               How it works
             </a>
-            <a href="#pricing" className="text-sm font-medium text-slate-400 transition hover:text-white lg:text-base">
-              Pricing
-            </a>
-            {onPartnerRegister && (
-              <button
-                type="button"
-                onClick={onPartnerRegister}
-                className="border-0 bg-transparent p-0 text-sm font-medium text-slate-400 transition hover:text-white lg:text-base"
-              >
-                Partner outlet
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={onBack}
+              className="border-0 bg-transparent p-0 text-sm font-medium text-slate-400 transition hover:text-white lg:text-base"
+            >
+              For customers
+            </button>
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
@@ -124,10 +114,10 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
             )}
             <button
               type="button"
-              onClick={onGetStarted}
+              onClick={onRegister}
               className="inline-flex items-center gap-1.5 rounded-lg bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 lg:px-5 lg:py-2.5 lg:text-base"
             >
-              Get started
+              Register outlet
               <ChevronRight className="h-4 w-4" aria-hidden />
             </button>
           </div>
@@ -147,9 +137,9 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
           <div className="border-t border-white/[0.06] bg-[#0d1220] md:hidden">
             <Container className="flex flex-col gap-0.5 py-3">
               {[
-                { href: '#coverage', label: 'Coverage' },
+                { href: '#benefits', label: 'Benefits' },
+                { href: '#commissions', label: 'Commissions' },
                 { href: '#how-it-works', label: 'How it works' },
-                { href: '#pricing', label: 'Pricing' },
               ].map(({ href, label }) => (
                 <a
                   key={href}
@@ -160,18 +150,13 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
                   {label}
                 </a>
               ))}
-              {onPartnerRegister && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onPartnerRegister();
-                  }}
-                  className="rounded-lg px-4 py-3 text-left text-sm font-medium text-slate-300 transition hover:bg-white/[0.06] hover:text-white"
-                >
-                  Partner outlet
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={() => { setMobileMenuOpen(false); onBack(); }}
+                className="rounded-lg px-4 py-3 text-left text-sm font-medium text-slate-300 transition hover:bg-white/[0.06] hover:text-white"
+              >
+                For customers
+              </button>
               <div className="mt-3 flex flex-col gap-2 border-t border-white/[0.06] pt-3">
                 <a
                   href={`tel:${SUPPORT_TEL}`}
@@ -192,24 +177,12 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
                 )}
                 <button
                   type="button"
-                  onClick={() => { setMobileMenuOpen(false); onGetStarted(); }}
-                  className="mx-4 rounded-xl bg-primary-500 py-3 text-sm font-semibold text-white transition hover:bg-primary-400"
+                  onClick={() => { setMobileMenuOpen(false); onRegister(); }}
+                  className="mx-4 flex items-center justify-center gap-2 rounded-xl bg-primary-500 py-3 text-sm font-semibold text-white transition hover:bg-primary-400"
                 >
-                  Start a policy
+                  <Store className="h-4 w-4" aria-hidden />
+                  Register your outlet
                 </button>
-                {onPartnerRegister && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onPartnerRegister();
-                    }}
-                    className="mx-4 flex items-center justify-center gap-2 rounded-xl border border-primary-500/35 bg-primary-500/10 py-3 text-sm font-semibold text-primary-200 transition hover:bg-primary-500/15"
-                  >
-                    <Store className="h-4 w-4 text-primary-400" aria-hidden />
-                    Register your outlet
-                  </button>
-                )}
               </div>
             </Container>
           </div>
@@ -224,75 +197,55 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
             background:
               'radial-gradient(ellipse 90% 65% at 50% -15%, rgba(26,137,255,0.24), transparent 60%), radial-gradient(ellipse 50% 40% at 100% 0%, rgba(74,222,128,0.07), transparent 50%), radial-gradient(ellipse 40% 30% at 0% 90%, rgba(26,137,255,0.07), transparent 50%)',
           }}
+          aria-hidden
         />
-        <div className="pointer-events-none absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.025%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40" />
+        <div className="pointer-events-none absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.025%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40" aria-hidden />
 
         <Container className="relative py-16 sm:py-20 lg:py-28 xl:py-36">
-          <div className="grid items-center gap-12 lg:grid-cols-[1fr_minmax(0,480px)] lg:gap-16 xl:gap-24">
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_minmax(0,460px)] lg:gap-16 xl:gap-24">
             <div>
-              {/* Animated badge */}
+              {/* Badge */}
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.05] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur-sm sm:text-sm lg:text-base lg:px-4 lg:py-2">
                 <span className="flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(74,222,128,0.8)]" aria-hidden />
-                Household items insurance — online, start to finish
+                For shops, dealers &amp; service points
               </div>
 
               {/* Headline */}
               <h1 className="text-3xl font-extrabold leading-[1.1] tracking-tight sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-[4.25rem] 2xl:text-[5rem]">
-                <span className="text-white">Insurance for the things</span>
+                <span className="text-white">Become a recognised</span>
                 <br />
-                <span className="gradient-text">that keep your home running.</span>
+                <span className="gradient-text">device outlet partner.</span>
               </h1>
 
               <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg lg:text-xl xl:text-2xl xl:max-w-2xl">
-                {BRAND_NAME} covers household items — appliances, home electronics, furniture, and other
-                essentials you use every day — with clear premiums, digital policy documents, and a guided
-                purchase flow from quote to payment.
+                Register your business with {BRAND_NAME} to offer household-item cover where customers
+                already buy or repair devices — and earn commissions on every policy sold.
               </p>
 
               {/* CTAs */}
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:mt-10">
                 <button
                   type="button"
-                  onClick={onGetStarted}
+                  onClick={onRegister}
                   className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-primary-900/40 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 active:scale-[0.98] lg:px-8 lg:py-4 lg:text-lg"
                 >
-                  Start a policy
+                  Register your outlet
                   <ChevronRight className="h-5 w-5" aria-hidden />
                 </button>
-                {onRequestQuote && (
-                  <button
-                    type="button"
-                    onClick={onRequestQuote}
-                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-7 py-3.5 text-base font-semibold text-slate-100 transition hover:border-white/25 hover:bg-white/[0.09] active:scale-[0.98] lg:px-8 lg:py-4 lg:text-lg"
-                  >
-                    <Calculator className="h-5 w-5 text-primary-400" aria-hidden />
-                    Request a quote
-                  </button>
-                )}
                 <a
                   href={`tel:${SUPPORT_TEL}`}
                   className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-7 py-3.5 text-base font-medium text-slate-200 transition hover:border-white/25 hover:bg-white/[0.07] lg:px-8 lg:py-4 lg:text-lg"
                 >
                   <PhoneCall className="h-5 w-5 text-primary-400" aria-hidden />
-                  Call {SUPPORT_TEL_DISPLAY}
+                  Talk to us
                 </a>
-                {onPartnerRegister && (
-                  <button
-                    type="button"
-                    onClick={onPartnerRegister}
-                    className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl border border-primary-500/35 bg-primary-500/10 px-7 py-3.5 text-base font-semibold text-primary-200 transition hover:border-primary-400/50 hover:bg-primary-500/15 sm:w-auto lg:px-8 lg:py-4 lg:text-lg"
-                  >
-                    <Store className="h-5 w-5 text-primary-400" aria-hidden />
-                    Register your outlet
-                  </button>
-                )}
               </div>
 
               <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400 lg:text-base">
                 {[
-                  'M-Pesa & bank-friendly payment',
-                  'File claims from your dashboard',
-                  'See premium before you pay',
+                  'Earn commissions per policy',
+                  'Online digital tools included',
+                  'Dedicated partner support',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-2">
                     <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400/90 lg:h-5 lg:w-5" aria-hidden />
@@ -302,44 +255,44 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
               </ul>
             </div>
 
-            {/* Premium preview card */}
+            {/* Earnings preview card */}
             <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">
               <div className="absolute -inset-5 rounded-3xl bg-gradient-to-br from-primary-500/25 via-transparent to-emerald-500/10 blur-2xl" aria-hidden />
               <div className="relative overflow-hidden rounded-2xl border border-white/[0.12] bg-[#121826] shadow-2xl shadow-black/60">
                 <div className="border-b border-white/[0.07] px-6 py-5">
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-2.5">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-500/15 ring-1 ring-primary-500/30">
-                        <Shield className="h-4 w-4 text-primary-400" aria-hidden />
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 ring-1 ring-emerald-500/30">
+                        <DollarSign className="h-4 w-4 text-emerald-400" aria-hidden />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-white">Example premiums</p>
-                        <p className="text-xs text-slate-500">Based on declared value</p>
+                        <p className="text-sm font-semibold text-white">Example earnings</p>
+                        <p className="text-xs text-slate-500">Per policy commission</p>
                       </div>
                     </div>
                     <span className="shrink-0 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-semibold text-emerald-400 ring-1 ring-emerald-500/20">
-                      ~1% rate
+                      Monthly
                     </span>
                   </div>
                 </div>
 
                 <div className="divide-y divide-white/[0.04] px-6">
                   {[
-                    { label: 'Refrigerator', value: 85000, premium: 850, pct: 55 },
-                    { label: 'Television', value: 45000, premium: 450, pct: 30 },
-                    { label: 'Washing Machine', value: 120000, premium: 1200, pct: 80 },
-                  ].map(({ label, value, premium, pct }) => (
+                    { label: '5 policies/month', premium: 5000, commission: 500, pct: 30 },
+                    { label: '15 policies/month', premium: 15000, commission: 1500, pct: 55 },
+                    { label: '30 policies/month', premium: 30000, commission: 3000, pct: 80 },
+                  ].map(({ label, premium, commission, pct }) => (
                     <div key={label} className="py-4">
                       <div className="flex items-baseline justify-between gap-2 text-sm">
                         <span className="text-slate-400">
                           {label}
-                          <span className="ml-1 text-xs text-slate-600">({formatCurrency(value)})</span>
+                          <span className="ml-1 text-xs text-slate-600">(KES {premium.toLocaleString()} premiums)</span>
                         </span>
-                        <span className="shrink-0 font-semibold text-white">{formatCurrency(premium)}/mo</span>
+                        <span className="shrink-0 font-semibold text-emerald-400">+KES {commission.toLocaleString()}</span>
                       </div>
                       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
                         <div
-                          className="h-full rounded-full bg-gradient-to-r from-primary-600 to-primary-400"
+                          className="h-full rounded-full bg-gradient-to-r from-emerald-600 to-emerald-400"
                           style={{ width: `${pct}%` }}
                           aria-hidden
                         />
@@ -350,14 +303,14 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
 
                 <div className="bg-white/[0.025] px-6 py-4">
                   <p className="text-xs text-slate-500">
-                    Illustrative only — your quote depends on the plan and item details you select in the flow.
+                    Illustrative only — actual commission rates are confirmed during onboarding.
                   </p>
                   <button
                     type="button"
-                    onClick={onGetStarted}
+                    onClick={onRegister}
                     className="mt-3 w-full rounded-xl bg-primary-500/15 py-2.5 text-sm font-semibold text-primary-300 ring-1 ring-primary-500/20 transition hover:bg-primary-500/25"
                   >
-                    Get your exact premium →
+                    Start earning →
                   </button>
                 </div>
               </div>
@@ -371,9 +324,9 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
         <Container>
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8 lg:gap-12">
             {[
-              { value: '~1%', label: 'Monthly premium rate', icon: TrendingUp },
-              { value: '12', label: 'Item categories', icon: Shield },
-              { value: '5', label: 'Steps to active cover', icon: CheckCircle2 },
+              { value: '~10%', label: 'Commission per policy', icon: BadgePercent },
+              { value: 'Online', label: 'Digital-first tools', icon: Zap },
+              { value: '2-step', label: 'Simple registration', icon: ClipboardCheck },
               { value: 'M-Pesa', label: 'Kenya-native payments', icon: Wallet },
             ].map(({ value, label, icon: Icon }) => (
               <div key={label} className="flex flex-col items-center gap-1 text-center sm:flex-row sm:items-start sm:gap-3 sm:text-left lg:gap-4">
@@ -391,25 +344,25 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
         </Container>
       </section>
 
-      {/* ── Local trust cards ── */}
-      <section className="border-b border-white/[0.06] py-12 sm:py-16 lg:py-20">
+      {/* ── Core benefits ── */}
+      <section className="border-b border-white/[0.06] py-12 sm:py-16 lg:py-20" id="benefits">
         <Container>
           <div className="grid gap-4 sm:grid-cols-3 lg:gap-6">
             {[
               {
-                icon: Wallet,
-                title: 'Kenya-ready payments',
-                body: 'Pay the way you already do — including M-Pesa and bank debit where available.',
+                icon: Store,
+                title: 'Trusted at the counter',
+                body: 'Your outlet appears in our partner network so customers know cover is available from a real shop or workshop they already use.',
               },
               {
-                icon: ClipboardCheck,
-                title: 'Clear policy journey',
-                body: 'Step-by-step: item details, plan choice, beneficiary, then payment — all in one place.',
+                icon: Zap,
+                title: 'Digital-first flow',
+                body: 'Guided purchase on the web or app means less paperwork for you and a consistent experience for every policyholder.',
               },
               {
                 icon: Headphones,
-                title: 'Human support',
-                body: `Questions? Reach us on ${SUPPORT_TEL_DISPLAY} or email — we respond on business days.`,
+                title: 'Support when you need it',
+                body: `Reach our team on ${SUPPORT_TEL_DISPLAY} or email — for product questions so you can answer buyers and claimants with confidence.`,
               },
             ].map(({ icon: Icon, title, body }) => (
               <div
@@ -427,58 +380,88 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
         </Container>
       </section>
 
-      {/* ── Coverage ── */}
-      <section className="py-16 sm:py-20 md:py-24" id="coverage">
+      {/* ── Commissions section ── */}
+      <section
+        className="bg-white/[0.02] py-12 sm:py-16 lg:py-20"
+        id="commissions"
+      >
         <Container>
           <SectionTitle
-            eyebrow="Coverage"
-            title="Household items you can insure"
-            description="Appliances, home electronics, furniture, and more — pick a category in the purchase flow; pricing and cover follow the plan you choose."
+            eyebrow="Commissions &amp; earnings"
+            title="Grow with every policy sold"
+            description="When you help customers protect their household items, you earn a commission on every active policy — paid out on a clear, transparent schedule."
           />
 
-          {/* Category filter */}
-          <div className="mb-7 flex flex-wrap justify-center gap-2 sm:mb-10">
-            {DEVICE_CATEGORIES.map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setActiveCategory(cat.id)}
-                className={`rounded-full px-4 py-1.5 text-sm font-medium transition lg:px-5 lg:py-2 lg:text-base ${
-                  activeCategory === cat.id
-                    ? 'bg-primary-500 text-white shadow-md shadow-primary-900/30'
-                    : 'border border-white/[0.1] bg-white/[0.04] text-slate-400 hover:border-white/[0.18] hover:bg-white/[0.06] hover:text-white'
-                }`}
+          <div className="grid gap-4 sm:grid-cols-2 lg:gap-6">
+            {[
+              {
+                icon: BadgePercent,
+                title: 'Commission on every sale',
+                body: 'Earn a percentage of each policy premium for every customer you help enrol. The more policies you activate, the more you earn — with no ceiling.',
+                color: 'from-emerald-600 to-green-400',
+              },
+              {
+                icon: TrendingUp,
+                title: 'Recurring monthly income',
+                body: 'As long as your customers\' policies remain active, you continue to earn. Build a steady income stream from a growing book of active policyholders.',
+                color: 'from-primary-600 to-primary-400',
+              },
+              {
+                icon: BarChart3,
+                title: 'Sales dashboard visibility',
+                body: 'Your sales-agent account gives you a live view of policies you have activated, premiums collected, and commission earned — all in one place.',
+                color: 'from-violet-600 to-purple-400',
+              },
+              {
+                icon: Handshake,
+                title: 'Partnership onboarding',
+                body: 'Our team walks you through commission rates, payment schedules, and the tools available to you when you join — so you know exactly what to expect.',
+                color: 'from-amber-500 to-orange-400',
+              },
+            ].map(({ icon: Icon, title, body, color }) => (
+              <div
+                key={title}
+                className="group rounded-2xl border border-white/[0.07] bg-[#0f1419] p-6 transition hover:border-white/[0.14] hover:bg-[#121826] lg:p-8"
               >
-                {cat.label}
-              </button>
+                <div
+                  className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${color} shadow-md transition group-hover:scale-105 lg:h-12 lg:w-12`}
+                >
+                  <Icon className="h-5 w-5 text-white lg:h-6 lg:w-6" aria-hidden />
+                </div>
+                <h3 className="font-semibold text-white lg:text-xl">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400 lg:text-base">{body}</p>
+              </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4 lg:gap-5 xl:grid-cols-5 2xl:grid-cols-6">
-            {filteredDevices.map((device) => {
-              const Icon = device.icon;
-              return (
-                <div
-                  key={device.id}
-                  className="group cursor-default rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition hover:border-white/[0.16] hover:bg-white/[0.06] hover:shadow-lg hover:shadow-black/20 lg:p-6"
-                >
-                  <div
-                    className={`mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${device.color} shadow-md transition group-hover:scale-110 sm:h-14 sm:w-14 lg:h-16 lg:w-16`}
-                  >
-                    <Icon className="h-6 w-6 text-white sm:h-7 sm:w-7 lg:h-8 lg:w-8" aria-hidden />
-                  </div>
-                  <h3 className="text-center text-sm font-semibold text-white sm:text-base lg:text-lg">
-                    {device.name}
-                  </h3>
-                  <p className="mt-1 text-center text-xs capitalize text-slate-500 lg:text-sm">{device.group}</p>
+          {/* Illustrative commission table */}
+          <div className="mt-10 overflow-hidden rounded-2xl border border-white/[0.08] bg-[#121826] lg:mt-14">
+            <div className="border-b border-white/[0.07] px-6 py-4">
+              <p className="text-sm font-semibold text-white lg:text-base">Commission illustration</p>
+              <p className="text-xs text-slate-500 lg:text-sm">Based on a ~10% illustrative rate — actual rates confirmed at onboarding</p>
+            </div>
+            <div className="divide-y divide-white/[0.05]">
+              {[
+                { policies: 5, avgPremium: 1000, totalPremiums: 5000, commission: 500 },
+                { policies: 15, avgPremium: 1000, totalPremiums: 15000, commission: 1500 },
+                { policies: 30, avgPremium: 1200, totalPremiums: 36000, commission: 3600 },
+                { policies: 60, avgPremium: 1200, totalPremiums: 72000, commission: 7200 },
+              ].map(({ policies, totalPremiums, commission }) => (
+                <div key={policies} className="grid grid-cols-3 px-6 py-3.5 text-sm">
+                  <span className="text-slate-400">{policies} active policies</span>
+                  <span className="text-center text-slate-500">KES {totalPremiums.toLocaleString()} premiums</span>
+                  <span className="text-right font-semibold text-emerald-400">KES {commission.toLocaleString()}/mo</span>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            <div className="bg-white/[0.02] px-6 py-3">
+              <p className="text-xs text-slate-600">Illustrative only. Premiums, rates, and payment schedules explained at onboarding.</p>
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* ── How it works ── */}
+      {/* ── How it works for outlets ── */}
       <section
         className="border-y border-white/[0.06] bg-white/[0.02] py-16 sm:py-20 md:py-24"
         id="how-it-works"
@@ -486,8 +469,8 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
         <Container>
           <SectionTitle
             eyebrow="How it works"
-            title="From quote to active cover in a few steps"
-            description="No paperwork queues — complete everything in your browser."
+            title="From registration to first commission"
+            description="Two simple steps to get your outlet onboarded — then a sales-agent account to manage everything."
           />
 
           <div className="relative">
@@ -498,27 +481,27 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 xl:gap-10">
               {[
                 {
-                  title: 'Choose item type',
-                  text: 'Select a household category — electronics, appliances, furniture, or another supported item.',
-                  icon: Home,
+                  title: 'Register online',
+                  text: 'Fill in your business details — outlet name, location, and contact info — in our short online form.',
+                  icon: FileText,
                   color: 'from-blue-600 to-primary-500',
                 },
                 {
-                  title: 'Tell us about it',
-                  text: 'Description, value, purchase date, and identifiers like serial numbers or IMEI where relevant.',
-                  icon: FileText,
+                  title: 'Add your outlet',
+                  text: 'Describe your shop or service point so we can list it in the partner network and link policies to your outlet.',
+                  icon: Store,
                   color: 'from-primary-600 to-primary-400',
                 },
                 {
-                  title: 'Pick a plan',
-                  text: 'See premium and cover options from live pricing — then add beneficiary details.',
-                  icon: DollarSign,
+                  title: 'Get agent access',
+                  text: 'Receive your sales-agent account to create policies, track activity, and view commission earnings.',
+                  icon: Users,
                   color: 'from-violet-600 to-primary-500',
                 },
                 {
-                  title: 'Pay & go',
-                  text: 'Complete payment details; your policy is recorded and visible in your dashboard.',
-                  icon: Shield,
+                  title: 'Earn commissions',
+                  text: 'Help customers protect their items, activate policies, and start building a recurring commission income.',
+                  icon: DollarSign,
                   color: 'from-emerald-600 to-emerald-400',
                 },
               ].map(({ title, text, icon: Icon, color }, i) => (
@@ -543,169 +526,60 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
           <div className="mt-12 flex justify-center">
             <button
               type="button"
-              onClick={onGetStarted}
+              onClick={onRegister}
               className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary-900/30 transition hover:brightness-110 lg:px-9 lg:py-4 lg:text-base"
             >
-              Start the flow now
+              Start registration now
               <ArrowRight className="h-4 w-4 lg:h-5 lg:w-5" aria-hidden />
             </button>
           </div>
         </Container>
       </section>
 
-      {/* ── Pricing ── */}
-      <section className="py-16 sm:py-20 md:py-24" id="pricing">
-        <Container>
-          <SectionTitle
-            eyebrow="Pricing"
-            title="Premiums tied to what your item is worth"
-            description="Rates depend on the plan you select in the flow — below are simple examples to set expectations."
-          />
-
-          <div className="mx-auto grid w-full max-w-none gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6">
-            {[
-              {
-                label: 'Starter',
-                value: 20000,
-                premium: 200,
-                note: 'Lower-value items',
-                highlight: false,
-                features: ['Basic item cover', 'Digital policy doc', 'Dashboard access'],
-              },
-              {
-                label: 'Everyday',
-                value: 100000,
-                premium: 1000,
-                note: 'Typical major appliance or furnishing',
-                highlight: true,
-                features: [
-                  'Full item cover',
-                  'Digital policy doc',
-                  'Dashboard access',
-                  'Claims support',
-                ],
-              },
-              {
-                label: 'Premium',
-                value: 200000,
-                premium: 2000,
-                note: 'Higher-value household items',
-                highlight: false,
-                features: [
-                  'Full item cover',
-                  'Digital policy doc',
-                  'Dashboard access',
-                  'Priority claims',
-                ],
-              },
-            ].map(({ label, value, premium, note, highlight, features }) => (
-              <div
-                key={label}
-                className={`relative flex flex-col rounded-2xl border p-6 transition sm:p-7 lg:p-8 xl:p-10 ${
-                  highlight
-                    ? 'border-primary-500/50 bg-primary-500/[0.07] shadow-xl shadow-primary-900/20 ring-1 ring-primary-500/30'
-                    : 'border-white/[0.08] bg-white/[0.03] hover:border-white/[0.14]'
-                }`}
-              >
-                {highlight && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-primary-600 to-primary-500 px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-md lg:text-xs">
-                    Most popular
-                  </span>
-                )}
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 lg:text-sm">{label}</p>
-                <p className="mt-3 text-2xl font-bold text-white sm:text-3xl lg:text-4xl">{formatCurrency(value)}</p>
-                <p className="text-xs text-slate-500 lg:text-sm">Declared value (example)</p>
-
-                <div className="my-5 h-px bg-white/[0.07]" />
-
-                <p
-                  className={`text-2xl font-bold sm:text-3xl lg:text-4xl ${
-                    highlight ? 'text-primary-300' : 'text-white'
-                  }`}
-                >
-                  {formatCurrency(premium)}
-                </p>
-                <p className="text-sm text-slate-400 lg:text-base">per month (illustrative)</p>
-
-                <ul className="mt-5 flex-1 space-y-2.5 lg:space-y-3">
-                  {features.map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-slate-300 lg:text-base">
-                      <CheckCircle2
-                        className={`h-4 w-4 shrink-0 lg:h-5 lg:w-5 ${
-                          highlight ? 'text-primary-400' : 'text-emerald-400/70'
-                        }`}
-                        aria-hidden
-                      />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
-                <button
-                  type="button"
-                  onClick={onGetStarted}
-                  className={`mt-6 w-full rounded-xl py-3 text-sm font-semibold transition lg:py-4 lg:text-base ${
-                    highlight
-                      ? 'bg-primary-500 text-white hover:bg-primary-400'
-                      : 'border border-white/15 bg-white/[0.06] text-white hover:bg-white/[0.1]'
-                  }`}
-                >
-                  Get started
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <p className="mt-6 text-center text-xs text-slate-500">
-            Illustrative examples only. Actual premiums depend on plan, item type, and declared value.
-          </p>
-        </Container>
-      </section>
-
-      {/* ── Why CoverKit ── */}
+      {/* ── Why become a partner ── */}
       <section className="border-t border-white/[0.06] bg-white/[0.02] py-16 sm:py-20 md:py-24">
         <Container>
           <SectionTitle
-            eyebrow={`Why ${BRAND_NAME}`}
-            title="An experience shaped for household cover"
-            description="Less noise, more clarity — so you know what you are buying."
+            eyebrow="Why partner with us"
+            title="Built for outlet operators like you"
+            description="Less friction, more revenue — tools that fit into how you already serve customers."
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
             {[
               {
                 icon: Zap,
-                title: 'Fast setup',
-                text: 'Complete purchase online; see confirmation and policy reference without waiting on paper post.',
+                title: 'Fast, digital onboarding',
+                text: 'Two steps and you are live in our partner network — no lengthy approval queues or physical paperwork.',
                 color: 'from-amber-500 to-orange-400',
               },
               {
                 icon: Shield,
-                title: 'Purpose-built flow',
-                text: 'Screens match real household items — value, purchase details, and identifiers (e.g. serial or IMEI) where relevant.',
+                title: 'Purpose-built platform',
+                text: 'Your sales-agent dashboard is designed specifically for selling household-item cover — not a generic CRM.',
                 color: 'from-primary-600 to-primary-400',
               },
               {
-                icon: Clock,
-                title: 'Claims when you need them',
-                text: 'Logged-in customers can start a claim from the dashboard with policy and outlet context.',
+                icon: BarChart3,
+                title: 'Transparent earnings',
+                text: 'See exactly which policies you activated and how much commission you have earned — updated in real time.',
                 color: 'from-cyan-600 to-blue-400',
               },
               {
-                icon: DollarSign,
-                title: 'Transparent math',
-                text: 'Premium comes from the plan and values you enter — review before you commit.',
+                icon: BadgePercent,
+                title: 'Recurring commission',
+                text: 'Active policies keep paying commission month after month — not just a one-time referral bonus.',
                 color: 'from-emerald-600 to-green-400',
               },
               {
                 icon: MessageCircle,
-                title: 'Reachable team',
-                text: 'Phone and email for sales and service questions during published hours.',
+                title: 'Reachable partner team',
+                text: `Phone and email support during business hours — so you can confidently answer any customer question.`,
                 color: 'from-violet-600 to-purple-400',
               },
               {
-                icon: Lock,
-                title: 'Security-minded',
-                text: 'Your session and submissions are handled with standard web security practices.',
+                icon: Handshake,
+                title: 'Grow together',
+                text: 'As the network expands, your listed outlet gains visibility to new customers looking for trusted cover near them.',
                 color: 'from-rose-600 to-red-400',
               },
             ].map(({ icon: Icon, title, text, color }) => (
@@ -714,7 +588,7 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
                 className="group rounded-2xl border border-white/[0.07] bg-[#0f1419] p-6 transition hover:border-white/[0.14] hover:bg-[#121826] lg:p-8"
               >
                 <div
-                  className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${color} shadow-md transition group-hover:scale-105 lg:h-13 lg:w-13`}
+                  className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${color} shadow-md transition group-hover:scale-105 lg:h-12 lg:w-12`}
                 >
                   <Icon className="h-5 w-5 text-white lg:h-6 lg:w-6" aria-hidden />
                 </div>
@@ -730,34 +604,34 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
       <section className="py-16 sm:py-20 md:py-24">
         <Container>
           <SectionTitle
-            eyebrow="Customers"
-            title="What people say about the experience"
-            description={`Real feedback from policyholders using ${BRAND_NAME}.`}
+            eyebrow="Partner voices"
+            title="What outlet owners say"
+            description={`Feedback from shops and service points already partnered with ${BRAND_NAME}.`}
           />
           <div className="grid gap-5 md:grid-cols-3 lg:gap-6">
             {[
               {
                 quote:
-                  'I insured our fridge in one sitting. The steps were clear and I could see the premium before paying.',
-                name: 'John M.',
-                place: 'Nairobi',
-                initials: 'JM',
+                  'Signing up was quick. I activated 8 policies in the first month and saw commission drop in cleanly — no chasing anyone.',
+                name: 'Peter N.',
+                place: 'Electronics shop, Nairobi',
+                initials: 'PN',
                 color: 'from-blue-600 to-primary-500',
               },
               {
                 quote:
-                  'Finally a flow that asks for the right household item details instead of a one-size-fits-all form.',
-                name: 'Sarah A.',
-                place: 'Kisumu',
-                initials: 'SA',
+                  'Customers already trust us for repairs. Offering insurance through the same outlet was a natural add-on that earns us extra every month.',
+                name: 'Grace W.',
+                place: 'Appliance dealer, Thika',
+                initials: 'GW',
                 color: 'from-emerald-600 to-cyan-500',
               },
               {
                 quote:
-                  'Support picked up when I had a question about M-Pesa billing. Felt straightforward.',
-                name: 'David K.',
-                place: 'Mombasa',
-                initials: 'DK',
+                  'The dashboard shows me my commission in real time. I can see which customers are active and plan my month around it.',
+                name: 'James O.',
+                place: 'Service centre, Kisumu',
+                initials: 'JO',
                 color: 'from-violet-600 to-purple-500',
               },
             ].map(({ quote, name, place, initials, color }) => (
@@ -803,22 +677,22 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
 
             <div className="relative mx-auto max-w-2xl text-center lg:max-w-4xl">
               <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-500/20 ring-1 ring-primary-500/30 shadow-lg shadow-primary-900/40 lg:h-20 lg:w-20">
-                <Shield className="h-8 w-8 text-primary-400 lg:h-10 lg:w-10" aria-hidden />
+                <Store className="h-8 w-8 text-primary-400 lg:h-10 lg:w-10" aria-hidden />
               </div>
               <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
-                Ready to cover your household items?
+                Ready to register your outlet?
               </h2>
               <p className="mt-4 text-slate-400 lg:text-lg xl:text-xl">
-                Start the purchase flow — or call us if you prefer to walk through home cover options
-                with someone on the team.
+                Two steps online — your business details, then your outlet. You'll receive a sales-agent
+                account to create policies, track activity, and earn commissions from day one.
               </p>
               <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
                 <button
                   type="button"
-                  onClick={onGetStarted}
+                  onClick={onRegister}
                   className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-primary-900/30 transition hover:brightness-110 lg:px-10 lg:py-4 lg:text-lg"
                 >
-                  Begin purchase
+                  Register your outlet
                   <ChevronRight className="h-5 w-5" aria-hidden />
                 </button>
                 <a
@@ -860,13 +734,13 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
 
                 <ul className="mt-8 space-y-2">
                   {[
-                    'Digital policy documents',
-                    'Dashboard claims filing',
-                    'M-Pesa & bank payment support',
+                    'Sales-agent account included',
+                    'Commission on every active policy',
+                    'M-Pesa &amp; bank payment support',
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-sm text-slate-400 lg:text-base">
                       <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400/80 lg:h-5 lg:w-5" aria-hidden />
-                      {item}
+                      <span dangerouslySetInnerHTML={{ __html: item }} />
                     </li>
                   ))}
                 </ul>
@@ -875,7 +749,7 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
               <div className="rounded-2xl border border-white/[0.08] bg-black/20 p-6 lg:p-8">
                 <p className="text-sm font-semibold text-white lg:text-lg">Quick message</p>
                 <p className="mt-1 text-xs text-slate-500 lg:text-sm">
-                  For policy changes or claims, sign in and use your dashboard for the fastest route.
+                  Have a question before registering? Drop us a message and we will get back to you.
                 </p>
                 <form
                   className="mt-5 space-y-3"
@@ -919,9 +793,10 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
               className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-500"
               aria-label="Footer navigation"
             >
-              <a href="#coverage" className="transition hover:text-slate-300">Coverage</a>
+              <a href="#benefits" className="transition hover:text-slate-300">Benefits</a>
+              <a href="#commissions" className="transition hover:text-slate-300">Commissions</a>
               <a href="#how-it-works" className="transition hover:text-slate-300">How it works</a>
-              <a href="#pricing" className="transition hover:text-slate-300">Pricing</a>
+              <button type="button" onClick={onBack} className="transition hover:text-slate-300 border-0 bg-transparent p-0">For customers</button>
               <a href={`tel:${SUPPORT_TEL}`} className="transition hover:text-slate-300">
                 {SUPPORT_TEL_DISPLAY}
               </a>
@@ -943,4 +818,4 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick, onPartnerRegi
   );
 };
 
-export default LandingPage;
+export default BecomeOutletPage;

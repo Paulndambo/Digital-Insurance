@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   LayoutDashboard,
   PlusCircle,
@@ -21,7 +21,12 @@ import { formatPhoneNumber, formatCardNumber, formatExpiryDate, formatPrice } fr
 import { getStoredPolicies, getStoredClaims, getStoredAccessToken } from './utils/storage';
 import { devices } from './constants/devices';
 import { fetchPricingPlans, createPolicy, login as apiLogin, createClaim } from './utils/api';
-import { buildGadgetPolicyPurchasePayload } from './utils/gadgetPolicyPayload';
+import {
+  buildGadgetPolicyPurchasePayload,
+  canProceedDeviceDetailsStep,
+  collectGadgetDevicesForPurchase,
+  isCompleteDeviceLine,
+} from './utils/gadgetPolicyPayload';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './components/Login';
@@ -36,6 +41,8 @@ import ClaimDetail from './components/ClaimDetail';
 import PurchaseSuccess from './components/PurchaseSuccess';
 import AppShell from './components/AppShell';
 import QuoteFlow from './components/QuoteFlow';
+import SalesAgentOnboardingFlow from './components/SalesAgentOnboardingFlow';
+import BecomeOutletPage from './components/BecomeOutletPage';
 
 export default function DeviceInsurance() {
   // View states: 'landing' | 'login' | 'dashboard' | 'purchase' | 'request-quote' | 'claim' | 'policy-detail' | 'claim-detail'
@@ -108,6 +115,21 @@ export default function DeviceInsurance() {
   const [loginError, setLoginError] = useState('');
   const [purchaseSuccessSummary, setPurchaseSuccessSummary] = useState(null);
   const [adminActiveTab, setAdminActiveTab] = useState('metrics');
+  const [savedDeviceSnapshots, setSavedDeviceSnapshots] = useState([]);
+  /** Step 1: ordered list of device ids to insure (tap categories to add each slot). */
+  const [deviceTypeQueue, setDeviceTypeQueue] = useState([]);
+  /** Frozen from deviceTypeQueue when leaving step 1 — drives which item is being detailed in step 3. */
+  const [purchaseDeviceQueue, setPurchaseDeviceQueue] = useState([]);
+
+  useEffect(() => {
+    if (step !== 3 || purchaseDeviceQueue.length === 0) return;
+    const idx = savedDeviceSnapshots.length;
+    if (idx >= purchaseDeviceQueue.length) return;
+    const want = purchaseDeviceQueue[idx];
+    if (selectedDevice !== want) {
+      setSelectedDevice(want);
+    }
+  }, [step, purchaseDeviceQueue, savedDeviceSnapshots.length, selectedDevice]);
 
   // Format and validate handlers
   const handleInputChange = (e) => {
@@ -202,7 +224,11 @@ export default function DeviceInsurance() {
   const validateStep = (stepNum) => {
     const newErrors = {};
 
-    if (stepNum === 2) {
+    if (stepNum === 1) {
+      if (deviceTypeQueue.length < 1) {
+        newErrors.deviceSelection = 'Select at least one item to insure (tap categories to add them)';
+      }
+    } else if (stepNum === 2) {
       if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
       if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
       if (!formData.email.trim()) {
@@ -218,19 +244,39 @@ export default function DeviceInsurance() {
       if (!formData.gender.trim()) newErrors.gender = 'Gender is required';
       if (!formData.idNumber.trim()) newErrors.idNumber = 'ID number or passport number is required';
     } else if (stepNum === 3) {
-      if (!formData.deviceModel.trim()) newErrors.deviceModel = 'Item model is required';
-      if (!formData.deviceBrand.trim()) newErrors.deviceBrand = 'Item brand is required';
-      if (!formData.deviceDescription.trim()) newErrors.deviceDescription = 'Item description is required';
-      if (!formData.purchaseDate) newErrors.purchaseDate = 'Purchase date is required';
-      if ((selectedDevice === 'phone' || selectedDevice === 'tablet') && formData.imeiNumber && formData.imeiNumber.trim()) {
-        if (!/^\d{15}$/.test(formData.imeiNumber.trim())) {
-          newErrors.imeiNumber = 'IMEI must be a 15-digit number';
+      if (purchaseDeviceQueue.length < 1) {
+        newErrors.deviceModel = 'Go back to step 1 and choose which items you want to insure';
+      } else if (
+        !canProceedDeviceDetailsStep(
+          savedDeviceSnapshots,
+          purchaseDeviceQueue,
+          formData,
+          selectedDevice
+        )
+      ) {
+        const idx = savedDeviceSnapshots.length;
+        const onExpectedSlot =
+          idx < purchaseDeviceQueue.length && selectedDevice === purchaseDeviceQueue[idx];
+        if (onExpectedSlot && !isCompleteDeviceLine(formData, selectedDevice)) {
+          if (!formData.deviceModel.trim()) newErrors.deviceModel = 'Item model is required';
+          if (!formData.deviceBrand.trim()) newErrors.deviceBrand = 'Item brand is required';
+          if (!formData.deviceDescription.trim()) newErrors.deviceDescription = 'Item description is required';
+          if (!formData.purchaseDate) newErrors.purchaseDate = 'Purchase date is required';
+          if (!formData.devicePrice.trim()) {
+            newErrors.devicePrice = 'Item value is required';
+          } else if (!/^\d+(\.\d{1,2})?$/.test(formData.devicePrice.replace(/,/g, '')) || parseFloat(formData.devicePrice.replace(/,/g, '')) <= 0) {
+            newErrors.devicePrice = 'Please enter a valid value (e.g., 85000)';
+          }
+        } else if (onExpectedSlot && isCompleteDeviceLine(formData, selectedDevice)) {
+          if ((selectedDevice === 'phone' || selectedDevice === 'tablet') && formData.imeiNumber && formData.imeiNumber.trim()) {
+            if (!/^\d{15}$/.test(formData.imeiNumber.trim())) {
+              newErrors.imeiNumber = 'IMEI must be a 15-digit number';
+            }
+          }
         }
-      }
-      if (!formData.devicePrice.trim()) {
-        newErrors.devicePrice = 'Item value is required';
-      } else if (!/^\d+(\.\d{1,2})?$/.test(formData.devicePrice) || parseFloat(formData.devicePrice) <= 0) {
-        newErrors.devicePrice = 'Please enter a valid value (e.g., 85000)';
+        if (Object.keys(newErrors).length === 0) {
+          newErrors.deviceModel = `Complete details for each item (${savedDeviceSnapshots.length + 1} of ${purchaseDeviceQueue.length}). Use "Save & next item" or fill the form and continue.`;
+        }
       }
     } else if (stepNum === 4) {
       if (!selectedPricingPlan) {
@@ -311,6 +357,68 @@ export default function DeviceInsurance() {
     return valid;
   };
 
+  const handleAddDeviceLine = () => {
+    if (!isCompleteDeviceLine(formData, selectedDevice)) {
+      applyStepValidation(3);
+      return;
+    }
+    const snap = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+      selectedDevice,
+      deviceModel: formData.deviceModel,
+      deviceBrand: formData.deviceBrand,
+      deviceDescription: formData.deviceDescription,
+      purchaseDate: formData.purchaseDate,
+      serialNumber: formData.serialNumber,
+      imeiNumber: formData.imeiNumber,
+      devicePrice: formData.devicePrice,
+      warrantyPeriod: formData.warrantyPeriod,
+      warrantyEndDate: formData.warrantyEndDate,
+    };
+    setSavedDeviceSnapshots((prev) => [...prev, snap]);
+    setFormData((prev) => ({
+      ...prev,
+      deviceModel: '',
+      deviceBrand: '',
+      deviceDescription: '',
+      purchaseDate: '',
+      serialNumber: '',
+      imeiNumber: '',
+      devicePrice: '',
+      warrantyPeriod: '',
+      warrantyEndDate: '',
+    }));
+    setErrors((prev) => {
+      const next = { ...prev };
+      ['deviceModel', 'deviceBrand', 'deviceDescription', 'purchaseDate', 'devicePrice', 'imeiNumber', 'serialNumber', 'warrantyPeriod', 'warrantyEndDate'].forEach((k) => {
+        delete next[k];
+      });
+      return next;
+    });
+  };
+
+  const handleRemoveDeviceLine = (id) => {
+    setSavedDeviceSnapshots((prev) => {
+      const idx = prev.findIndex((s) => s.id === id);
+      if (idx < 0) return prev;
+      setPurchaseDeviceQueue((q) => q.filter((_, i) => i !== idx));
+      return prev.filter((s) => s.id !== id);
+    });
+  };
+
+  const handleEnqueueDeviceType = (deviceId) => {
+    setDeviceTypeQueue((q) => [...q, deviceId]);
+    setErrors((prev) => ({ ...prev, deviceSelection: '' }));
+  };
+
+  const handleRemoveDeviceTypeQueueAt = (index) => {
+    setDeviceTypeQueue((q) => q.filter((_, i) => i !== index));
+  };
+
+  const handleAppendPurchaseDeviceType = (deviceId) => {
+    setPurchaseDeviceQueue((q) => [...q, deviceId]);
+  };
+
   const handleStepChange = (newStep) => {
     // Allow going backwards without validation
     if (newStep < step) {
@@ -321,6 +429,15 @@ export default function DeviceInsurance() {
 
     // For forward navigation, validate the CURRENT step before proceeding
     if (newStep > step) {
+      if (step === 1 && newStep === 2) {
+        if (!applyStepValidation(1)) {
+          return;
+        }
+        setPurchaseDeviceQueue([...deviceTypeQueue]);
+        setSavedDeviceSnapshots([]);
+        setSelectedDevice(deviceTypeQueue[0] || '');
+      }
+
       // Fetch pricing plans when moving from step 3 to step 4
       if (step === 3 && newStep === 4) {
         if (!applyStepValidation(step)) {
@@ -368,6 +485,10 @@ export default function DeviceInsurance() {
     setCurrentView('purchase');
     setShowFlow(true);
     setStep(1);
+    setSavedDeviceSnapshots([]);
+    setDeviceTypeQueue([]);
+    setPurchaseDeviceQueue([]);
+    setSelectedDevice('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -387,6 +508,12 @@ export default function DeviceInsurance() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+    if (user?.role === 'Sales Agent' && currentView === 'request-quote') {
+      setCurrentView('dashboard');
+    }
+  }, [user?.role, currentView]);
 
   const handleLogin = async (username, password) => {
     setLoginLoading(true);
@@ -413,7 +540,17 @@ export default function DeviceInsurance() {
   };
 
   const handlePurchaseComplete = async () => {
-    if (!formData.email || !formData.deviceModel || !selectedPricingPlan) {
+    const devicesForApi = collectGadgetDevicesForPurchase({
+      formData,
+      selectedDevice,
+      savedDeviceSnapshots,
+      includeCurrentDraft: true,
+    });
+    if (devicesForApi.length === 0) {
+      setErrors({ submit: 'Add at least one insured item with full details.' });
+      return;
+    }
+    if (!formData.email || !selectedPricingPlan) {
       setErrors({ submit: 'Please complete all required fields.' });
       return;
     }
@@ -437,6 +574,8 @@ export default function DeviceInsurance() {
       selectedDevice,
       selectedPricingPlan,
       startDate,
+      savedDeviceSnapshots,
+      includeCurrentDraft: true,
     });
 
     const deviceValue = policyData.cover_amount;
@@ -459,6 +598,10 @@ export default function DeviceInsurance() {
       
       // Also save to localStorage for local display
       const policyNumber = response.policy_number || 'DS-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+      const primarySnap = savedDeviceSnapshots[0];
+      const primaryDeviceId = isCompleteDeviceLine(formData, selectedDevice)
+        ? selectedDevice
+        : primarySnap?.selectedDevice;
       const localPolicy = {
         id: response.id?.toString() || Date.now().toString(),
         policyNumber,
@@ -468,16 +611,33 @@ export default function DeviceInsurance() {
         phone: formData.phone,
         gender: formData.gender,
         idNumber: formData.idNumber,
-        deviceType: devices.find(d => d.id === selectedDevice)?.name,
-        deviceBrand: formData.deviceBrand,
-        deviceModel: formData.deviceModel,
-        deviceDescription: formData.deviceDescription,
+        insuredItemCount: devicesForApi.length,
+        deviceType: devices.find((d) => d.id === primaryDeviceId)?.name,
+        deviceBrand: isCompleteDeviceLine(formData, selectedDevice)
+          ? formData.deviceBrand
+          : primarySnap?.deviceBrand,
+        deviceModel: isCompleteDeviceLine(formData, selectedDevice)
+          ? formData.deviceModel
+          : primarySnap?.deviceModel,
+        deviceDescription: isCompleteDeviceLine(formData, selectedDevice)
+          ? formData.deviceDescription
+          : primarySnap?.deviceDescription,
         deviceValue,
-        purchaseDate: formData.purchaseDate,
-        serialNumber: formData.serialNumber,
-        imeiNumber: formData.imeiNumber || undefined,
-        warrantyPeriod: formData.warrantyPeriod || undefined,
-        warrantyEndDate: formData.warrantyEndDate || undefined,
+        purchaseDate: isCompleteDeviceLine(formData, selectedDevice)
+          ? formData.purchaseDate
+          : primarySnap?.purchaseDate,
+        serialNumber: isCompleteDeviceLine(formData, selectedDevice)
+          ? formData.serialNumber
+          : primarySnap?.serialNumber,
+        imeiNumber: (isCompleteDeviceLine(formData, selectedDevice)
+          ? formData.imeiNumber
+          : primarySnap?.imeiNumber) || undefined,
+        warrantyPeriod: (isCompleteDeviceLine(formData, selectedDevice)
+          ? formData.warrantyPeriod
+          : primarySnap?.warrantyPeriod) || undefined,
+        warrantyEndDate: (isCompleteDeviceLine(formData, selectedDevice)
+          ? formData.warrantyEndDate
+          : primarySnap?.warrantyEndDate) || undefined,
         monthlyPremium: premium,
         coverPercentage: selectedPricingPlan.cover_percentage,
         coverType: selectedPricingPlan.cover_type,
@@ -499,8 +659,12 @@ export default function DeviceInsurance() {
       addPolicy(localPolicy);
       setPolicySaved(true);
 
-      const deviceTypeName = devices.find((d) => d.id === selectedDevice)?.name || 'Device';
-      const deviceLabel = `${deviceTypeName} — ${formData.deviceBrand} ${formData.deviceModel}`.replace(/\s+/g, ' ').trim();
+      const n = devicesForApi.length;
+      const deviceTypeName = devices.find((d) => d.id === primaryDeviceId)?.name || 'Device';
+      const deviceLabel =
+        n > 1
+          ? `${n} insured items (${deviceTypeName} and more)`
+          : `${deviceTypeName} — ${localPolicy.deviceBrand} ${localPolicy.deviceModel}`.replace(/\s+/g, ' ').trim();
 
       setPurchaseSuccessSummary({
         policyNumber,
@@ -516,6 +680,9 @@ export default function DeviceInsurance() {
       setShowFlow(false);
       setStep(1);
       setSelectedDevice('');
+      setSavedDeviceSnapshots([]);
+      setDeviceTypeQueue([]);
+      setPurchaseDeviceQueue([]);
       setPolicySaved(false);
       setSelectedPricingPlan(null);
       setPricingPlans([]);
@@ -626,6 +793,20 @@ export default function DeviceInsurance() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const openBecomeOutletPage = () => {
+    setPurchaseSuccessSummary(null);
+    setShowFlow(false);
+    setCurrentView('become-outlet');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const startSalesAgentOnboarding = () => {
+    setPurchaseSuccessSummary(null);
+    setShowFlow(false);
+    setCurrentView('sales-agent-onboarding');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleDashboardClick = () => {
     setPurchaseSuccessSummary(null);
     setSelectedPolicyId(null);
@@ -720,6 +901,9 @@ export default function DeviceInsurance() {
           subtitle: 'Provide incident details and submit for review.',
         };
       case 'request-quote':
+        if (user.role === 'Sales Agent') {
+          return { title: 'Sales workspace', subtitle: `Welcome back, ${name}.` };
+        }
         return {
           title: 'Request a quote',
           subtitle: 'Estimated premium from your device value and plan — no payment until you buy.',
@@ -749,41 +933,51 @@ export default function DeviceInsurance() {
         ? 'Sales'
         : 'Admin';
 
+  const memberShellNavBase = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      icon: LayoutDashboard,
+      active: currentView === 'dashboard',
+      onClick: handleDashboardClick,
+    },
+    {
+      id: 'purchase',
+      label: 'New policy',
+      icon: PlusCircle,
+      active: currentView === 'purchase',
+      onClick: startFlow,
+    },
+    {
+      id: 'claim',
+      label: 'File a claim',
+      icon: FileCheck,
+      active: currentView === 'claim',
+      onClick: handleCreateClaim,
+    },
+  ];
+
+  const requestQuoteShellItem = {
+    id: 'quote',
+    label: 'Request quote',
+    icon: Calculator,
+    active: currentView === 'request-quote',
+    onClick: startQuoteFlow,
+  };
+
   const shellSidebarItems =
     !user
       ? []
-      : user.role === 'Policy Owner' || user.role === 'Sales Agent'
+      : user.role === 'Policy Owner'
         ? [
-            {
-              id: 'overview',
-              label: 'Overview',
-              icon: LayoutDashboard,
-              active: currentView === 'dashboard',
-              onClick: handleDashboardClick,
-            },
-            {
-              id: 'quote',
-              label: 'Request quote',
-              icon: Calculator,
-              active: currentView === 'request-quote',
-              onClick: startQuoteFlow,
-            },
-            {
-              id: 'purchase',
-              label: 'New policy',
-              icon: PlusCircle,
-              active: currentView === 'purchase',
-              onClick: startFlow,
-            },
-            {
-              id: 'claim',
-              label: 'File a claim',
-              icon: FileCheck,
-              active: currentView === 'claim',
-              onClick: handleCreateClaim,
-            },
+            memberShellNavBase[0],
+            requestQuoteShellItem,
+            memberShellNavBase[1],
+            memberShellNavBase[2],
           ]
-        : [
+        : user.role === 'Sales Agent'
+          ? memberShellNavBase
+          : [
             {
               id: 'metrics',
               label: 'Metrics',
@@ -901,7 +1095,7 @@ export default function DeviceInsurance() {
         />
       )}
 
-      {currentView === 'request-quote' && (
+      {currentView === 'request-quote' && user?.role === 'Policy Owner' && (
         <QuoteFlow onClose={handleQuoteExit} onStartPurchase={startFlow} />
       )}
 
@@ -940,7 +1134,14 @@ export default function DeviceInsurance() {
           loadingPlans={loadingPlans}
           pricingPlans={pricingPlans}
           selectedPricingPlan={selectedPricingPlan}
-          onDeviceSelect={setSelectedDevice}
+          savedDeviceSnapshots={savedDeviceSnapshots}
+          deviceTypeQueue={deviceTypeQueue}
+          onEnqueueDeviceType={handleEnqueueDeviceType}
+          onRemoveDeviceTypeQueueAt={handleRemoveDeviceTypeQueueAt}
+          purchaseDeviceQueue={purchaseDeviceQueue}
+          onAppendPurchaseDeviceType={handleAppendPurchaseDeviceType}
+          onAddDeviceLine={handleAddDeviceLine}
+          onRemoveDeviceLine={handleRemoveDeviceLine}
           onInputChange={handleInputChange}
           onBlur={handleBlur}
           onStepChange={handleStepChange}
@@ -953,7 +1154,7 @@ export default function DeviceInsurance() {
 
   return (
     <div className="min-h-screen bg-[#0b0f1a] text-white">
-      {!showAppShell && currentView !== 'landing' && (
+      {!showAppShell && currentView !== 'landing' && currentView !== 'become-outlet' && (
         <Header
           currentView={currentView}
           user={user}
@@ -1007,7 +1208,14 @@ export default function DeviceInsurance() {
             loadingPlans={loadingPlans}
             pricingPlans={pricingPlans}
             selectedPricingPlan={selectedPricingPlan}
-            onDeviceSelect={setSelectedDevice}
+            savedDeviceSnapshots={savedDeviceSnapshots}
+            deviceTypeQueue={deviceTypeQueue}
+            onEnqueueDeviceType={handleEnqueueDeviceType}
+            onRemoveDeviceTypeQueueAt={handleRemoveDeviceTypeQueueAt}
+            purchaseDeviceQueue={purchaseDeviceQueue}
+            onAppendPurchaseDeviceType={handleAppendPurchaseDeviceType}
+            onAddDeviceLine={handleAddDeviceLine}
+            onRemoveDeviceLine={handleRemoveDeviceLine}
             onInputChange={handleInputChange}
             onBlur={handleBlur}
             onStepChange={handleStepChange}
@@ -1038,10 +1246,28 @@ export default function DeviceInsurance() {
           onGetStarted={startFlow}
           onRequestQuote={startQuoteFlow}
           onLoginClick={() => setCurrentView('login')}
+          onPartnerRegister={openBecomeOutletPage}
         />
       )}
 
-      {!showAppShell && currentView !== 'landing' && <Footer />}
+      {!user && currentView === 'become-outlet' && (
+        <BecomeOutletPage
+          onBack={handleHomeClick}
+          onRegister={startSalesAgentOnboarding}
+          onLoginClick={() => setCurrentView('login')}
+        />
+      )}
+
+      {!user && currentView === 'sales-agent-onboarding' && (
+        <div className="w-full px-4 py-6 sm:px-5 lg:px-6 xl:px-8 lg:py-8">
+          <SalesAgentOnboardingFlow
+            onExitToHome={handleHomeClick}
+            onGoLogin={() => setCurrentView('login')}
+          />
+        </div>
+      )}
+
+      {!showAppShell && currentView !== 'landing' && currentView !== 'become-outlet' && <Footer />}
     </div>
   );
 }

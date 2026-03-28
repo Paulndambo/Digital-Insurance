@@ -174,7 +174,7 @@ export const fetchDeviceOutlets = async (accessToken) => {
       throw new Error('Access token is required to fetch device outlets');
     }
 
-    const response = await fetch(`${API_BASE_URL}/gadgets/device-outlets`, {
+    const response = await fetch(`${API_BASE_URL}/gadgets/device-outlets/`, {
       method: "GET",
       headers: headersList
     });
@@ -188,6 +188,90 @@ export const fetchDeviceOutlets = async (accessToken) => {
     return data;
   } catch (error) {
     console.error('Error fetching device outlets:', error);
+    throw error;
+  }
+};
+
+export const createDeviceOutlet = async (payload, accessToken) => {
+  try {
+    const headersList = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "User-Agent": BRAND_APP_USER_AGENT,
+    };
+
+    if (accessToken) {
+      headersList.Authorization = `Bearer ${accessToken}`;
+    } else {
+      throw new Error("Access token is required to register a device outlet");
+    }
+
+    const response = await fetch(`${API_BASE_URL}/gadgets/device-outlets/`, {
+      method: "POST",
+      headers: headersList,
+      body: JSON.stringify(payload),
+    });
+
+    const text = await response.text();
+    let data;
+    try {
+      data = text ? JSON.parse(text) : null;
+    } catch {
+      data = text;
+    }
+
+    if (!response.ok) {
+      const detail =
+        typeof data === "object" && data !== null
+          ? JSON.stringify(data)
+          : String(data || response.statusText);
+      throw new Error(`HTTP error! status: ${response.status}, message: ${detail}`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error creating device outlet:", error);
+    throw error;
+  }
+};
+
+/** Public onboarding: creates Sales Agent user + device outlet (no auth). */
+export const submitDeviceOutletOnboarding = async (payload) => {
+  try {
+    const headersList = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "User-Agent": BRAND_APP_USER_AGENT,
+    };
+
+    const response = await fetch(`${API_BASE_URL}/gadgets/device-outlets/onboarding/`, {
+      method: "POST",
+      headers: headersList,
+      body: JSON.stringify(payload),
+    });
+
+    const text = await response.text();
+    let data;
+    try {
+      data = text ? JSON.parse(text) : null;
+    } catch {
+      data = text;
+    }
+
+    if (!response.ok) {
+      let message =
+        typeof data === "object" && data !== null
+          ? data.detail || JSON.stringify(data)
+          : String(data || response.statusText);
+      if (typeof message === "string" && message.length > 400) {
+        message = `${message.slice(0, 400)}…`;
+      }
+      throw new Error(message || `Request failed (${response.status})`);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error submitting device outlet onboarding:", error);
     throw error;
   }
 };

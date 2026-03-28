@@ -3,9 +3,14 @@ import {
   User, Mail, Phone, Smartphone, Calendar, Hash, DollarSign,
   Lock, Check, Loader2, Shield, ChevronRight, ChevronLeft,
   Zap, Star, ArrowRight, Sparkles, AlertCircle, Info,
-  CreditCard, Building2, Heart, MessageSquare
+  CreditCard, Building2, Heart,   MessageSquare, Trash2
 } from 'lucide-react';
 import ProgressBar from './ProgressBar';
+import {
+  canProceedDeviceDetailsStep,
+  computeGadgetLinePremium,
+  isCompleteDeviceLine,
+} from '../utils/gadgetPolicyPayload';
 import InputField from './InputField';
 import { devices } from '../constants/devices';
 import { formatCurrency } from '../constants/currency';
@@ -175,21 +180,56 @@ const PurchaseFlow = ({
   loadingPlans,
   pricingPlans,
   selectedPricingPlan,
-  onDeviceSelect,
+  savedDeviceSnapshots = [],
+  deviceTypeQueue = [],
+  onEnqueueDeviceType,
+  onRemoveDeviceTypeQueueAt,
+  purchaseDeviceQueue = [],
+  onAppendPurchaseDeviceType,
+  onAddDeviceLine,
+  onRemoveDeviceLine,
   onInputChange,
   onBlur,
   onStepChange,
   onPricingPlanSelect,
   onComplete,
 }) => {
-  const calculatePremium = () => {
-    if (!formData.devicePrice || !selectedPricingPlan) return 0;
-    const val = parseFloat(formData.devicePrice);
-    if (isNaN(val) || val <= 0) return 0;
-    return Math.round(val * (selectedPricingPlan.cover_percentage / 100));
+  const totalCoverAmount = () => {
+    let t = 0;
+    savedDeviceSnapshots.forEach((s) => {
+      t += parseFloat(String(s.devicePrice || '').replace(/,/g, '')) || 0;
+    });
+    if (isCompleteDeviceLine(formData, selectedDevice)) {
+      t += parseFloat(String(formData.devicePrice || '').replace(/,/g, '')) || 0;
+    }
+    return t;
   };
-  const monthlyPremium   = calculatePremium();
+
+  const premiumForPlan = (plan) => {
+    if (!plan) return 0;
+    const pct = plan.cover_percentage;
+    let sum = 0;
+    savedDeviceSnapshots.forEach((s) => {
+      const c = parseFloat(String(s.devicePrice || '').replace(/,/g, '')) || 0;
+      sum += computeGadgetLinePremium(c, pct);
+    });
+    if (isCompleteDeviceLine(formData, selectedDevice)) {
+      const c = parseFloat(String(formData.devicePrice || '').replace(/,/g, '')) || 0;
+      sum += computeGadgetLinePremium(c, pct);
+    }
+    return sum;
+  };
+
+  const monthlyPremium = selectedPricingPlan ? premiumForPlan(selectedPricingPlan) : 0;
   const selectedDeviceObj = devices.find(d => d.id === selectedDevice);
+  const detailStepReady = canProceedDeviceDetailsStep(
+    savedDeviceSnapshots,
+    purchaseDeviceQueue,
+    formData,
+    selectedDevice
+  );
+  const nextDetailIndex = savedDeviceSnapshots.length;
+  const hasMoreQueuedSlots = purchaseDeviceQueue.length > 0 && nextDetailIndex < purchaseDeviceQueue.length;
 
   return (
     <div className="w-full min-w-0 px-0 py-4 sm:py-6 lg:py-8">
@@ -202,7 +242,7 @@ const PurchaseFlow = ({
             <SectionTitle
               icon={Sparkles}
               title="What would you like to insure?"
-              subtitle="Select an item category to get started"
+              subtitle="Tap every category you want on this policy — you can add the same type more than once (e.g. two phones). You will enter details for each next."
             />
 
             {deviceGroups.map(group => {
@@ -216,27 +256,18 @@ const PurchaseFlow = ({
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-3">
                     {groupItems.map(device => {
                       const Icon = device.icon;
-                      const isSelected = selectedDevice === device.id;
                       return (
                         <button
                           key={device.id}
-                          onClick={() => onDeviceSelect(device.id)}
-                          className={`group relative flex flex-col items-center justify-center py-4 sm:py-5 px-3 rounded-xl border transition-all duration-200 active:scale-95 text-center
-                            ${isSelected
-                              ? `bg-gradient-to-br ${device.color} border-transparent shadow-lg`
-                              : 'bg-white/4 border-white/8 hover:bg-white/8 hover:border-white/15'
-                            }
-                          `}
+                          type="button"
+                          onClick={() => onEnqueueDeviceType?.(device.id)}
+                          className={`group relative flex flex-col items-center justify-center py-4 sm:py-5 px-3 rounded-xl border transition-all duration-200 active:scale-95 text-center bg-white/4 border-white/8 hover:bg-white/8 hover:border-white/15 hover:ring-1 hover:ring-blue-500/30`}
                         >
-                          {isSelected && (
-                            <div className="absolute top-2 right-2">
-                              <div className="w-4 h-4 rounded-full bg-white/30 flex items-center justify-center">
-                                <Check className="w-2.5 h-2.5 text-white" />
-                              </div>
-                            </div>
-                          )}
-                          <Icon className={`w-7 h-7 sm:w-9 sm:h-9 mb-2.5 transition-transform group-hover:scale-110 duration-200 ${isSelected ? 'text-white' : 'text-slate-400'}`} />
-                          <span className={`text-xs sm:text-sm font-medium leading-tight ${isSelected ? 'text-white' : 'text-slate-400'}`}>
+                          <span className="absolute top-2 right-2 text-[10px] font-bold uppercase tracking-wide text-blue-400/90 bg-blue-500/15 px-1.5 py-0.5 rounded">
+                            Add
+                          </span>
+                          <Icon className="w-7 h-7 sm:w-9 sm:h-9 mb-2.5 transition-transform group-hover:scale-110 duration-200 text-slate-400 group-hover:text-white" />
+                          <span className="text-xs sm:text-sm font-medium leading-tight text-slate-400 group-hover:text-white">
                             {device.name}
                           </span>
                         </button>
@@ -247,11 +278,49 @@ const PurchaseFlow = ({
               );
             })}
 
+            {deviceTypeQueue.length > 0 && (
+              <div className="mt-6 rounded-xl border border-white/10 bg-white/[0.04] p-4">
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
+                  Your list ({deviceTypeQueue.length} {deviceTypeQueue.length === 1 ? 'item' : 'items'})
+                </p>
+                <ul className="space-y-2">
+                  {deviceTypeQueue.map((id, index) => {
+                    const d = devices.find((x) => x.id === id);
+                    return (
+                      <li
+                        key={`${id}-${index}`}
+                        className="flex items-center justify-between gap-2 rounded-lg bg-white/[0.06] border border-white/8 px-3 py-2.5"
+                      >
+                        <span className="text-sm text-white">
+                          <span className="text-slate-500 mr-2">{index + 1}.</span>
+                          {d?.name || id}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => onRemoveDeviceTypeQueueAt?.(index)}
+                          className="text-xs font-medium text-rose-400 hover:text-rose-300 px-2 py-1 rounded-lg hover:bg-rose-500/10"
+                        >
+                          Remove
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+
+            {errors.deviceSelection && (
+              <p className="flex items-center gap-1.5 text-xs text-rose-400 mt-4" role="alert">
+                <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                {errors.deviceSelection}
+              </p>
+            )}
+
             <div className="mt-8">
               <NavButtons
                 onNext={() => onStepChange(2)}
                 nextLabel="Continue"
-                nextDisabled={!selectedDevice}
+                nextDisabled={deviceTypeQueue.length < 1}
               />
             </div>
           </div>
@@ -324,17 +393,61 @@ const PurchaseFlow = ({
           <div className="p-5 sm:p-8 space-y-5">
             {/* selected item badge */}
             {selectedDeviceObj && (
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/6 border border-white/10 text-xs text-slate-300 mb-1">
+              <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-full bg-white/6 border border-white/10 text-xs text-slate-300 mb-1">
                 <span className={`inline-flex w-4 h-4 rounded bg-gradient-to-br ${selectedDeviceObj.color}`} />
-                Insuring: <span className="font-semibold text-white">{selectedDeviceObj.name}</span>
+                <span>
+                  Now entering: <span className="font-semibold text-white">{selectedDeviceObj.name}</span>
+                </span>
+                {purchaseDeviceQueue.length > 0 && nextDetailIndex < purchaseDeviceQueue.length && (
+                  <span className="text-slate-500">
+                    ({nextDetailIndex + 1} of {purchaseDeviceQueue.length} from your selection)
+                  </span>
+                )}
               </div>
             )}
 
             <SectionTitle
               icon={selectedDeviceObj?.icon || Smartphone}
               title="Item Details"
-              subtitle="Tell us about the item you want to protect"
+              subtitle={
+                purchaseDeviceQueue.length > 0
+                  ? `Enter full details for each device you selected in step 1. Total insured value so far: ${formatCurrency(totalCoverAmount())}.`
+                  : 'Tell us about the item you want to protect'
+              }
             />
+
+            {savedDeviceSnapshots.length > 0 && (
+              <div className="space-y-2 mb-5">
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                  Items on this policy ({savedDeviceSnapshots.length})
+                </p>
+                {savedDeviceSnapshots.map((snap) => {
+                  const d = devices.find((x) => x.id === snap.selectedDevice);
+                  const cost = parseFloat(String(snap.devicePrice || '').replace(/,/g, '')) || 0;
+                  return (
+                    <div
+                      key={snap.id}
+                      className="flex items-start justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3"
+                    >
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-white truncate">
+                          {d?.name || 'Item'} · {snap.deviceBrand} {snap.deviceModel}
+                        </p>
+                        <p className="text-xs text-slate-500 mt-0.5">Value {formatCurrency(cost)}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => onRemoveDeviceLine?.(snap.id)}
+                        className="flex-shrink-0 rounded-lg p-2 text-slate-400 hover:bg-rose-500/15 hover:text-rose-400 transition-colors"
+                        aria-label="Remove item"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
               <InputField label="Brand / Manufacturer" name="deviceBrand"
@@ -396,20 +509,54 @@ const PurchaseFlow = ({
             <div className="rounded-xl bg-gradient-to-br from-blue-600/10 to-indigo-600/10 border border-blue-500/15 p-4">
               <InputField label="Item Value (KES)" name="devicePrice" type="text"
                 placeholder="e.g. 85000" icon={DollarSign}
-                helpText="Current market value — this determines your monthly premium"
+                helpText="Current market value — used with your chosen plan to calculate premium"
                 formData={formData} errors={errors} touched={touched}
                 handleInputChange={onInputChange} handleBlur={onBlur} />
-              {formData.devicePrice && selectedPricingPlan && monthlyPremium > 0 && (
-                <div className="mt-3 flex items-center justify-between rounded-lg bg-blue-500/10 border border-blue-500/20 px-4 py-2.5">
-                  <span className="text-xs text-slate-400">Est. monthly premium</span>
-                  <span className="text-base font-bold text-blue-400">{formatCurrency(monthlyPremium)}</span>
-                </div>
-              )}
             </div>
+
+            {hasMoreQueuedSlots && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => onAddDeviceLine?.()}
+                  className="w-full rounded-xl border border-dashed border-blue-500/35 bg-blue-500/[0.07] py-3 px-4 text-sm font-semibold text-blue-200 hover:bg-blue-500/15 transition-colors mb-2"
+                >
+                  Save this item &amp; go to next
+                </button>
+                <p className="text-xs text-slate-500 text-center mb-4">
+                  Save each item after filling the form. When all items from your list are saved, continue to choose a plan.
+                </p>
+              </>
+            )}
+
+            {!hasMoreQueuedSlots && purchaseDeviceQueue.length > 0 && (
+              <div className="mb-5 rounded-xl border border-dashed border-white/15 bg-white/[0.02] p-4">
+                <p className="text-sm font-medium text-slate-300 mb-3">Insure another device? (optional)</p>
+                <p className="text-xs text-slate-500 mb-3">Pick a category to add it to this policy — you will fill in its details next.</p>
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                  {devices.map((device) => {
+                    const Icon = device.icon;
+                    return (
+                      <button
+                        key={`append-${device.id}`}
+                        type="button"
+                        onClick={() => onAppendPurchaseDeviceType?.(device.id)}
+                        className="flex flex-col items-center gap-1 rounded-lg border border-white/10 bg-white/[0.04] py-2 px-1 hover:border-blue-500/40 transition-colors"
+                      >
+                        <Icon className="w-5 h-5 text-slate-400" />
+                        <span className="text-[10px] text-center text-slate-400 leading-tight">{device.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             <NavButtons
               onBack={() => onStepChange(2)} backStep={2}
-              onNext={() => onStepChange(4)} nextLabel="Continue"
+              onNext={() => onStepChange(4)}
+              nextLabel="Continue to plan"
+              nextDisabled={!detailStepReady}
             />
           </div>
         </SectionCard>
@@ -422,8 +569,15 @@ const PurchaseFlow = ({
             <SectionTitle
               icon={Shield}
               title="Choose Your Coverage Plan"
-              subtitle="Select the level of protection that fits your needs"
+              subtitle="Premium is calculated per item as a percentage of its value, then added together for your monthly total."
             />
+
+            {totalCoverAmount() > 0 && (
+              <div className="mb-5 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+                <span className="text-sm text-slate-400">Total insured value (all items)</span>
+                <span className="text-lg font-bold text-white">{formatCurrency(totalCoverAmount())}</span>
+              </div>
+            )}
 
             {loadingPlans ? (
               <div className="flex flex-col items-center justify-center py-16 gap-3">
@@ -441,8 +595,8 @@ const PurchaseFlow = ({
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 {pricingPlans.map(plan => {
-                  const itemValue = parseFloat(formData.devicePrice) || 0;
-                  const premium   = Math.round(itemValue * (plan.cover_percentage / 100));
+                  const totalVal = totalCoverAmount();
+                  const premium = premiumForPlan(plan);
                   const isSelected = selectedPricingPlan?.id === plan.id;
 
                   return (
@@ -466,11 +620,11 @@ const PurchaseFlow = ({
                       <h3 className="text-base sm:text-lg font-bold text-white mb-1">{plan.cover_type}</h3>
                       <div className="flex items-baseline gap-1 mb-1">
                         <span className="text-2xl sm:text-3xl font-extrabold text-blue-400">
-                          {itemValue > 0 ? formatCurrency(premium) : '—'}
+                          {totalVal > 0 ? formatCurrency(premium) : '—'}
                         </span>
                         <span className="text-xs text-slate-400">/month</span>
                       </div>
-                      <p className="text-xs text-slate-500 mb-4">{plan.cover_percentage}% of item value</p>
+                      <p className="text-xs text-slate-500 mb-4">{plan.cover_percentage}% of each item&apos;s value (summed)</p>
 
                       {plan.pricingcomponents?.length > 0 && (
                         <div className="border-t border-white/8 pt-4">
@@ -593,7 +747,7 @@ const PurchaseFlow = ({
             {selectedPricingPlan && monthlyPremium > 0 && (
               <div className="flex items-center justify-between rounded-xl border border-blue-500/20 bg-blue-500/8 px-4 py-3">
                 <div>
-                  <p className="text-xs text-slate-400">Monthly Premium</p>
+                  <p className="text-xs text-slate-400">Monthly premium (all items)</p>
                   <p className="text-xl font-extrabold text-blue-400">{formatCurrency(monthlyPremium)}</p>
                 </div>
                 <div className="text-right">
@@ -808,30 +962,57 @@ const PurchaseFlow = ({
                 </div>
               </div>
 
-              {/* Item */}
-              <div className="rounded-xl border border-white/8 bg-white/3 overflow-hidden">
-                <div className="px-4 py-2.5 border-b border-white/8 bg-white/3">
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                    {selectedDeviceObj && React.createElement(selectedDeviceObj.icon, { className: 'w-3.5 h-3.5' })}
-                    Item Information
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-4 p-4">
-                  <ReviewRow label="Item Type"     value={selectedDeviceObj?.name} />
-                  <ReviewRow label="Brand"         value={formData.deviceBrand} />
-                  <ReviewRow label="Model"         value={formData.deviceModel} />
-                  <ReviewRow label="Item Value"    value={formatCurrency(parseFloat(formData.devicePrice))} />
-                  <ReviewRow label="Purchase Date" value={formData.purchaseDate ? new Date(formData.purchaseDate).toLocaleDateString() : null} />
-                  {formData.serialNumber  && <ReviewRow label="Serial No."   value={formData.serialNumber}  mono />}
-                  {formData.imeiNumber    && <ReviewRow label="IMEI"         value={formData.imeiNumber}    mono />}
-                  {formData.warrantyPeriod && <ReviewRow label="Warranty"    value={`${formData.warrantyPeriod} yr${formData.warrantyPeriod === '1' ? '' : 's'}`} />}
-                  {formData.deviceDescription && (
-                    <div className="col-span-2 sm:col-span-3">
-                      <ReviewRow label="Description" value={formData.deviceDescription} />
+              {/* Items (one or many) */}
+              {[
+                ...savedDeviceSnapshots.map((snap) => ({ snap, key: snap.id })),
+                ...(isCompleteDeviceLine(formData, selectedDevice)
+                  ? [{
+                      snap: {
+                        selectedDevice,
+                        deviceBrand: formData.deviceBrand,
+                        deviceModel: formData.deviceModel,
+                        deviceDescription: formData.deviceDescription,
+                        devicePrice: formData.devicePrice,
+                        purchaseDate: formData.purchaseDate,
+                        serialNumber: formData.serialNumber,
+                        imeiNumber: formData.imeiNumber,
+                        warrantyPeriod: formData.warrantyPeriod,
+                        warrantyEndDate: formData.warrantyEndDate,
+                      },
+                      key: 'current',
+                    }]
+                  : []),
+              ].map(({ snap, key }) => {
+                const d = devices.find((x) => x.id === snap.selectedDevice);
+                const Icon = d?.icon || Smartphone;
+                const priceNum = parseFloat(String(snap.devicePrice || '').replace(/,/g, '')) || 0;
+                return (
+                  <div key={key} className="rounded-xl border border-white/8 bg-white/3 overflow-hidden mb-4">
+                    <div className="px-4 py-2.5 border-b border-white/8 bg-white/3">
+                      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        {React.createElement(Icon, { className: 'w-3.5 h-3.5' })}
+                        Insured item — {d?.name || 'Device'}
+                      </p>
                     </div>
-                  )}
-                </div>
-              </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-4 p-4">
+                      <ReviewRow label="Brand" value={snap.deviceBrand} />
+                      <ReviewRow label="Model" value={snap.deviceModel} />
+                      <ReviewRow label="Item Value" value={formatCurrency(priceNum)} />
+                      <ReviewRow label="Purchase Date" value={snap.purchaseDate ? new Date(snap.purchaseDate).toLocaleDateString() : null} />
+                      {snap.serialNumber && <ReviewRow label="Serial No." value={snap.serialNumber} mono />}
+                      {snap.imeiNumber && <ReviewRow label="IMEI" value={snap.imeiNumber} mono />}
+                      {snap.warrantyPeriod && (
+                        <ReviewRow label="Warranty" value={`${snap.warrantyPeriod} yr${snap.warrantyPeriod === '1' ? '' : 's'}`} />
+                      )}
+                      {snap.deviceDescription && (
+                        <div className="col-span-2 sm:col-span-3">
+                          <ReviewRow label="Description" value={snap.deviceDescription} />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
 
               {/* Beneficiary */}
               <div className="rounded-xl border border-white/8 bg-white/3 overflow-hidden">
@@ -864,10 +1045,10 @@ const PurchaseFlow = ({
                   <div className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                       <p className="text-base font-bold text-white">{selectedPricingPlan.cover_type}</p>
-                      <p className="text-xs text-slate-400 mt-0.5">{selectedPricingPlan.cover_percentage}% of item value per month</p>
+                      <p className="text-xs text-slate-400 mt-0.5">{selectedPricingPlan.cover_percentage}% of each item&apos;s value, summed monthly</p>
                     </div>
                     <div className="sm:text-right">
-                      <p className="text-xs text-slate-400">Monthly Premium</p>
+                      <p className="text-xs text-slate-400">Monthly premium (all items)</p>
                       <p className="text-3xl font-extrabold text-blue-400">{formatCurrency(monthlyPremium)}</p>
                     </div>
                   </div>
