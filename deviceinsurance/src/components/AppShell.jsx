@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BRAND_NAME } from '../constants/branding';
+import BrandLogo from './BrandLogo';
 import {
-  Shield,
   Menu,
   X,
   LogOut,
@@ -62,10 +62,15 @@ const AppShell = ({
         <button
           type="button"
           onClick={onBrandClick}
-          className="flex items-center gap-2 font-semibold tracking-tight text-slate-100"
+          className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
-          <Shield className="h-7 w-7 shrink-0 text-primary-400" />
-          <span className="text-sm font-semibold tracking-tight">{BRAND_NAME}</span>
+          <img
+            src="/coverkit-icon.png"
+            alt=""
+            className="h-8 w-8 object-contain"
+            aria-hidden="true"
+          />
+          <span className="text-sm font-bold tracking-tight text-white">{BRAND_NAME}</span>
         </button>
         <div className="w-10" aria-hidden />
       </header>
@@ -96,19 +101,33 @@ const AppShell = ({
               closeMobile();
             }}
             className={`flex min-w-0 items-center gap-2.5 rounded-xl py-2 text-left transition hover:bg-white/5 ${showLabels ? 'flex-1 px-2' : 'justify-center px-0 md:flex-1'}`}
+            aria-label={BRAND_NAME}
           >
-            <Shield className="h-8 w-8 shrink-0 text-primary-400" />
-            {showLabels && (
-              <div className="min-w-0">
-                <div className="truncate text-sm font-bold tracking-tight text-white">
-                  {BRAND_NAME}
+            {showLabels ? (
+              <div className="flex min-w-0 flex-col gap-0.5">
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/coverkit-icon.png"
+                    alt=""
+                    className="h-8 w-8 shrink-0 object-contain"
+                    aria-hidden="true"
+                  />
+                  <span className="truncate text-sm font-bold tracking-tight text-white">
+                    {BRAND_NAME}
+                  </span>
                 </div>
                 {sidebarTitle && (
-                  <div className="truncate text-[11px] font-medium uppercase tracking-wider text-slate-500">
+                  <span className="truncate text-[10px] font-medium uppercase tracking-wider text-slate-500 pl-10">
                     {sidebarTitle}
-                  </div>
+                  </span>
                 )}
               </div>
+            ) : (
+              <img
+                src="/coverkit-icon.png"
+                alt="CoverKit"
+                className="h-8 w-8 object-contain"
+              />
             )}
           </button>
           <button

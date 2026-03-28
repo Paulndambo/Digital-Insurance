@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import BrandLogo from './BrandLogo';
 import {
   Shield,
   Zap,
@@ -36,17 +37,17 @@ const Container = ({ children, className = '' }) => (
 );
 
 const SectionTitle = ({ eyebrow, title, description }) => (
-  <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
+  <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-14 lg:max-w-4xl">
     {eyebrow && (
-      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary-400">
+      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary-400 lg:text-sm">
         {eyebrow}
       </p>
     )}
-    <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
+    <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
       {title}
     </h2>
     {description && (
-      <p className="mt-3 text-sm text-slate-400 sm:text-base md:text-lg">{description}</p>
+      <p className="mt-3 text-sm text-slate-400 sm:text-base md:text-lg lg:text-xl">{description}</p>
     )}
   </div>
 );
@@ -72,20 +73,23 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
       <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0b0f1a]/90 backdrop-blur-xl">
         <Container className="flex items-center justify-between py-3.5">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-500/15 ring-1 ring-primary-500/30">
-              <Shield className="h-4 w-4 text-primary-400" aria-hidden />
-            </div>
-            <span className="text-base font-bold tracking-tight text-white">{BRAND_NAME}</span>
+            <img
+              src="/coverkit-icon.png"
+              alt=""
+              className="h-9 w-9 object-contain lg:h-10 lg:w-10"
+              aria-hidden="true"
+            />
+            <span className="text-base font-bold tracking-tight text-white lg:text-lg">{BRAND_NAME}</span>
           </div>
 
-          <nav className="hidden items-center gap-7 md:flex" aria-label="Main navigation">
-            <a href="#coverage" className="text-sm font-medium text-slate-400 transition hover:text-white">
+          <nav className="hidden items-center gap-7 md:flex lg:gap-9" aria-label="Main navigation">
+            <a href="#coverage" className="text-sm font-medium text-slate-400 transition hover:text-white lg:text-base">
               Coverage
             </a>
-            <a href="#how-it-works" className="text-sm font-medium text-slate-400 transition hover:text-white">
+            <a href="#how-it-works" className="text-sm font-medium text-slate-400 transition hover:text-white lg:text-base">
               How it works
             </a>
-            <a href="#pricing" className="text-sm font-medium text-slate-400 transition hover:text-white">
+            <a href="#pricing" className="text-sm font-medium text-slate-400 transition hover:text-white lg:text-base">
               Pricing
             </a>
           </nav>
@@ -93,16 +97,16 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
           <div className="hidden items-center gap-3 md:flex">
             <a
               href={`tel:${SUPPORT_TEL}`}
-              className="flex items-center gap-1.5 text-sm font-medium text-slate-400 transition hover:text-white"
+              className="flex items-center gap-1.5 text-sm font-medium text-slate-400 transition hover:text-white lg:text-base"
             >
-              <PhoneCall className="h-3.5 w-3.5" aria-hidden />
+              <PhoneCall className="h-3.5 w-3.5 lg:h-4 lg:w-4" aria-hidden />
               {SUPPORT_TEL_DISPLAY}
             </a>
             {onLoginClick && (
               <button
                 type="button"
                 onClick={onLoginClick}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-white/20 hover:bg-white/[0.09]"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-white/20 hover:bg-white/[0.09] lg:px-5 lg:py-2.5 lg:text-base"
               >
                 <LogIn className="h-4 w-4" aria-hidden />
                 Log in
@@ -111,7 +115,7 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
             <button
               type="button"
               onClick={onGetStarted}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 lg:px-5 lg:py-2.5 lg:text-base"
             >
               Get started
               <ChevronRight className="h-4 w-4" aria-hidden />
@@ -188,34 +192,34 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
         />
         <div className="pointer-events-none absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.025%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40" />
 
-        <Container className="relative py-16 sm:py-20 lg:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-[1fr_minmax(0,440px)] lg:gap-16">
+        <Container className="relative py-16 sm:py-20 lg:py-28 xl:py-36">
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_minmax(0,480px)] lg:gap-16 xl:gap-24">
             <div>
               {/* Animated badge */}
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.05] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur-sm sm:text-sm">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.05] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur-sm sm:text-sm lg:text-base lg:px-4 lg:py-2">
                 <span className="flex h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(74,222,128,0.8)]" aria-hidden />
                 Household items insurance — online, start to finish
               </div>
 
               {/* Headline */}
-              <h1 className="text-3xl font-extrabold leading-[1.12] tracking-tight sm:text-4xl md:text-5xl lg:text-[3.4rem]">
+              <h1 className="text-3xl font-extrabold leading-[1.1] tracking-tight sm:text-4xl md:text-5xl lg:text-[3.5rem] xl:text-[4.25rem] 2xl:text-[5rem]">
                 <span className="text-white">Insurance for the things</span>
                 <br />
                 <span className="gradient-text">that keep your home running.</span>
               </h1>
 
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg">
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg lg:text-xl xl:text-2xl xl:max-w-2xl">
                 {BRAND_NAME} covers household items — appliances, home electronics, furniture, and other
                 essentials you use every day — with clear premiums, digital policy documents, and a guided
                 purchase flow from quote to payment.
               </p>
 
               {/* CTAs */}
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:mt-10">
                 <button
                   type="button"
                   onClick={onGetStarted}
-                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-primary-900/40 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 active:scale-[0.98]"
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-primary-900/40 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 active:scale-[0.98] lg:px-8 lg:py-4 lg:text-lg"
                 >
                   Start a policy
                   <ChevronRight className="h-5 w-5" aria-hidden />
@@ -224,7 +228,7 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
                   <button
                     type="button"
                     onClick={onRequestQuote}
-                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-7 py-3.5 text-base font-semibold text-slate-100 transition hover:border-white/25 hover:bg-white/[0.09] active:scale-[0.98]"
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-7 py-3.5 text-base font-semibold text-slate-100 transition hover:border-white/25 hover:bg-white/[0.09] active:scale-[0.98] lg:px-8 lg:py-4 lg:text-lg"
                   >
                     <Calculator className="h-5 w-5 text-primary-400" aria-hidden />
                     Request a quote
@@ -232,21 +236,21 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
                 )}
                 <a
                   href={`tel:${SUPPORT_TEL}`}
-                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-7 py-3.5 text-base font-medium text-slate-200 transition hover:border-white/25 hover:bg-white/[0.07]"
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-7 py-3.5 text-base font-medium text-slate-200 transition hover:border-white/25 hover:bg-white/[0.07] lg:px-8 lg:py-4 lg:text-lg"
                 >
                   <PhoneCall className="h-5 w-5 text-primary-400" aria-hidden />
                   Call {SUPPORT_TEL_DISPLAY}
                 </a>
               </div>
 
-              <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400">
+              <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400 lg:text-base">
                 {[
                   'M-Pesa & bank-friendly payment',
                   'File claims from your dashboard',
                   'See premium before you pay',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400/90" aria-hidden />
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400/90 lg:h-5 lg:w-5" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -318,23 +322,23 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
       </section>
 
       {/* ── Stats band ── */}
-      <section className="border-b border-white/[0.06] bg-white/[0.015] py-10 sm:py-12">
+      <section className="border-b border-white/[0.06] bg-white/[0.015] py-10 sm:py-12 lg:py-16">
         <Container>
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8 lg:gap-12">
             {[
               { value: '~1%', label: 'Monthly premium rate', icon: TrendingUp },
               { value: '12', label: 'Item categories', icon: Shield },
               { value: '5', label: 'Steps to active cover', icon: CheckCircle2 },
               { value: 'M-Pesa', label: 'Kenya-native payments', icon: Wallet },
             ].map(({ value, label, icon: Icon }) => (
-              <div key={label} className="flex flex-col items-center gap-1 text-center sm:flex-row sm:items-start sm:gap-3 sm:text-left">
-                <div className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-500/10 sm:flex">
-                  <Icon className="h-5 w-5 text-primary-400" aria-hidden />
+              <div key={label} className="flex flex-col items-center gap-1 text-center sm:flex-row sm:items-start sm:gap-3 sm:text-left lg:gap-4">
+                <div className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-500/10 sm:flex lg:h-12 lg:w-12">
+                  <Icon className="h-5 w-5 text-primary-400 lg:h-6 lg:w-6" aria-hidden />
                 </div>
                 <Icon className="h-4 w-4 text-primary-400 sm:hidden" aria-hidden />
                 <div>
-                  <p className="text-2xl font-bold tracking-tight text-white sm:text-3xl">{value}</p>
-                  <p className="mt-0.5 text-xs text-slate-500 sm:text-sm">{label}</p>
+                  <p className="text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl xl:text-5xl">{value}</p>
+                  <p className="mt-0.5 text-xs text-slate-500 sm:text-sm lg:text-base">{label}</p>
                 </div>
               </div>
             ))}
@@ -343,9 +347,9 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
       </section>
 
       {/* ── Local trust cards ── */}
-      <section className="border-b border-white/[0.06] py-12 sm:py-16">
+      <section className="border-b border-white/[0.06] py-12 sm:py-16 lg:py-20">
         <Container>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-3 lg:gap-6">
             {[
               {
                 icon: Wallet,
@@ -365,13 +369,13 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
             ].map(({ icon: Icon, title, body }) => (
               <div
                 key={title}
-                className="group rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-sm transition hover:border-primary-500/30 hover:bg-white/[0.05]"
+                className="group rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-sm transition hover:border-primary-500/30 hover:bg-white/[0.05] lg:p-8"
               >
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary-500/10 ring-1 ring-primary-500/20 transition group-hover:bg-primary-500/20">
-                  <Icon className="h-5 w-5 text-primary-400" aria-hidden />
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary-500/10 ring-1 ring-primary-500/20 transition group-hover:bg-primary-500/20 lg:h-14 lg:w-14">
+                  <Icon className="h-5 w-5 text-primary-400 lg:h-7 lg:w-7" aria-hidden />
                 </div>
-                <h3 className="font-semibold text-white">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">{body}</p>
+                <h3 className="font-semibold text-white lg:text-xl">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400 lg:text-base">{body}</p>
               </div>
             ))}
           </div>
@@ -394,7 +398,7 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveCategory(cat.id)}
-                className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
+                className={`rounded-full px-4 py-1.5 text-sm font-medium transition lg:px-5 lg:py-2 lg:text-base ${
                   activeCategory === cat.id
                     ? 'bg-primary-500 text-white shadow-md shadow-primary-900/30'
                     : 'border border-white/[0.1] bg-white/[0.04] text-slate-400 hover:border-white/[0.18] hover:bg-white/[0.06] hover:text-white'
@@ -405,23 +409,23 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4 lg:gap-5 xl:grid-cols-5 2xl:grid-cols-6">
             {filteredDevices.map((device) => {
               const Icon = device.icon;
               return (
                 <div
                   key={device.id}
-                  className="group cursor-default rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition hover:border-white/[0.16] hover:bg-white/[0.06] hover:shadow-lg hover:shadow-black/20"
+                  className="group cursor-default rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 transition hover:border-white/[0.16] hover:bg-white/[0.06] hover:shadow-lg hover:shadow-black/20 lg:p-6"
                 >
                   <div
-                    className={`mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${device.color} shadow-md transition group-hover:scale-110 sm:h-14 sm:w-14`}
+                    className={`mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${device.color} shadow-md transition group-hover:scale-110 sm:h-14 sm:w-14 lg:h-16 lg:w-16`}
                   >
-                    <Icon className="h-6 w-6 text-white sm:h-7 sm:w-7" aria-hidden />
+                    <Icon className="h-6 w-6 text-white sm:h-7 sm:w-7 lg:h-8 lg:w-8" aria-hidden />
                   </div>
-                  <h3 className="text-center text-sm font-semibold text-white sm:text-base">
+                  <h3 className="text-center text-sm font-semibold text-white sm:text-base lg:text-lg">
                     {device.name}
                   </h3>
-                  <p className="mt-1 text-center text-xs capitalize text-slate-500">{device.group}</p>
+                  <p className="mt-1 text-center text-xs capitalize text-slate-500 lg:text-sm">{device.group}</p>
                 </div>
               );
             })}
@@ -446,7 +450,7 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
               className="pointer-events-none absolute left-0 right-0 top-[34px] hidden h-px bg-gradient-to-r from-primary-500/0 via-primary-500/30 to-primary-500/0 lg:block"
               aria-hidden
             />
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 xl:gap-10">
               {[
                 {
                   title: 'Choose item type',
@@ -476,16 +480,16 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
                 <div key={title} className="group relative text-center">
                   <div className="relative mx-auto mb-5 inline-flex">
                     <div
-                      className={`flex h-[68px] w-[68px] items-center justify-center rounded-2xl bg-gradient-to-br ${color} shadow-xl ring-4 ring-[#0b0f1a] transition group-hover:scale-105`}
+                      className={`flex h-[68px] w-[68px] items-center justify-center rounded-2xl bg-gradient-to-br ${color} shadow-xl ring-4 ring-[#0b0f1a] transition group-hover:scale-105 lg:h-20 lg:w-20`}
                     >
-                      <Icon className="h-7 w-7 text-white" aria-hidden />
+                      <Icon className="h-7 w-7 text-white lg:h-9 lg:w-9" aria-hidden />
                     </div>
-                    <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#1a2332] text-[10px] font-bold text-primary-300 ring-2 ring-primary-500/40">
+                    <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#1a2332] text-[10px] font-bold text-primary-300 ring-2 ring-primary-500/40 lg:h-7 lg:w-7 lg:text-xs">
                       {i + 1}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-white">{title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-400">{text}</p>
+                  <h3 className="font-semibold text-white lg:text-xl">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-400 lg:text-base">{text}</p>
                 </div>
               ))}
             </div>
@@ -495,10 +499,10 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
             <button
               type="button"
               onClick={onGetStarted}
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary-900/30 transition hover:brightness-110"
+              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary-900/30 transition hover:brightness-110 lg:px-9 lg:py-4 lg:text-base"
             >
               Start the flow now
-              <ArrowRight className="h-4 w-4" aria-hidden />
+              <ArrowRight className="h-4 w-4 lg:h-5 lg:w-5" aria-hidden />
             </button>
           </div>
         </Container>
@@ -552,37 +556,37 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
             ].map(({ label, value, premium, note, highlight, features }) => (
               <div
                 key={label}
-                className={`relative flex flex-col rounded-2xl border p-6 transition sm:p-7 ${
+                className={`relative flex flex-col rounded-2xl border p-6 transition sm:p-7 lg:p-8 xl:p-10 ${
                   highlight
                     ? 'border-primary-500/50 bg-primary-500/[0.07] shadow-xl shadow-primary-900/20 ring-1 ring-primary-500/30'
                     : 'border-white/[0.08] bg-white/[0.03] hover:border-white/[0.14]'
                 }`}
               >
                 {highlight && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-primary-600 to-primary-500 px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-primary-600 to-primary-500 px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-md lg:text-xs">
                     Most popular
                   </span>
                 )}
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{label}</p>
-                <p className="mt-3 text-2xl font-bold text-white sm:text-3xl">{formatCurrency(value)}</p>
-                <p className="text-xs text-slate-500">Declared value (example)</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 lg:text-sm">{label}</p>
+                <p className="mt-3 text-2xl font-bold text-white sm:text-3xl lg:text-4xl">{formatCurrency(value)}</p>
+                <p className="text-xs text-slate-500 lg:text-sm">Declared value (example)</p>
 
                 <div className="my-5 h-px bg-white/[0.07]" />
 
                 <p
-                  className={`text-2xl font-bold sm:text-3xl ${
+                  className={`text-2xl font-bold sm:text-3xl lg:text-4xl ${
                     highlight ? 'text-primary-300' : 'text-white'
                   }`}
                 >
                   {formatCurrency(premium)}
                 </p>
-                <p className="text-sm text-slate-400">per month (illustrative)</p>
+                <p className="text-sm text-slate-400 lg:text-base">per month (illustrative)</p>
 
-                <ul className="mt-5 flex-1 space-y-2.5">
+                <ul className="mt-5 flex-1 space-y-2.5 lg:space-y-3">
                   {features.map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-slate-300">
+                    <li key={f} className="flex items-center gap-2 text-sm text-slate-300 lg:text-base">
                       <CheckCircle2
-                        className={`h-4 w-4 shrink-0 ${
+                        className={`h-4 w-4 shrink-0 lg:h-5 lg:w-5 ${
                           highlight ? 'text-primary-400' : 'text-emerald-400/70'
                         }`}
                         aria-hidden
@@ -595,7 +599,7 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
                 <button
                   type="button"
                   onClick={onGetStarted}
-                  className={`mt-6 w-full rounded-xl py-3 text-sm font-semibold transition ${
+                  className={`mt-6 w-full rounded-xl py-3 text-sm font-semibold transition lg:py-4 lg:text-base ${
                     highlight
                       ? 'bg-primary-500 text-white hover:bg-primary-400'
                       : 'border border-white/15 bg-white/[0.06] text-white hover:bg-white/[0.1]'
@@ -621,7 +625,7 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
             title="An experience shaped for household cover"
             description="Less noise, more clarity — so you know what you are buying."
           />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
             {[
               {
                 icon: Zap,
@@ -662,15 +666,15 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
             ].map(({ icon: Icon, title, text, color }) => (
               <div
                 key={title}
-                className="group rounded-2xl border border-white/[0.07] bg-[#0f1419] p-6 transition hover:border-white/[0.14] hover:bg-[#121826]"
+                className="group rounded-2xl border border-white/[0.07] bg-[#0f1419] p-6 transition hover:border-white/[0.14] hover:bg-[#121826] lg:p-8"
               >
                 <div
-                  className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${color} shadow-md transition group-hover:scale-105`}
+                  className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${color} shadow-md transition group-hover:scale-105 lg:h-13 lg:w-13`}
                 >
-                  <Icon className="h-5 w-5 text-white" aria-hidden />
+                  <Icon className="h-5 w-5 text-white lg:h-6 lg:w-6" aria-hidden />
                 </div>
-                <h3 className="font-semibold text-white">{title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-400">{text}</p>
+                <h3 className="font-semibold text-white lg:text-xl">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400 lg:text-base">{text}</p>
               </div>
             ))}
           </div>
@@ -685,7 +689,7 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
             title="What people say about the experience"
             description={`Real feedback from policyholders using ${BRAND_NAME}.`}
           />
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-3 lg:gap-6">
             {[
               {
                 quote:
@@ -714,27 +718,27 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
             ].map(({ quote, name, place, initials, color }) => (
               <blockquote
                 key={name}
-                className="flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 transition hover:border-white/[0.14] hover:bg-white/[0.05]"
+                className="flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 transition hover:border-white/[0.14] hover:bg-white/[0.05] lg:p-8"
               >
                 <div className="mb-3 flex gap-0.5">
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" aria-hidden />
+                    <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400 lg:h-5 lg:w-5" aria-hidden />
                   ))}
                 </div>
-                <div className="mb-1 select-none font-serif text-5xl leading-none text-primary-500/25">
+                <div className="mb-1 select-none font-serif text-5xl leading-none text-primary-500/25 lg:text-6xl">
                   &ldquo;
                 </div>
-                <p className="flex-1 text-sm leading-relaxed text-slate-300">{quote}</p>
+                <p className="flex-1 text-sm leading-relaxed text-slate-300 lg:text-base xl:text-lg">{quote}</p>
                 <footer className="mt-6 flex items-center gap-3 border-t border-white/[0.06] pt-4">
                   <div
-                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${color} text-xs font-bold text-white shadow-md`}
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${color} text-xs font-bold text-white shadow-md lg:h-11 lg:w-11 lg:text-sm`}
                     aria-hidden
                   >
                     {initials}
                   </div>
                   <cite className="not-italic">
-                    <span className="block text-sm font-semibold text-white">{name}</span>
-                    <span className="text-xs text-slate-500">{place}</span>
+                    <span className="block text-sm font-semibold text-white lg:text-base">{name}</span>
+                    <span className="text-xs text-slate-500 lg:text-sm">{place}</span>
                   </cite>
                 </footer>
               </blockquote>
@@ -752,14 +756,14 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
               aria-hidden
             />
 
-            <div className="relative mx-auto max-w-2xl text-center">
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-500/20 ring-1 ring-primary-500/30 shadow-lg shadow-primary-900/40">
-                <Shield className="h-8 w-8 text-primary-400" aria-hidden />
+            <div className="relative mx-auto max-w-2xl text-center lg:max-w-4xl">
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-500/20 ring-1 ring-primary-500/30 shadow-lg shadow-primary-900/40 lg:h-20 lg:w-20">
+                <Shield className="h-8 w-8 text-primary-400 lg:h-10 lg:w-10" aria-hidden />
               </div>
-              <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
+              <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
                 Ready to cover your household items?
               </h2>
-              <p className="mt-4 text-slate-400">
+              <p className="mt-4 text-slate-400 lg:text-lg xl:text-xl">
                 Start the purchase flow — or call us if you prefer to walk through home cover options
                 with someone on the team.
               </p>
@@ -767,14 +771,14 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
                 <button
                   type="button"
                   onClick={onGetStarted}
-                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-primary-900/30 transition hover:brightness-110"
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-primary-900/30 transition hover:brightness-110 lg:px-10 lg:py-4 lg:text-lg"
                 >
                   Begin purchase
                   <ChevronRight className="h-5 w-5" aria-hidden />
                 </button>
                 <a
                   href={`tel:${SUPPORT_TEL}`}
-                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-3.5 text-base font-medium text-white transition hover:bg-white/10"
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-3.5 text-base font-medium text-white transition hover:bg-white/10 lg:px-10 lg:py-4 lg:text-lg"
                 >
                   <PhoneCall className="h-5 w-5 text-primary-300" aria-hidden />
                   {SUPPORT_TEL_DISPLAY}
@@ -784,19 +788,19 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
 
             <div className="relative mx-auto mt-14 grid w-full max-w-6xl gap-10 border-t border-white/[0.08] pt-10 md:grid-cols-2 md:gap-12 xl:max-w-none">
               <div>
-                <h3 className="text-lg font-semibold text-white">Contact</h3>
-                <ul className="mt-4 space-y-4 text-sm text-slate-400">
+                <h3 className="text-lg font-semibold text-white lg:text-2xl">Contact</h3>
+                <ul className="mt-4 space-y-4 text-sm text-slate-400 lg:text-base">
                   <li className="flex gap-3">
-                    <PhoneCall className="mt-0.5 h-5 w-5 shrink-0 text-primary-400" aria-hidden />
+                    <PhoneCall className="mt-0.5 h-5 w-5 shrink-0 text-primary-400 lg:h-6 lg:w-6" aria-hidden />
                     <span>
                       <a href={`tel:${SUPPORT_TEL}`} className="font-medium text-white hover:text-primary-300">
                         {SUPPORT_TEL_DISPLAY}
                       </a>
-                      <span className="block text-xs text-slate-500">Mon–Fri, 8am–6pm EAT</span>
+                      <span className="block text-xs text-slate-500 lg:text-sm">Mon–Fri, 8am–6pm EAT</span>
                     </span>
                   </li>
                   <li className="flex gap-3">
-                    <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-primary-400" aria-hidden />
+                    <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-primary-400 lg:h-6 lg:w-6" aria-hidden />
                     <span>
                       <a
                         href={`mailto:${BRAND_EMAIL}`}
@@ -804,7 +808,7 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
                       >
                         {BRAND_EMAIL}
                       </a>
-                      <span className="block text-xs text-slate-500">We reply within one business day</span>
+                      <span className="block text-xs text-slate-500 lg:text-sm">We reply within one business day</span>
                     </span>
                   </li>
                 </ul>
@@ -815,17 +819,17 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
                     'Dashboard claims filing',
                     'M-Pesa & bank payment support',
                   ].map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-slate-400">
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400/80" aria-hidden />
+                    <li key={item} className="flex items-center gap-2 text-sm text-slate-400 lg:text-base">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400/80 lg:h-5 lg:w-5" aria-hidden />
                       {item}
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="rounded-2xl border border-white/[0.08] bg-black/20 p-6">
-                <p className="text-sm font-semibold text-white">Quick message</p>
-                <p className="mt-1 text-xs text-slate-500">
+              <div className="rounded-2xl border border-white/[0.08] bg-black/20 p-6 lg:p-8">
+                <p className="text-sm font-semibold text-white lg:text-lg">Quick message</p>
+                <p className="mt-1 text-xs text-slate-500 lg:text-sm">
                   For policy changes or claims, sign in and use your dashboard for the fastest route.
                 </p>
                 <form
@@ -861,11 +865,9 @@ const LandingPage = ({ onGetStarted, onRequestQuote, onLoginClick }) => {
       <footer className="border-t border-white/[0.06] bg-[#07090f] py-10 sm:py-12">
         <Container>
           <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-500/15 ring-1 ring-primary-500/25">
-                <Shield className="h-4 w-4 text-primary-400" aria-hidden />
-              </div>
-              <span className="text-sm font-bold text-white">{BRAND_NAME}</span>
+            <div className="flex items-center gap-2">
+              <img src="/coverkit-icon.png" alt="" className="h-7 w-7 object-contain" aria-hidden="true" />
+              <span className="text-sm font-bold tracking-tight text-white">{BRAND_NAME}</span>
             </div>
 
             <nav

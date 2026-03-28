@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, ArrowLeft, LogIn, LogOut, Home, Menu, X, Calculator } from 'lucide-react';
+import { ArrowLeft, LogIn, LogOut, Home, Menu, X, Calculator } from 'lucide-react';
 import { BRAND_NAME } from '../constants/branding';
 
 const Header = ({ 
@@ -42,12 +42,15 @@ const Header = ({
       <div className="w-full px-4 sm:px-5 lg:px-6 xl:px-8 py-3.5 flex items-center justify-between">
         <button
           onClick={onHomeClick}
-          className="flex items-center gap-2 transition-opacity hover:opacity-80"
+          className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-500/15 ring-1 ring-primary-500/30">
-            <Shield className="h-4 w-4 text-primary-400" />
-          </div>
-          <span className="text-base font-bold tracking-tight">{BRAND_NAME}</span>
+          <img
+            src="/coverkit-icon.png"
+            alt=""
+            className="h-9 w-9 object-contain"
+            aria-hidden="true"
+          />
+          <span className="text-base font-bold tracking-tight text-white">{BRAND_NAME}</span>
         </button>
         
         <div className="flex items-center gap-3">
