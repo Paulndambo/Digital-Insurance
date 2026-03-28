@@ -953,7 +953,7 @@ export default function DeviceInsurance() {
 
   return (
     <div className="min-h-screen bg-[#0b0f1a] text-white">
-      {!showAppShell && (
+      {!showAppShell && currentView !== 'landing' && (
         <Header
           currentView={currentView}
           user={user}
@@ -996,7 +996,7 @@ export default function DeviceInsurance() {
       )}
 
       {!user && currentView === 'purchase' && showFlow && (
-        <div className="mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 lg:px-8 sm:py-10">
+        <div className="w-full px-4 py-6 sm:px-5 lg:px-6 xl:px-8 lg:py-8">
           <PurchaseFlow
             step={step}
             selectedDevice={selectedDevice}
@@ -1028,16 +1028,20 @@ export default function DeviceInsurance() {
       )}
 
       {!user && currentView === 'request-quote' && (
-        <div className="mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 lg:px-8 sm:py-10">
+        <div className="w-full px-4 py-6 sm:px-5 lg:px-6 xl:px-8 lg:py-8">
           <QuoteFlow onClose={handleQuoteExit} onStartPurchase={startFlow} />
         </div>
       )}
 
       {currentView === 'landing' && !showFlow && (
-        <LandingPage onGetStarted={startFlow} onRequestQuote={startQuoteFlow} />
+        <LandingPage
+          onGetStarted={startFlow}
+          onRequestQuote={startQuoteFlow}
+          onLoginClick={() => setCurrentView('login')}
+        />
       )}
 
-      {!showAppShell && <Footer />}
+      {!showAppShell && currentView !== 'landing' && <Footer />}
     </div>
   );
 }

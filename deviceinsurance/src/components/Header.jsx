@@ -38,14 +38,16 @@ const Header = ({
       currentView === 'login');
 
   return (
-    <header className="border-b border-white/10 bg-black/20 backdrop-blur-sm sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-        <button 
+    <header className="border-b border-white/[0.06] bg-[#0b0f1a]/90 backdrop-blur-xl sticky top-0 z-40">
+      <div className="w-full px-4 sm:px-5 lg:px-6 xl:px-8 py-3.5 flex items-center justify-between">
+        <button
           onClick={onHomeClick}
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
-          <Shield className="w-8 h-8 text-blue-400" />
-          <span className="text-xl font-bold tracking-tight">{BRAND_NAME}</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-500/15 ring-1 ring-primary-500/30">
+            <Shield className="h-4 w-4 text-primary-400" />
+          </div>
+          <span className="text-base font-bold tracking-tight">{BRAND_NAME}</span>
         </button>
         
         <div className="flex items-center gap-3">
@@ -54,11 +56,11 @@ const Header = ({
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center gap-3">
                 {currentView !== 'dashboard' && (
-                  <button 
+                  <button
                     onClick={onDashboardClick}
-                    className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full font-medium transition-colors"
+                    className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-white/20 hover:bg-white/[0.09]"
                   >
-                    <Home className="w-4 h-4" />
+                    <Home className="h-4 w-4" />
                     Dashboard
                   </button>
                 )}
@@ -66,32 +68,28 @@ const Header = ({
                   <button
                     type="button"
                     onClick={handleRequestQuote}
-                    className="flex items-center gap-2 border border-white/15 bg-white/[0.04] px-4 py-2 rounded-full font-medium text-slate-200 transition-colors hover:border-white/25 hover:bg-white/[0.08]"
+                    className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-white/20 hover:bg-white/[0.08]"
                   >
-                    <Calculator className="w-4 h-4 text-primary-400" />
+                    <Calculator className="h-4 w-4 text-primary-400" />
                     Request quote
                   </button>
                 )}
-                <button 
+                <button
                   onClick={onLogout}
-                  className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors"
+                  className="flex items-center gap-2 text-sm font-medium text-slate-400 transition hover:text-white"
                 >
-                  <LogOut className="w-5 h-5" />
-                  <span>Logout</span>
+                  <LogOut className="h-4 w-4" />
+                  <span>Log out</span>
                 </button>
               </div>
 
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.1] bg-white/[0.04] text-slate-300 transition hover:bg-white/[0.08] md:hidden"
                 aria-label="Toggle menu"
               >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
+                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </>
           ) : (
@@ -100,19 +98,19 @@ const Header = ({
                 <button
                   type="button"
                   onClick={handleRequestQuote}
-                  className="flex items-center gap-2 border border-white/15 bg-white/[0.04] px-3 py-2 sm:px-4 rounded-full font-medium text-xs sm:text-sm text-slate-200 transition-colors hover:border-white/25 hover:bg-white/[0.08]"
+                  className="hidden sm:flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-white/20 hover:bg-white/[0.08]"
                 >
-                  <Calculator className="w-4 h-4 shrink-0 text-primary-400" />
-                  <span className="whitespace-nowrap">Quote</span>
+                  <Calculator className="h-4 w-4 shrink-0 text-primary-400" />
+                  Quote
                 </button>
               )}
-              {(currentView === 'landing' || currentView === 'request-quote' || currentView === 'login') && (
-                <button 
+              {(currentView === 'login' || currentView === 'purchase' || currentView === 'request-quote') && (
+                <button
                   onClick={onLoginClick}
-                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full font-medium transition-colors text-sm sm:text-base"
+                  className="flex items-center gap-2 rounded-lg bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-400"
                 >
-                  <LogIn className="w-4 h-4" />
-                  Login
+                  <LogIn className="h-4 w-4" />
+                  Log in
                 </button>
               )}
             </>
@@ -133,33 +131,33 @@ const Header = ({
 
       {/* Mobile Dropdown Menu */}
       {user && mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/10 bg-black/30 backdrop-blur-sm animate-slide-down">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 space-y-2">
+        <div className="md:hidden border-t border-white/[0.06] bg-[#0d1220] animate-slide-down">
+          <div className="w-full px-4 sm:px-5 lg:px-6 xl:px-8 py-3 space-y-1">
             {currentView !== 'dashboard' && (
               <button
                 onClick={handleDashboardClick}
-                className="w-full flex items-center gap-3 px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg font-medium transition-colors text-left"
+                className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/[0.06] hover:text-white text-left"
               >
-                <Home className="w-5 h-5 text-primary-400" />
-                <span>Dashboard</span>
+                <Home className="h-4 w-4 text-primary-400" />
+                Dashboard
               </button>
             )}
             {(currentView === 'landing' || currentView === 'request-quote') && onRequestQuote && (
               <button
                 type="button"
                 onClick={handleRequestQuote}
-                className="w-full flex items-center gap-3 px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg font-medium transition-colors text-left"
+                className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/[0.06] hover:text-white text-left"
               >
-                <Calculator className="w-5 h-5 text-primary-400" />
-                <span>Request quote</span>
+                <Calculator className="h-4 w-4 text-primary-400" />
+                Request quote
               </button>
             )}
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg font-medium transition-colors text-left text-slate-300 hover:text-white"
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-400 transition hover:bg-red-500/10 hover:text-red-200 text-left"
             >
-              <LogOut className="w-5 h-5 text-accent-400" />
-              <span>Logout</span>
+              <LogOut className="h-4 w-4" />
+              Log out
             </button>
           </div>
         </div>
