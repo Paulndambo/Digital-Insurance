@@ -1,760 +1,546 @@
 import React from 'react';
-import { Shield, Zap, Clock, Star, Users, Award, TrendingUp, DollarSign, ChevronRight, Check, Lock, FileText, Smartphone, BadgeCheck, PhoneCall, MessageCircle, CheckCircle2 } from 'lucide-react';
+import {
+  Shield,
+  Zap,
+  Clock,
+  ChevronRight,
+  Lock,
+  FileText,
+  Smartphone,
+  BadgeCheck,
+  PhoneCall,
+  MessageCircle,
+  CheckCircle2,
+  DollarSign,
+  Star,
+  Wallet,
+  ClipboardCheck,
+  Headphones,
+  Calculator,
+} from 'lucide-react';
 import { devices } from '../constants/devices';
 import { formatCurrency } from '../constants/currency';
+import { BRAND_NAME, BRAND_EMAIL } from '../constants/branding';
 
-const LandingPage = ({ onGetStarted }) => {
+const SUPPORT_TEL = '+254745491093';
+const SUPPORT_TEL_DISPLAY = '0745 491 093';
+
+/** Full-bleed horizontal space on large viewports; only padding caps edge distance */
+const Container = ({ children, className = '' }) => (
+  <div
+    className={`w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-20 ${className}`}
+  >
+    {children}
+  </div>
+);
+
+const sectionTitle = (eyebrow, title, description) => (
+  <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
+    {eyebrow && (
+      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-primary-400">{eyebrow}</p>
+    )}
+    <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">{title}</h2>
+    {description && (
+      <p className="mt-3 text-sm text-slate-400 sm:text-base md:text-lg">{description}</p>
+    )}
+  </div>
+);
+
+const LandingPage = ({ onGetStarted, onRequestQuote }) => {
   return (
-    <div>
-      {/* Hero Section - Enhanced with trust elements */}
-      <div className="relative overflow-hidden">
-        {/* Background with improved gradients */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/30 via-slate-900 to-secondary-900/20"></div>
-        <div className="absolute inset-0 bg-dot-pattern opacity-30"></div>
-        
-        {/* Animated gradient orbs for depth */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full filter blur-3xl animate-pulse-glow"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary-500/20 rounded-full filter blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }}></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-28">
-          <div className="text-center">
-            {/* Trust badge */}
-            <div className="inline-flex items-center gap-2 glass px-3 sm:px-5 py-2 sm:py-2.5 rounded-full mb-4 sm:mb-6 animate-slide-down text-xs sm:text-sm">
-              <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5 text-security-400 flex-shrink-0" />
-              <span className="font-semibold">Trusted by 500,000+ customers across Kenya</span>
-              <div className="hidden sm:flex -space-x-1 ml-2">
-                <div className="w-6 h-6 rounded-full bg-primary-500 border-2 border-slate-900"></div>
-                <div className="w-6 h-6 rounded-full bg-secondary-500 border-2 border-slate-900"></div>
-                <div className="w-6 h-6 rounded-full bg-accent-500 border-2 border-slate-900"></div>
-              </div>
-            </div>
-            
-            {/* Main headline */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 animate-slide-up px-2">
-              <span className="gradient-text">Protect What Matters</span>
-              <br />
-              <span className="text-white">with DigiInsure</span>
-            </h1>
-            
-            {/* Subheadline */}
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-300 mb-4 max-w-3xl mx-auto animate-slide-up leading-relaxed px-2" style={{ animationDelay: '0.1s' }}>
-              Comprehensive asset insurance designed for peace of mind. 
-              <span className="text-primary-400 font-semibold"> Fair pricing</span>, instant coverage, and 24/7 support.
-            </p>
-            
-            {/* Value props */}
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-10 animate-slide-up px-2" style={{ animationDelay: '0.2s' }}>
-              <div className="flex items-center gap-1.5 sm:gap-2 glass px-3 sm:px-4 py-2 sm:py-3 rounded-xl hover:bg-white/15 transition-all text-xs sm:text-sm">
-                <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-warning-400 flex-shrink-0" />
-                <span className="font-medium whitespace-nowrap">Instant Activation</span>
-              </div>
-              <div className="flex items-center gap-1.5 sm:gap-2 glass px-3 sm:px-4 py-2 sm:py-3 rounded-xl hover:bg-white/15 transition-all text-xs sm:text-sm">
-                <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-security-400 flex-shrink-0" />
-                <span className="font-medium whitespace-nowrap">24/7 Support</span>
-              </div>
-              <div className="flex items-center gap-1.5 sm:gap-2 glass px-3 sm:px-4 py-2 sm:py-3 rounded-xl hover:bg-white/15 transition-all text-xs sm:text-sm">
-                <Star className="w-4 h-4 sm:w-5 sm:h-5 text-accent-400 flex-shrink-0" />
-                <span className="font-medium whitespace-nowrap">4.9/5 Rating</span>
-              </div>
-            </div>
-            
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center mb-6 sm:mb-8 animate-scale-in px-4" style={{ animationDelay: '0.3s' }}>
-              <button 
-                onClick={onGetStarted}
-                className="group relative inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full font-bold text-base sm:text-lg hover:from-primary-700 hover:to-primary-600 shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-105 w-full sm:w-auto"
-              >
-                Get Protected Now
-                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-4 sm:py-5 glass-strong rounded-full font-semibold text-base sm:text-lg hover:bg-white/30 transition-all w-full sm:w-auto">
-                <PhoneCall className="w-4 h-4 sm:w-5 sm:h-5" />
-                Talk to an Expert
-              </button>
-            </div>
-            
-            {/* Social proof */}
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-slate-400 animate-fade-in px-4" style={{ animationDelay: '0.4s' }}>
-              <div className="flex items-center gap-1">
-                <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-security-400 flex-shrink-0" />
-                <span className="whitespace-nowrap">Secure & Licensed</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <FileText className="w-3 h-3 sm:w-4 sm:h-4 text-primary-400 flex-shrink-0" />
-                <span className="whitespace-nowrap">No Hidden Fees</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 text-secondary-400 flex-shrink-0" />
-                <span className="whitespace-nowrap">Fast Payouts</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="bg-[#0b0f1a] text-white">
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-white/[0.06]">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-90"
+          style={{
+            background:
+              'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(26,137,255,0.18), transparent 55%), radial-gradient(ellipse 60% 40% at 100% 0%, rgba(74,222,128,0.06), transparent 50%), linear-gradient(180deg, #0b0f1a 0%, #0f1419 100%)',
+          }}
+        />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.03%22%3E%3Cpath d=%22M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40" />
 
-      {/* Stats Section - Enhanced design */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-          <div className="group relative overflow-hidden card-hover text-center p-4 sm:p-6 md:p-8">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <Users className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 text-primary-400 mx-auto mb-2 sm:mb-3 md:mb-4" />
-            <div className="text-2xl sm:text-3xl md:text-5xl font-bold mb-1 sm:mb-2 gradient-text">500K+</div>
-            <div className="text-xs sm:text-sm md:text-base text-slate-400 font-medium">Protected Assets</div>
-          </div>
-          <div className="group relative overflow-hidden card-hover text-center p-4 sm:p-6 md:p-8">
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <Award className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 text-secondary-400 mx-auto mb-2 sm:mb-3 md:mb-4" />
-            <div className="text-2xl sm:text-3xl md:text-5xl font-bold mb-1 sm:mb-2 gradient-text">98%</div>
-            <div className="text-xs sm:text-sm md:text-base text-slate-400 font-medium">Customer Satisfaction</div>
-          </div>
-          <div className="group relative overflow-hidden card-hover text-center p-4 sm:p-6 md:p-8">
-            <div className="absolute inset-0 bg-gradient-to-br from-accent-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <TrendingUp className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 text-accent-400 mx-auto mb-2 sm:mb-3 md:mb-4" />
-            <div className="text-2xl sm:text-3xl md:text-5xl font-bold mb-1 sm:mb-2 gradient-text">24hrs</div>
-            <div className="text-xs sm:text-sm md:text-base text-slate-400 font-medium">Average Claim Time</div>
-          </div>
-          <div className="group relative overflow-hidden card-hover text-center p-4 sm:p-6 md:p-8">
-            <div className="absolute inset-0 bg-gradient-to-br from-warning-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <Shield className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 text-warning-400 mx-auto mb-2 sm:mb-3 md:mb-4" />
-            <div className="text-2xl sm:text-3xl md:text-5xl font-bold mb-1 sm:mb-2 gradient-text">KES 2B+</div>
-            <div className="text-xs sm:text-sm md:text-base text-slate-400 font-medium">Claims Processed</div>
-          </div>
-        </div>
-      </div>
+        <Container className="relative py-16 sm:py-20 lg:py-28">
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_minmax(0,420px)] lg:gap-16">
+            <div>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur-sm sm:text-sm">
+                <BadgeCheck className="h-4 w-4 shrink-0 text-primary-400" aria-hidden />
+                <span>Gadget &amp; device insurance — online, start to finish</span>
+              </div>
 
-      {/* Devices Preview - Improved layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
-        <div className="text-center mb-8 sm:mb-10 md:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
-            <span className="gradient-text">Protect Any Asset</span>
-          </h2>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto px-4">
-            From smartphones to home appliances - comprehensive coverage for all your valuable assets
-          </p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-          {devices.map((device) => {
-            const Icon = device.icon;
-            return (
+              <h1 className="text-3xl font-bold leading-[1.15] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-[3.25rem]">
+                Cover the tech you rely on every day.
+              </h1>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg">
+                {BRAND_NAME} helps you insure phones, laptops, appliances, and more with clear premiums,
+                digital policy documents, and a guided purchase flow — built for how you actually use your devices.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                <button
+                  type="button"
+                  onClick={onGetStarted}
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-primary-900/40 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 active:scale-[0.98] sm:min-h-0"
+                >
+                  Start a policy
+                  <ChevronRight className="h-5 w-5" aria-hidden />
+                </button>
+                {onRequestQuote && (
+                  <button
+                    type="button"
+                    onClick={onRequestQuote}
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-6 py-3 text-base font-semibold text-slate-100 transition hover:border-white/25 hover:bg-white/[0.09] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 active:scale-[0.98] sm:min-h-0"
+                  >
+                    <Calculator className="h-5 w-5 text-primary-400" aria-hidden />
+                    Request a quote
+                  </button>
+                )}
+                <a
+                  href={`tel:${SUPPORT_TEL}`}
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-6 py-3 text-base font-medium text-slate-200 transition hover:border-white/25 hover:bg-white/[0.07] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400 sm:min-h-0"
+                >
+                  <PhoneCall className="h-5 w-5 text-primary-400" aria-hidden />
+                  Call {SUPPORT_TEL_DISPLAY}
+                </a>
+              </div>
+
+              <ul className="mt-10 flex flex-col gap-3 text-sm text-slate-400 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-2">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400/90" aria-hidden />
+                  M-Pesa &amp; bank-friendly payment options
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400/90" aria-hidden />
+                  File claims from your account dashboard
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400/90" aria-hidden />
+                  No jargon — see cover and premium before you pay
+                </li>
+              </ul>
+            </div>
+
+            <div className="relative mx-auto w-full max-w-sm lg:mx-0 lg:max-w-none">
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary-500/20 via-transparent to-emerald-500/10 blur-2xl" aria-hidden />
+              <div className="relative overflow-hidden rounded-2xl border border-white/[0.1] bg-[#121826] p-8 shadow-2xl shadow-black/50 sm:p-10">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Example</p>
+                    <p className="mt-1 text-lg font-semibold text-white">Monthly premium</p>
+                    <p className="mt-1 text-sm text-slate-400">Based on device value you enter</p>
+                  </div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-500/15 ring-1 ring-primary-500/30">
+                    <Shield className="h-6 w-6 text-primary-400" aria-hidden />
+                  </div>
+                </div>
+                <div className="mt-8 space-y-4 border-t border-white/[0.06] pt-8">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-slate-400">Phone worth {formatCurrency(85000)}</span>
+                    <span className="font-semibold text-white">~{formatCurrency(850)}/mo</span>
+                  </div>
+                  <div className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
+                    <div className="h-full w-[65%] rounded-full bg-gradient-to-r from-primary-500 to-primary-400" />
+                  </div>
+                  <p className="text-xs leading-relaxed text-slate-500">
+                    Illustrative only — your quote depends on the plan and device details you select in the flow.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* Local / product trust */}
+      <section className="border-b border-white/[0.06] py-12 sm:py-16">
+        <Container>
+          <div className="grid gap-6 sm:grid-cols-3">
+            {[
+              {
+                icon: Wallet,
+                title: 'Kenya-ready payments',
+                body: 'Pay the way you already do — including M-Pesa and bank debit where available.',
+              },
+              {
+                icon: ClipboardCheck,
+                title: 'Clear policy journey',
+                body: 'Step-by-step purchase: device details, plan choice, beneficiary, then payment — all in one place.',
+              },
+              {
+                icon: Headphones,
+                title: 'Human support',
+                body: `Questions? Reach us on ${SUPPORT_TEL_DISPLAY} or email — we respond on business days.`,
+              },
+            ].map(({ icon: Icon, title, body }) => (
               <div
-                key={device.id}
-                className="group relative overflow-hidden card-hover p-4 sm:p-6 md:p-8"
+                key={title}
+                className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-sm transition hover:border-white/[0.12]"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-600/0 to-primary-600/10 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-                <div className="relative flex flex-col items-center">
-                  <div className={`w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 mb-2 sm:mb-3 md:mb-4 flex items-center justify-center rounded-xl sm:rounded-2xl bg-gradient-to-br ${device.color} group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                    <Icon className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white" />
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary-500/10 ring-1 ring-primary-500/20">
+                  <Icon className="h-5 w-5 text-primary-400" aria-hidden />
+                </div>
+                <h3 className="font-semibold text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">{body}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* What you can insure */}
+      <section className="py-16 sm:py-20 md:py-24" id="coverage">
+        <Container>
+          {sectionTitle(
+            'Coverage',
+            'Insure the devices and items that matter',
+            'Pick your category in the purchase flow — pricing and cover follow the plan you choose.'
+          )}
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4">
+            {devices.map((device) => {
+              const Icon = device.icon;
+              return (
+                <div
+                  key={device.id}
+                  className="group rounded-2xl border border-white/[0.08] bg-white/[0.03] p-4 transition hover:border-white/[0.14] hover:bg-white/[0.05] sm:p-5"
+                >
+                  <div
+                    className={`mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${device.color} shadow-lg transition group-hover:scale-105 sm:h-14 sm:w-14`}
+                  >
+                    <Icon className="h-6 w-6 text-white sm:h-7 sm:w-7" aria-hidden />
                   </div>
-                  <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-center">{device.name}</h3>
-                  <p className="text-xs sm:text-sm text-slate-400 mt-0.5 sm:mt-1">Full Coverage</p>
+                  <h3 className="text-center text-sm font-semibold text-white sm:text-base">{device.name}</h3>
+                  <p className="mt-1 text-center text-xs text-slate-500">In purchase flow</p>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* How It Works - Enhanced with better visuals */}
-      <div className="relative py-12 sm:py-16 md:py-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary-900/10 to-transparent"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
-              <span className="gradient-text">Get Protected in Minutes</span>
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto px-4">
-              Simple, transparent process with no complicated paperwork
-            </p>
+              );
+            })}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-6 md:gap-8 relative">
-            {/* Connection line for desktop */}
-            <div className="hidden md:block absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-600 via-secondary-500 to-accent-500 opacity-30" style={{ top: '4rem' }}></div>
-            
-            <div className="relative text-center">
-              <div className="relative inline-block mb-4 sm:mb-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-primary-600 to-primary-500 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto shadow-glow relative z-10">
-                  <Smartphone className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
-                </div>
-                <div className="absolute -top-2 -right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white text-primary-600 rounded-full flex items-center justify-center font-bold text-base sm:text-lg shadow-lg z-20">1</div>
-              </div>
-              <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2 sm:mb-3">Choose Item</h3>
-              <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Select the item you want to protect from our wide range</p>
-            </div>
-            
-            <div className="relative text-center">
-              <div className="relative inline-block mb-4 sm:mb-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-secondary-600 to-secondary-500 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto shadow-glow relative z-10">
-                  <FileText className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
-                </div>
-                <div className="absolute -top-2 -right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white text-secondary-600 rounded-full flex items-center justify-center font-bold text-base sm:text-lg shadow-lg z-20">2</div>
-              </div>
-              <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2 sm:mb-3">Enter Details</h3>
-              <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Provide item information and personal details securely</p>
-            </div>
-            
-            <div className="relative text-center">
-              <div className="relative inline-block mb-4 sm:mb-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-accent-600 to-accent-500 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto shadow-glow relative z-10">
-                  <DollarSign className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
-                </div>
-                <div className="absolute -top-2 -right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white text-accent-600 rounded-full flex items-center justify-center font-bold text-base sm:text-lg shadow-lg z-20">3</div>
-              </div>
-              <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2 sm:mb-3">Get Fair Quote</h3>
-              <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Transparent pricing at 1% of your asset's value per month</p>
-            </div>
-            
-            <div className="relative text-center">
-              <div className="relative inline-block mb-4 sm:mb-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-warning-600 to-warning-500 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto shadow-glow relative z-10">
-                  <Shield className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
-                </div>
-                <div className="absolute -top-2 -right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white text-warning-600 rounded-full flex items-center justify-center font-bold text-base sm:text-lg shadow-lg z-20">4</div>
-              </div>
-              <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2 sm:mb-3">You're Protected</h3>
-              <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Instant coverage activation after secure payment</p>
-            </div>
-          </div>
-        </div>
-      </div>
+        </Container>
+      </section>
 
-      {/* Mobile App Download Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
-        <div className="relative overflow-hidden glass-strong rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 border border-white/10">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-600/10 via-secondary-600/10 to-accent-600/10"></div>
-          <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left Content */}
-            <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-500/20 rounded-full mb-4 sm:mb-6 text-xs sm:text-sm">
-                <Smartphone className="w-4 h-4 text-primary-400" />
-                <span className="font-semibold text-primary-300">Download Our App</span>
+      {/* How it works */}
+      <section className="border-y border-white/[0.06] bg-white/[0.02] py-16 sm:py-20 md:py-24">
+        <Container>
+          {sectionTitle(
+            'How it works',
+            'From quote to active cover in a few steps',
+            'No paperwork queues — complete everything in your browser.'
+          )}
+          <div className="relative grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+            <div
+              className="pointer-events-none absolute left-0 right-0 top-10 hidden h-px bg-gradient-to-r from-primary-500/0 via-primary-500/25 to-primary-500/0 lg:block"
+              aria-hidden
+            />
+            {[
+              {
+                step: '1',
+                title: 'Choose device type',
+                text: 'Select phone, laptop, appliance, or another supported item.',
+                icon: Smartphone,
+              },
+              {
+                step: '2',
+                title: 'Tell us about it',
+                text: 'Model, value, purchase date, and optional serial / IMEI where relevant.',
+                icon: FileText,
+              },
+              {
+                step: '3',
+                title: 'Pick a plan',
+                text: 'See premium and cover options from live pricing — then add beneficiary details.',
+                icon: DollarSign,
+              },
+              {
+                step: '4',
+                title: 'Pay & go',
+                text: 'Complete payment details; your policy is recorded and visible in your dashboard.',
+                icon: Shield,
+              },
+            ].map(({ step, title, text, icon: Icon }) => (
+              <div key={step} className="relative text-center lg:pt-2">
+                <div className="relative mx-auto mb-4 inline-flex">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-600 to-primary-500 shadow-lg shadow-primary-900/30 ring-4 ring-[#0f1419] lg:h-16 lg:w-16">
+                    <Icon className="h-7 w-7 text-white" aria-hidden />
+                  </div>
+                  <span className="absolute -right-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full bg-[#1a2332] text-xs font-bold text-primary-300 ring-2 ring-primary-500/40">
+                    {step}
+                  </span>
+                </div>
+                <h3 className="font-semibold text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">{text}</p>
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
-                <span className="gradient-text">Manage Your Insurance</span>
-                <br />
-                <span className="text-white">On the Go</span>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Pricing snapshot */}
+      <section className="py-16 sm:py-20 md:py-24" id="pricing">
+        <Container>
+          {sectionTitle(
+            'Pricing',
+            'Premiums tied to what your item is worth',
+            'Rates depend on the plan you select in the flow — below are simple examples to set expectations.'
+          )}
+          <div className="mx-auto grid w-full max-w-none gap-4 sm:grid-cols-3 sm:gap-5 lg:gap-6">
+            {[
+              {
+                label: 'Starter',
+                value: 20000,
+                premium: 200,
+                note: 'Lower-value items',
+                highlight: false,
+              },
+              {
+                label: 'Everyday',
+                value: 100000,
+                premium: 1000,
+                note: 'Typical phone / laptop range',
+                highlight: true,
+              },
+              {
+                label: 'Premium tier',
+                value: 200000,
+                premium: 2000,
+                note: 'Higher-value gear',
+                highlight: false,
+              },
+            ].map(({ label, value, premium, note, highlight }) => (
+              <div
+                key={label}
+                className={`relative flex flex-col rounded-2xl border p-6 sm:p-7 ${
+                  highlight
+                    ? 'border-primary-500/40 bg-primary-500/[0.06] ring-1 ring-primary-500/25'
+                    : 'border-white/[0.08] bg-white/[0.03]'
+                }`}
+              >
+                {highlight && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary-600 px-3 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                    Common choice
+                  </span>
+                )}
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{label}</p>
+                <p className="mt-3 text-2xl font-bold text-white sm:text-3xl">{formatCurrency(value)}</p>
+                <p className="text-sm text-slate-400">Declared value (example)</p>
+                <div className="my-6 h-px bg-white/[0.08]" />
+                <p className="text-xl font-semibold text-white sm:text-2xl">{formatCurrency(premium)}</p>
+                <p className="text-sm text-slate-400">per month (illustrative)</p>
+                <p className="mt-4 flex-1 text-xs leading-relaxed text-slate-500">{note}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-10 text-center">
+            <button
+              type="button"
+              onClick={onGetStarted}
+              className="inline-flex items-center gap-2 rounded-xl bg-white/[0.08] px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/10 transition hover:bg-white/[0.12]"
+            >
+              Get your numbers in the flow
+              <ChevronRight className="h-4 w-4" aria-hidden />
+            </button>
+          </div>
+        </Container>
+      </section>
+
+      {/* Why CoverKit */}
+      <section className="border-t border-white/[0.06] bg-white/[0.02] py-16 sm:py-20 md:py-24">
+        <Container>
+          {sectionTitle(
+            `Why ${BRAND_NAME}`,
+            'Insurance experience designed around devices',
+            'Less noise, more clarity — so you know what you are buying.'
+          )}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                icon: Zap,
+                title: 'Fast setup',
+                text: 'Complete purchase online; see confirmation and policy reference without waiting on paper post.',
+              },
+              {
+                icon: Shield,
+                title: 'Purpose-built flow',
+                text: 'Screens match real gadget data — IMEI where needed, device value, warranty fields when relevant.',
+              },
+              {
+                icon: Clock,
+                title: 'Claims when you need them',
+                text: 'Logged-in customers can start a claim from the dashboard with policy and outlet context.',
+              },
+              {
+                icon: DollarSign,
+                title: 'Transparent math',
+                text: 'Premium comes from the plan and values you enter — review before you commit.',
+              },
+              {
+                icon: MessageCircle,
+                title: 'Reachable team',
+                text: 'Phone and email for sales and service questions during published hours.',
+              },
+              {
+                icon: Lock,
+                title: 'Security-minded',
+                text: 'Your session and submissions are handled with standard web security practices.',
+              },
+            ].map(({ icon: Icon, title, text }) => (
+              <div
+                key={title}
+                className="rounded-2xl border border-white/[0.08] bg-[#0f1419] p-6 transition hover:border-white/[0.12]"
+              >
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary-500/10 text-primary-400">
+                  <Icon className="h-5 w-5" aria-hidden />
+                </div>
+                <h3 className="font-semibold text-white">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-400">{text}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-16 sm:py-20 md:py-24">
+        <Container>
+          {sectionTitle(
+            'Customers',
+            'What people say about the experience',
+            `Real feedback from policyholders using ${BRAND_NAME}.`
+          )}
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              {
+                quote:
+                  'I insured my phone in one sitting. The steps were obvious and I could see the premium before paying.',
+                name: 'John M.',
+                place: 'Nairobi',
+              },
+              {
+                quote:
+                  'Finally an flow that asks for the right device details — not a generic form that ignores IMEI.',
+                name: 'Sarah A.',
+                place: 'Kisumu',
+              },
+              {
+                quote:
+                  'Support picked up when I had a question about M-Pesa billing. Felt straightforward.',
+                name: 'David K.',
+                place: 'Mombasa',
+              },
+            ].map(({ quote, name, place }) => (
+              <blockquote
+                key={name}
+                className="flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6 backdrop-blur-sm"
+              >
+                <div className="mb-4 flex gap-0.5">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <Star key={i} className="h-4 w-4 fill-amber-400/90 text-amber-400/90" aria-hidden />
+                  ))}
+                </div>
+                <p className="flex-1 text-sm leading-relaxed text-slate-300">&ldquo;{quote}&rdquo;</p>
+                <footer className="mt-6 border-t border-white/[0.06] pt-4">
+                  <cite className="not-italic">
+                    <span className="font-semibold text-white">{name}</span>
+                    <span className="text-slate-500"> · {place}</span>
+                  </cite>
+                </footer>
+              </blockquote>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* CTA + contact */}
+      <section className="border-t border-white/[0.06] pb-20 pt-16 sm:pb-24 sm:pt-20">
+        <Container>
+          <div className="overflow-hidden rounded-3xl border border-primary-500/20 bg-gradient-to-br from-primary-950/80 via-[#121826] to-[#0f1419] p-8 shadow-2xl shadow-black/40 sm:p-10 md:p-14">
+            <div className="mx-auto max-w-2xl text-center">
+              <Shield className="mx-auto mb-6 h-14 w-14 text-primary-400" aria-hidden />
+              <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
+                Ready to protect your devices?
               </h2>
-              <p className="text-sm sm:text-base md:text-lg text-slate-400 mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0">
-                Download the DigiInsure mobile app for instant access to your policies, quick claims filing, and 24/7 support - all from your smartphone.
+              <p className="mt-4 text-slate-400">
+                Start the purchase flow — or call us if you prefer to walk through options with a person.
               </p>
-              
-              {/* App Features */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
-                <div className="flex items-center gap-2 sm:gap-3 text-left">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary-500/20 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-primary-400" />
-                  </div>
-                  <span className="text-xs sm:text-sm text-slate-300">File claims instantly</span>
-                </div>
-                <div className="flex items-center gap-2 sm:gap-3 text-left">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-secondary-500/20 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-secondary-400" />
-                  </div>
-                  <span className="text-xs sm:text-sm text-slate-300">Track claim status</span>
-                </div>
-                <div className="flex items-center gap-2 sm:gap-3 text-left">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-accent-500/20 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-accent-400" />
-                  </div>
-                  <span className="text-xs sm:text-sm text-slate-300">Manage policies</span>
-                </div>
-                <div className="flex items-center gap-2 sm:gap-3 text-left">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-warning-500/20 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-warning-400" />
-                  </div>
-                  <span className="text-xs sm:text-sm text-slate-300">24/7 support chat</span>
-                </div>
-              </div>
-
-              {/* App Store Badges */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-                {/* Google Play Store */}
-                <a
-                  href="#"
-                  className="group relative inline-flex items-center gap-3 px-5 py-3 bg-black/80 hover:bg-black rounded-xl sm:rounded-2xl transition-all hover:scale-105 border border-white/20 hover:border-white/40"
+              <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+                <button
+                  type="button"
+                  onClick={onGetStarted}
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl bg-primary-500 px-8 py-3.5 text-base font-semibold text-white transition hover:bg-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
-                  <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none">
-                    <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92z" fill="#32BBFF"/>
-                    <path d="M14.5 12.707l3.842 3.842-10.72 6.03a1.007 1.007 0 01-.513.135L14.5 12.707z" fill="#32BBFF"/>
-                    <path d="M18.342 16.549l3.333-1.875c.546-.307.546-1.041 0-1.348l-3.333-1.875-3.842 3.842 3.842 3.842-.842-.842.842.842z" fill="#32BBFF"/>
-                    <path d="M14.5 11.293L7.109 3.9a1.007 1.007 0 01.513-.135l10.72 6.03-3.842 3.842z" fill="#32BBFF"/>
-                  </svg>
-                  <div className="text-left">
-                    <div className="text-[10px] text-slate-400 uppercase tracking-wide">Get it on</div>
-                    <div className="text-sm sm:text-base font-semibold text-white">Google Play</div>
-                  </div>
-                </a>
-
-                {/* Apple App Store */}
+                  Begin purchase
+                  <ChevronRight className="h-5 w-5" aria-hidden />
+                </button>
                 <a
-                  href="#"
-                  className="group relative inline-flex items-center gap-3 px-5 py-3 bg-black/80 hover:bg-black rounded-xl sm:rounded-2xl transition-all hover:scale-105 border border-white/20 hover:border-white/40"
+                  href={`tel:${SUPPORT_TEL}`}
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-3.5 text-base font-medium text-white transition hover:bg-white/10"
                 >
-                  <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" fill="white"/>
-                  </svg>
-                  <div className="text-left">
-                    <div className="text-[10px] text-slate-400 uppercase tracking-wide">Download on the</div>
-                    <div className="text-sm sm:text-base font-semibold text-white">App Store</div>
-                  </div>
-                </a>
-
-                {/* Huawei AppGallery */}
-                <a
-                  href="#"
-                  className="group relative inline-flex items-center gap-3 px-5 py-3 bg-black/80 hover:bg-black rounded-xl sm:rounded-2xl transition-all hover:scale-105 border border-white/20 hover:border-white/40"
-                >
-                  <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" fill="#FF0000"/>
-                    <path d="M12 6l2.5 5h5l-4 3.5 1.5 5.5-5-3.5-5 3.5 1.5-5.5-4-3.5h5z" fill="white"/>
-                  </svg>
-                  <div className="text-left">
-                    <div className="text-[10px] text-slate-400 uppercase tracking-wide">Explore it on</div>
-                    <div className="text-sm sm:text-base font-semibold text-white">AppGallery</div>
-                  </div>
+                  <PhoneCall className="h-5 w-5 text-primary-300" aria-hidden />
+                  {SUPPORT_TEL_DISPLAY}
                 </a>
               </div>
             </div>
 
-            {/* Right Content - Phone Mockup */}
-            <div className="relative flex justify-center lg:justify-end">
-              <div className="relative">
-                {/* Glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-500/30 to-secondary-500/30 rounded-3xl blur-3xl"></div>
-                {/* Phone frame */}
-                <div className="relative w-64 sm:w-72 md:w-80 h-[500px] sm:h-[550px] md:h-[600px] bg-slate-900 rounded-[3rem] border-8 border-slate-800 shadow-2xl overflow-hidden">
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-800 rounded-b-3xl z-10"></div>
-                  {/* Screen content */}
-                  <div className="w-full h-full bg-gradient-to-br from-slate-900 via-primary-900/20 to-secondary-900/20 p-6 flex flex-col">
-                    <div className="flex-1 flex items-center justify-center">
-                      <Shield className="w-24 h-24 sm:w-28 sm:h-28 text-primary-400 animate-pulse-glow" />
-                    </div>
-                    <div className="space-y-3">
-                      <div className="h-16 bg-gradient-to-r from-primary-600/40 to-secondary-600/40 rounded-2xl backdrop-blur-sm border border-white/10"></div>
-                      <div className="h-16 bg-gradient-to-r from-secondary-600/40 to-accent-600/40 rounded-2xl backdrop-blur-sm border border-white/10"></div>
-                      <div className="h-16 bg-gradient-to-r from-accent-600/40 to-warning-600/40 rounded-2xl backdrop-blur-sm border border-white/10"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Pricing Section - Enhanced value presentation */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
-        <div className="relative overflow-hidden glass-strong rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 border-2 border-primary-500/30">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-secondary-600/10 to-accent-600/20"></div>
-          <div className="relative">
-            <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12">
-              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-500/20 rounded-full mb-3 sm:mb-4 text-xs sm:text-sm">
-                <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 text-primary-400" />
-                <span className="font-semibold text-primary-300">Transparent Pricing</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
-                <span className="gradient-text">Fair, Simple Pricing</span>
-              </h2>
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 px-2">
-                Pay only <strong className="text-primary-400">1% of your asset's value</strong> per month. No hidden fees, no surprises.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-              <div className="relative overflow-hidden rounded-xl sm:rounded-2xl p-6 sm:p-8 hover:scale-105 transition-transform border-2 border-primary-500/40 bg-slate-800/60 backdrop-blur-xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 to-transparent"></div>
-                <div className="relative">
-                  <div className="text-xs sm:text-sm text-primary-300 font-semibold mb-1 sm:mb-2 uppercase tracking-wide">Entry Level</div>
-                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">{formatCurrency(20000)}</div>
-                  <div className="text-xs sm:text-sm text-slate-300 mb-4 sm:mb-6">Item Value</div>
-                  <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent mb-4 sm:mb-6"></div>
-                  <div className="text-xl sm:text-2xl font-bold text-white mb-1">{formatCurrency(200)}/month</div>
-                  <div className="text-xs text-slate-300">Minimum premium</div>
-                </div>
-              </div>
-              
-              <div className="relative overflow-hidden rounded-xl sm:rounded-2xl p-6 sm:p-8 border-2 border-secondary-500/60 hover:scale-105 transition-transform shadow-glow bg-slate-800/80 backdrop-blur-xl">
-                <div className="absolute -top-2 sm:-top-3 left-1/2 -translate-x-1/2 px-3 sm:px-4 py-0.5 sm:py-1 bg-gradient-to-r from-secondary-600 to-secondary-500 rounded-full text-xs font-bold shadow-lg">
-                  MOST POPULAR
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-br from-secondary-600/20 to-transparent"></div>
-                <div className="relative">
-                  <div className="text-xs sm:text-sm text-secondary-300 font-semibold mb-1 sm:mb-2 uppercase tracking-wide">Mid Range</div>
-                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">{formatCurrency(100000)}</div>
-                  <div className="text-xs sm:text-sm text-slate-300 mb-4 sm:mb-6">Item Value</div>
-                  <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent mb-4 sm:mb-6"></div>
-                  <div className="text-xl sm:text-2xl font-bold text-white mb-1">{formatCurrency(1000)}/month</div>
-                  <div className="text-xs text-slate-300">1.5% of item value</div>
-                </div>
-              </div>
-              
-              <div className="relative overflow-hidden rounded-xl sm:rounded-2xl p-6 sm:p-8 hover:scale-105 transition-transform border-2 border-accent-500/40 bg-slate-800/60 backdrop-blur-xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-accent-600/20 to-transparent"></div>
-                <div className="relative">
-                  <div className="text-xs sm:text-sm text-accent-300 font-semibold mb-1 sm:mb-2 uppercase tracking-wide">Premium</div>
-                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">{formatCurrency(200000)}</div>
-                  <div className="text-xs sm:text-sm text-slate-300 mb-4 sm:mb-6">Item Value</div>
-                  <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent mb-4 sm:mb-6"></div>
-                  <div className="text-xl sm:text-2xl font-bold text-white mb-1">{formatCurrency(2000)}/month</div>
-                  <div className="text-xs text-slate-300">Premium protection</div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="text-center">
-              <p className="text-xs sm:text-sm md:text-base text-slate-400 mb-4 sm:mb-6 px-2">
-                <Check className="w-3 h-3 sm:w-4 sm:h-4 inline text-security-400 mr-1 sm:mr-2" />
-                No hidden fees • No complicated tiers • Just fair pricing based on your asset's value
-              </p>
-              <button 
-                onClick={onGetStarted}
-                className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full font-bold text-sm sm:text-base hover:from-primary-700 hover:to-primary-600 shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-105"
-              >
-                Calculate Your Premium
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Benefits Section - Enhanced with trust elements */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
-        <div className="text-center mb-8 sm:mb-12 md:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
-            <span className="gradient-text">Why Choose DigiInsure?</span>
-          </h2>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto px-4">
-            Comprehensive protection backed by industry-leading service and support
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
-          <div className="group card-hover p-5 sm:p-6 md:p-8">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-primary-600 to-primary-500 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 md:mb-6 group-hover:scale-110 transition-transform shadow-lg">
-              <Zap className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
-            </div>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">Instant Activation</h3>
-            <p className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">Your coverage starts immediately after payment - no waiting periods, no delays. Protect your asset right now.</p>
-          </div>
-          
-          <div className="group card-hover p-5 sm:p-6 md:p-8">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-secondary-600 to-secondary-500 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 md:mb-6 group-hover:scale-110 transition-transform shadow-lg">
-              <Shield className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
-            </div>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">Comprehensive Coverage</h3>
-            <p className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">Protection against accidental damage, theft, loss, liquid damage, and mechanical breakdown. Complete peace of mind.</p>
-          </div>
-          
-          <div className="group card-hover p-5 sm:p-6 md:p-8">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-accent-600 to-accent-500 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 md:mb-6 group-hover:scale-110 transition-transform shadow-lg">
-              <Clock className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
-            </div>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">Fast Claims Process</h3>
-            <p className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">File claims 24/7 online and get replacements in as little as 24 hours. Quick, hassle-free service when you need it.</p>
-          </div>
-          
-          <div className="group card-hover p-5 sm:p-6 md:p-8">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-warning-600 to-warning-500 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 md:mb-6 group-hover:scale-110 transition-transform shadow-lg">
-              <DollarSign className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
-            </div>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">Fair Pricing</h3>
-            <p className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">Premium calculated based on asset value - you only pay for what you protect. Transparent, no hidden fees.</p>
-          </div>
-          
-          <div className="group card-hover p-5 sm:p-6 md:p-8">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-purple-600 to-purple-500 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 md:mb-6 group-hover:scale-110 transition-transform shadow-lg">
-              <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
-            </div>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">24/7 Support</h3>
-            <p className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">Expert support team available round the clock to assist you. Get help whenever you need it via phone, email, or chat.</p>
-          </div>
-          
-          <div className="group card-hover p-5 sm:p-6 md:p-8">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-pink-600 to-pink-500 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 md:mb-6 group-hover:scale-110 transition-transform shadow-lg">
-              <BadgeCheck className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
-            </div>
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">Licensed & Trusted</h3>
-            <p className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">Fully licensed insurance provider with industry certifications. Your protection is backed by a trusted institution.</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Testimonials Section */}
-      <div className="relative py-12 sm:py-16 md:py-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary-900/10 via-transparent to-secondary-900/10"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12 md:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
-              <span className="gradient-text">Loved by Customers</span>
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto px-4">
-              See what our protected customers have to say
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
-            <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8">
-              <div className="flex items-center gap-0.5 sm:gap-1 mb-3 sm:mb-4">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="w-4 h-4 sm:w-5 sm:h-5 fill-warning-400 text-warning-400" />
-                ))}
-              </div>
-              <p className="text-xs sm:text-sm md:text-base text-slate-300 mb-4 sm:mb-6 leading-relaxed">
-                "My phone was stolen and DigiInsure processed my claim in just 24 hours. Amazing service and zero hassle!"
-              </p>
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-base sm:text-lg font-bold flex-shrink-0">
-                  JM
-                </div>
-                <div>
-                  <div className="font-semibold text-sm sm:text-base">John Mwangi</div>
-                  <div className="text-xs sm:text-sm text-slate-400">Nairobi, Kenya</div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 border-2 border-secondary-500/30">
-              <div className="flex items-center gap-0.5 sm:gap-1 mb-3 sm:mb-4">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="w-4 h-4 sm:w-5 sm:h-5 fill-warning-400 text-warning-400" />
-                ))}
-              </div>
-              <p className="text-xs sm:text-sm md:text-base text-slate-300 mb-4 sm:mb-6 leading-relaxed">
-                "Best insurance decision I've made. The pricing is fair and transparent. I know exactly what I'm paying for."
-              </p>
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-secondary-500 to-accent-500 flex items-center justify-center text-base sm:text-lg font-bold flex-shrink-0">
-                  SA
-                </div>
-                <div>
-                  <div className="font-semibold text-sm sm:text-base">Sarah Achieng</div>
-                  <div className="text-xs sm:text-sm text-slate-400">Kisumu, Kenya</div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="glass-strong rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 sm:col-span-2 md:col-span-1">
-              <div className="flex items-center gap-0.5 sm:gap-1 mb-3 sm:mb-4">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="w-4 h-4 sm:w-5 sm:h-5 fill-warning-400 text-warning-400" />
-                ))}
-              </div>
-              <p className="text-xs sm:text-sm md:text-base text-slate-300 mb-4 sm:mb-6 leading-relaxed">
-                "Protected all my family's devices with DigiInsure. The customer service team is incredibly helpful and responsive."
-              </p>
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-accent-500 to-warning-500 flex items-center justify-center text-base sm:text-lg font-bold flex-shrink-0">
-                  DK
-                </div>
-                <div>
-                  <div className="font-semibold text-sm sm:text-base">David Kamau</div>
-                  <div className="text-xs sm:text-sm text-slate-400">Mombasa, Kenya</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Final CTA Section */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
-        <div className="relative overflow-hidden glass-strong rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 text-center border-2 border-primary-500/30">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-600/20 via-secondary-600/20 to-accent-600/20"></div>
-          <div className="relative">
-            <Shield className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-primary-400 mx-auto mb-4 sm:mb-6" />
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 px-2">
-              <span className="gradient-text">Ready to Protect Your Valuables?</span>
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 mb-6 sm:mb-8 md:mb-10 max-w-2xl mx-auto px-2">
-              Join 500,000+ satisfied customers who trust DigiInsure for comprehensive asset protection
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 sm:mb-8">
-              <button 
-                onClick={onGetStarted}
-                className="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 md:px-10 py-4 sm:py-5 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full font-bold text-base sm:text-lg hover:from-primary-700 hover:to-primary-600 shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-105 w-full sm:w-auto"
-              >
-                Get Started Now
-                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 md:px-10 py-4 sm:py-5 glass-strong rounded-full font-semibold text-base sm:text-lg hover:bg-white/30 transition-all border border-white/20 w-full sm:w-auto">
-                <PhoneCall className="w-4 h-4 sm:w-5 sm:h-5" />
-                0745491093
-              </button>
-            </div>
-            
-            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8 mt-6 sm:mt-8 md:mt-10 pt-6 sm:pt-8 border-t border-white/10">
-              <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
-                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-security-400 flex-shrink-0" />
-                <span className="text-slate-400 whitespace-nowrap">Licensed Provider</span>
-              </div>
-              <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
-                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-security-400 flex-shrink-0" />
-                <span className="text-slate-400 whitespace-nowrap">Secure Payments</span>
-              </div>
-              <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
-                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-security-400 flex-shrink-0" />
-                <span className="text-slate-400 whitespace-nowrap">24/7 Support</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Contact Us Section */}
-      <div className="relative py-12 sm:py-16 md:py-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary-900/10 to-transparent"></div>
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Contact Info */}
-            <div className="space-y-6 sm:space-y-8">
+            <div className="mx-auto mt-14 grid w-full max-w-6xl gap-10 border-t border-white/10 pt-10 md:grid-cols-2 md:gap-12 xl:max-w-none">
               <div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
-                  <span className="gradient-text">Get in Touch</span>
-                </h2>
-                <p className="text-sm sm:text-base md:text-lg text-slate-400">
-                  Have questions? We're here to help. Reach out to our team and we'll get back to you within 24 hours.
+                <h3 className="text-lg font-semibold text-white">Contact</h3>
+                <ul className="mt-4 space-y-4 text-sm text-slate-400">
+                  <li className="flex gap-3">
+                    <PhoneCall className="mt-0.5 h-5 w-5 shrink-0 text-primary-400" aria-hidden />
+                    <span>
+                      <a href={`tel:${SUPPORT_TEL}`} className="font-medium text-white hover:text-primary-300">
+                        {SUPPORT_TEL_DISPLAY}
+                      </a>
+                      <span className="block text-xs text-slate-500">Mon–Fri, 8am–6pm EAT</span>
+                    </span>
+                  </li>
+                  <li className="flex gap-3">
+                    <MessageCircle className="mt-0.5 h-5 w-5 shrink-0 text-primary-400" aria-hidden />
+                    <span>
+                      <a
+                        href={`mailto:${BRAND_EMAIL}`}
+                        className="font-medium text-white hover:text-primary-300"
+                      >
+                        {BRAND_EMAIL}
+                      </a>
+                      <span className="block text-xs text-slate-500">We reply within one business day</span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <div className="rounded-2xl border border-white/[0.08] bg-black/20 p-6">
+                <p className="text-sm font-medium text-white">Quick message</p>
+                <p className="mt-1 text-xs text-slate-500">
+                  For policy changes or claims, sign in and use your dashboard for the fastest route.
                 </p>
-              </div>
-
-              <div className="space-y-4 sm:space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-primary-600 to-primary-500 flex items-center justify-center flex-shrink-0 shadow-lg">
-                    <PhoneCall className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">Call Us</h3>
-                    <p className="text-slate-400 text-sm sm:text-base">0745491093</p>
-                    <p className="text-slate-500 text-xs sm:text-sm">Mon-Fri 8AM - 6PM EAT</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-secondary-600 to-secondary-500 flex items-center justify-center flex-shrink-0 shadow-lg">
-                    <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">Email Us</h3>
-                    <p className="text-slate-400 text-sm sm:text-base">support@digiinsure.co.ke</p>
-                    <p className="text-slate-500 text-xs sm:text-sm">We'll respond within 24 hours</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-accent-600 to-accent-500 flex items-center justify-center flex-shrink-0 shadow-lg">
-                    <Clock className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-base sm:text-lg mb-1">Business Hours</h3>
-                    <p className="text-slate-400 text-sm sm:text-base">Monday - Friday: 8AM - 6PM</p>
-                    <p className="text-slate-400 text-sm sm:text-base">Saturday: 9AM - 2PM</p>
-                    <p className="text-slate-500 text-xs sm:text-sm">Claims available 24/7</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 sm:pt-6">
-                <p className="text-xs sm:text-sm text-slate-500 flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-security-400" />
-                  Your information is secure and will never be shared with third parties
-                </p>
-              </div>
-            </div>
-
-            {/* Contact Form */}
-            <div className="glass-strong rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/10">
-              <form className="space-y-4 sm:space-y-5">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-semibold mb-2">
-                    Full Name <span className="text-accent-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm sm:text-base"
-                    placeholder="John Doe"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-semibold mb-2">
-                    Email Address <span className="text-accent-400">*</span>
-                  </label>
+                <form
+                  className="mt-4 space-y-3"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                  }}
+                >
                   <input
                     type="email"
-                    id="email"
-                    name="email"
                     required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm sm:text-base"
-                    placeholder="john@example.com"
+                    placeholder="Work email"
+                    className="w-full rounded-xl border border-white/15 bg-[#0b0f1a]/80 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-primary-500/50 focus:outline-none focus:ring-1 focus:ring-primary-500/40"
                   />
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-semibold mb-2">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm sm:text-base"
-                    placeholder="0712345678"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-semibold mb-2">
-                    Subject <span className="text-accent-400">*</span>
-                  </label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm sm:text-base"
-                  >
-                    <option value="">Select a topic</option>
-                    <option value="general">General Inquiry</option>
-                    <option value="quote">Get a Quote</option>
-                    <option value="claim">Claim Support</option>
-                    <option value="policy">Policy Information</option>
-                    <option value="technical">Technical Support</option>
-                    <option value="feedback">Feedback</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-semibold mb-2">
-                    Message <span className="text-accent-400">*</span>
-                  </label>
                   <textarea
-                    id="message"
-                    name="message"
-                    rows="5"
+                    rows={3}
                     required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all resize-none text-sm sm:text-base"
-                    placeholder="Tell us how we can help you..."
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full group inline-flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-primary-600 to-primary-500 rounded-xl font-bold text-base sm:text-lg hover:from-primary-700 hover:to-primary-600 shadow-glow hover:shadow-glow-lg transition-all duration-300 hover:scale-[1.02]"
-                >
-                  Send Message
-                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-
-                <p className="text-xs text-center text-slate-500">
-                  By submitting this form, you agree to our privacy policy
-                </p>
-              </form>
+                    placeholder="How can we help?"
+                    className="w-full resize-none rounded-xl border border-white/15 bg-[#0b0f1a]/80 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-primary-500/50 focus:outline-none focus:ring-1 focus:ring-primary-500/40"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full rounded-xl bg-white/[0.1] py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/[0.14]"
+                  >
+                    Send message
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </Container>
+      </section>
     </div>
   );
 };

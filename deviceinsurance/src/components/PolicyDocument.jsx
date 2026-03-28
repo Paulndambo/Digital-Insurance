@@ -1,6 +1,7 @@
 import React from 'react';
 import { Shield, Download, FileText, Calendar, DollarSign, User, Smartphone, CheckCircle } from 'lucide-react';
 import { formatCurrency } from '../constants/currency';
+import { BRAND_NAME_LEGAL, BRAND_TAGLINE } from '../constants/branding';
 import { pdf } from '@react-pdf/renderer';
 import PolicyPDFDocument from './PolicyPDFDocument';
 
@@ -70,9 +71,9 @@ const PolicyDocument = ({ policy, onClose }) => {
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <Shield className="w-10 h-10 text-blue-600" />
-                    <h1 className="text-4xl font-bold text-blue-600">DeviceShield Insurance</h1>
+                    <h1 className="text-4xl font-bold text-blue-600">{BRAND_NAME_LEGAL}</h1>
                   </div>
-                  <p className="text-gray-600 text-sm">Protecting Your Digital Life</p>
+                  <p className="text-gray-600 text-sm">{BRAND_TAGLINE}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-gray-500">Document ID</p>
@@ -334,7 +335,7 @@ const PolicyDocument = ({ policy, onClose }) => {
               <div className="grid grid-cols-2 gap-8 mb-6">
                 <div>
                   <p className="text-sm font-semibold text-gray-700 mb-2">Issued By</p>
-                  <p className="text-sm text-gray-600">DeviceShield Insurance</p>
+                  <p className="text-sm text-gray-600">{BRAND_NAME_LEGAL}</p>
                   <p className="text-sm text-gray-600">Nairobi, Kenya</p>
                 </div>
                 <div>

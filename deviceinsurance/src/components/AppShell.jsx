@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { BRAND_NAME } from '../constants/branding';
 import {
   Shield,
   Menu,
@@ -64,7 +65,7 @@ const AppShell = ({
           className="flex items-center gap-2 font-semibold tracking-tight text-slate-100"
         >
           <Shield className="h-7 w-7 shrink-0 text-primary-400" />
-          <span className="text-sm">DeviceShield</span>
+          <span className="text-sm font-semibold tracking-tight">{BRAND_NAME}</span>
         </button>
         <div className="w-10" aria-hidden />
       </header>
@@ -100,7 +101,7 @@ const AppShell = ({
             {showLabels && (
               <div className="min-w-0">
                 <div className="truncate text-sm font-bold tracking-tight text-white">
-                  DeviceShield
+                  {BRAND_NAME}
                 </div>
                 {sidebarTitle && (
                   <div className="truncate text-[11px] font-medium uppercase tracking-wider text-slate-500">

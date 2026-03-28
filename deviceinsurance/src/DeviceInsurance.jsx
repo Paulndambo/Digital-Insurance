@@ -11,6 +11,7 @@ import {
   Store,
   Smartphone,
   ArrowLeft,
+  Calculator,
 } from 'lucide-react';
 import { useAuth } from './hooks/useAuth';
 import { usePolicies } from './hooks/usePolicies';
@@ -34,9 +35,10 @@ import PolicyDetail from './components/PolicyDetail';
 import ClaimDetail from './components/ClaimDetail';
 import PurchaseSuccess from './components/PurchaseSuccess';
 import AppShell from './components/AppShell';
+import QuoteFlow from './components/QuoteFlow';
 
 export default function DeviceInsurance() {
-  // View states: 'landing' | 'login' | 'dashboard' | 'purchase' | 'claim' | 'policy-detail' | 'claim-detail'
+  // View states: 'landing' | 'login' | 'dashboard' | 'purchase' | 'request-quote' | 'claim' | 'policy-detail' | 'claim-detail'
   const [currentView, setCurrentView] = useState('landing');
   const [selectedPolicyId, setSelectedPolicyId] = useState(null);
   const [selectedClaimId, setSelectedClaimId] = useState(null);
@@ -367,6 +369,23 @@ export default function DeviceInsurance() {
     setShowFlow(true);
     setStep(1);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const startQuoteFlow = () => {
+    setPurchaseSuccessSummary(null);
+    setCurrentView('request-quote');
+    setShowFlow(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleQuoteExit = () => {
+    setPurchaseSuccessSummary(null);
+    if (user) {
+      handleDashboardClick();
+    } else {
+      setCurrentView('landing');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const handleLogin = async (username, password) => {
@@ -700,6 +719,11 @@ export default function DeviceInsurance() {
           title: 'File a claim',
           subtitle: 'Provide incident details and submit for review.',
         };
+      case 'request-quote':
+        return {
+          title: 'Request a quote',
+          subtitle: 'Estimated premium from your device value and plan — no payment until you buy.',
+        };
       case 'purchase':
         return {
           title: 'New policy',
@@ -736,6 +760,13 @@ export default function DeviceInsurance() {
               icon: LayoutDashboard,
               active: currentView === 'dashboard',
               onClick: handleDashboardClick,
+            },
+            {
+              id: 'quote',
+              label: 'Request quote',
+              icon: Calculator,
+              active: currentView === 'request-quote',
+              onClick: startQuoteFlow,
             },
             {
               id: 'purchase',
@@ -870,6 +901,10 @@ export default function DeviceInsurance() {
         />
       )}
 
+      {currentView === 'request-quote' && (
+        <QuoteFlow onClose={handleQuoteExit} onStartPurchase={startFlow} />
+      )}
+
       {currentView === 'claim' && user && (
         <ClaimFlow
           claimStep={claimStep}
@@ -929,6 +964,7 @@ export default function DeviceInsurance() {
           onLogout={handleLogout}
           onDashboardClick={handleDashboardClick}
           onBackClick={handleBackClick}
+          onRequestQuote={startQuoteFlow}
         />
       )}
 
@@ -991,8 +1027,14 @@ export default function DeviceInsurance() {
         />
       )}
 
+      {!user && currentView === 'request-quote' && (
+        <div className="mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 lg:px-8 sm:py-10">
+          <QuoteFlow onClose={handleQuoteExit} onStartPurchase={startFlow} />
+        </div>
+      )}
+
       {currentView === 'landing' && !showFlow && (
-        <LandingPage onGetStarted={startFlow} />
+        <LandingPage onGetStarted={startFlow} onRequestQuote={startQuoteFlow} />
       )}
 
       {!showAppShell && <Footer />}

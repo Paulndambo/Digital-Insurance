@@ -1,4 +1,5 @@
 // API utility functions for backend communication
+import { BRAND_APP_USER_AGENT } from '../constants/branding';
 
 // API Base URL - Update this to match your backend server
 // For Create React App, you can use: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'
@@ -11,7 +12,7 @@ export const fetchPricingPlans = async () => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     const response = await fetch(`${API_BASE_URL}/pricing/gadget-pricing/`, {
@@ -36,7 +37,7 @@ export const login = async (username, password) => {
     const headersList = {
       "Accept": "*/*",
       "Content-Type": "application/json",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     const bodyContent = JSON.stringify({
@@ -68,7 +69,7 @@ export const createPolicy = async (policyData, accessToken = null) => {
     const headersList = {
       "Accept": "*/*",
       "Content-Type": "application/json",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token if provided
@@ -99,7 +100,7 @@ export const fetchPremiums = async (accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -131,7 +132,7 @@ export const fetchPolicyOwners = async (accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -163,7 +164,7 @@ export const fetchDeviceOutlets = async (accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -195,7 +196,7 @@ export const fetchInsuredDevices = async (accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -227,7 +228,7 @@ export const fetchPolicies = async (accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -259,7 +260,7 @@ export const searchPolicies = async (searchQuery, accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -305,7 +306,7 @@ export const fetchPolicyDetails = async (policyId, accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -337,7 +338,7 @@ export const fetchClaims = async (accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -369,7 +370,7 @@ export const fetchClaimDetails = async (claimId, accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -402,7 +403,7 @@ export const createClaim = async (claimData, accessToken) => {
     const headersList = {
       "Accept": "*/*",
       "Content-Type": "application/json",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -435,7 +436,7 @@ export const uploadClaimDocument = async (documentData, accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token
@@ -474,7 +475,7 @@ export const fetchMetrics = async (accessToken) => {
   try {
     const headersList = {
       "Accept": "*/*",
-      "User-Agent": "DeviceShield App"
+      "User-Agent": BRAND_APP_USER_AGENT
     };
 
     // Add Authorization header with Bearer token

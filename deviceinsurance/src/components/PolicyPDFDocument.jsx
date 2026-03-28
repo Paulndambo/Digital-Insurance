@@ -1,6 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import { formatCurrency } from '../constants/currency';
+import { BRAND_NAME_LEGAL, BRAND_TAGLINE } from '../constants/branding';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -306,8 +307,8 @@ const PolicyPDFDocument = ({ policy }) => {
         <View style={styles.header}>
           <View style={styles.headerRow}>
             <View>
-              <Text style={styles.companyName}>DeviceShield Insurance</Text>
-              <Text style={styles.companyTagline}>Protecting Your Digital Life</Text>
+              <Text style={styles.companyName}>{BRAND_NAME_LEGAL}</Text>
+              <Text style={styles.companyTagline}>{BRAND_TAGLINE}</Text>
             </View>
             <View>
               <Text style={styles.documentId}>Document ID</Text>
@@ -533,7 +534,7 @@ const PolicyPDFDocument = ({ policy }) => {
           <View style={styles.footerRow}>
             <View>
               <Text style={styles.termsTitle}>Issued By</Text>
-              <Text style={styles.termsText}>DeviceShield Insurance</Text>
+              <Text style={styles.termsText}>{BRAND_NAME_LEGAL}</Text>
               <Text style={styles.termsText}>Nairobi, Kenya</Text>
             </View>
             <View>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Shield, ArrowLeft, LogIn, LogOut, Home, Menu, X } from 'lucide-react';
+import { Shield, ArrowLeft, LogIn, LogOut, Home, Menu, X, Calculator } from 'lucide-react';
+import { BRAND_NAME } from '../constants/branding';
 
 const Header = ({ 
   currentView, 
@@ -10,7 +11,8 @@ const Header = ({
   onLoginClick, 
   onLogout, 
   onDashboardClick, 
-  onBackClick
+  onBackClick,
+  onRequestQuote,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -24,6 +26,17 @@ const Header = ({
     onLogout();
   };
 
+  const handleRequestQuote = () => {
+    setMobileMenuOpen(false);
+    onRequestQuote?.();
+  };
+
+  const showRequestQuoteCta =
+    onRequestQuote &&
+    (currentView === 'landing' ||
+      currentView === 'request-quote' ||
+      currentView === 'login');
+
   return (
     <header className="border-b border-white/10 bg-black/20 backdrop-blur-sm sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -32,7 +45,7 @@ const Header = ({
           className="flex items-center gap-2 hover:opacity-80 transition-opacity"
         >
           <Shield className="w-8 h-8 text-blue-400" />
-          <span className="text-xl font-bold">DeviceShield</span>
+          <span className="text-xl font-bold tracking-tight">{BRAND_NAME}</span>
         </button>
         
         <div className="flex items-center gap-3">
@@ -47,6 +60,16 @@ const Header = ({
                   >
                     <Home className="w-4 h-4" />
                     Dashboard
+                  </button>
+                )}
+                {(currentView === 'landing' || currentView === 'request-quote') && (
+                  <button
+                    type="button"
+                    onClick={handleRequestQuote}
+                    className="flex items-center gap-2 border border-white/15 bg-white/[0.04] px-4 py-2 rounded-full font-medium text-slate-200 transition-colors hover:border-white/25 hover:bg-white/[0.08]"
+                  >
+                    <Calculator className="w-4 h-4 text-primary-400" />
+                    Request quote
                   </button>
                 )}
                 <button 
@@ -72,15 +95,27 @@ const Header = ({
               </button>
             </>
           ) : (
-            currentView === 'landing' && (
-              <button 
-                onClick={onLoginClick}
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full font-medium transition-colors text-sm sm:text-base"
-              >
-                <LogIn className="w-4 h-4" />
-                Login
-              </button>
-            )
+            <>
+              {showRequestQuoteCta && (
+                <button
+                  type="button"
+                  onClick={handleRequestQuote}
+                  className="flex items-center gap-2 border border-white/15 bg-white/[0.04] px-3 py-2 sm:px-4 rounded-full font-medium text-xs sm:text-sm text-slate-200 transition-colors hover:border-white/25 hover:bg-white/[0.08]"
+                >
+                  <Calculator className="w-4 h-4 shrink-0 text-primary-400" />
+                  <span className="whitespace-nowrap">Quote</span>
+                </button>
+              )}
+              {(currentView === 'landing' || currentView === 'request-quote' || currentView === 'login') && (
+                <button 
+                  onClick={onLoginClick}
+                  className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full font-medium transition-colors text-sm sm:text-base"
+                >
+                  <LogIn className="w-4 h-4" />
+                  Login
+                </button>
+              )}
+            </>
           )}
           
           
@@ -107,6 +142,16 @@ const Header = ({
               >
                 <Home className="w-5 h-5 text-primary-400" />
                 <span>Dashboard</span>
+              </button>
+            )}
+            {(currentView === 'landing' || currentView === 'request-quote') && onRequestQuote && (
+              <button
+                type="button"
+                onClick={handleRequestQuote}
+                className="w-full flex items-center gap-3 px-4 py-3 bg-white/10 hover:bg-white/20 rounded-lg font-medium transition-colors text-left"
+              >
+                <Calculator className="w-5 h-5 text-primary-400" />
+                <span>Request quote</span>
               </button>
             )}
             <button

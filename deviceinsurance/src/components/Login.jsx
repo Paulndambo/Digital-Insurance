@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Shield, User, Lock, Loader2, AlertCircle } from 'lucide-react';
+import { BRAND_NAME, BRAND_TAGLINE } from '../constants/branding';
 
 const Login = ({ onLogin, onBack, loading, error }) => {
   const [username, setUsername] = useState('');
@@ -16,9 +17,11 @@ const Login = ({ onLogin, onBack, loading, error }) => {
     <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-24">
       <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 shadow-2xl">
         <div className="text-center mb-8">
-          <Shield className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-          <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
-          <p className="text-slate-400">Sign in to access your dashboard</p>
+          <Shield className="w-16 h-16 text-blue-400 mx-auto mb-2" />
+          <p className="text-sm font-semibold tracking-tight text-primary-300">{BRAND_NAME}</p>
+          <h2 className="text-3xl font-bold mb-2 mt-2">Welcome back</h2>
+          <p className="text-slate-400 text-sm">{BRAND_TAGLINE}</p>
+          <p className="text-slate-500 text-xs mt-2">Sign in to manage policies and claims</p>
         </div>
         
         {error && (
