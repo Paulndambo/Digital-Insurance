@@ -19,9 +19,9 @@ const PaymentsTable = ({ policies }) => {
       ownerName: `${policy.firstName} ${policy.lastName}`,
       email: policy.email,
       phone: policy.phone,
-      paymentMethod: 'Mpesa', // Default from policy data
+      paymentMethod: policy.paymentMethod || 'Mpesa',
       accountName: policy.paymentAccountName || `${policy.firstName} ${policy.lastName}`,
-      mpesaPhone: policy.mpesaPhoneNumber || policy.phone,
+      mpesaPhone: policy.mpesaPhone ?? policy.mpesaPhoneNumber ?? policy.phone,
       amount: policy.monthlyPremium || 0,
       startDate: policy.startDate,
       status: policy.status

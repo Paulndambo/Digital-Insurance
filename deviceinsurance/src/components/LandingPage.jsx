@@ -38,7 +38,7 @@ const LandingPage = ({ onGetStarted }) => {
             
             {/* Subheadline */}
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-300 mb-4 max-w-3xl mx-auto animate-slide-up leading-relaxed px-2" style={{ animationDelay: '0.1s' }}>
-              Comprehensive device insurance designed for peace of mind. 
+              Comprehensive asset insurance designed for peace of mind. 
               <span className="text-primary-400 font-semibold"> Fair pricing</span>, instant coverage, and 24/7 support.
             </p>
             
@@ -99,7 +99,7 @@ const LandingPage = ({ onGetStarted }) => {
             <div className="absolute inset-0 bg-gradient-to-br from-primary-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <Users className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 text-primary-400 mx-auto mb-2 sm:mb-3 md:mb-4" />
             <div className="text-2xl sm:text-3xl md:text-5xl font-bold mb-1 sm:mb-2 gradient-text">500K+</div>
-            <div className="text-xs sm:text-sm md:text-base text-slate-400 font-medium">Protected Devices</div>
+            <div className="text-xs sm:text-sm md:text-base text-slate-400 font-medium">Protected Assets</div>
           </div>
           <div className="group relative overflow-hidden card-hover text-center p-4 sm:p-6 md:p-8">
             <div className="absolute inset-0 bg-gradient-to-br from-secondary-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -126,10 +126,10 @@ const LandingPage = ({ onGetStarted }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
         <div className="text-center mb-8 sm:mb-10 md:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2">
-            <span className="gradient-text">Protect Any Device</span>
+            <span className="gradient-text">Protect Any Asset</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-400 max-w-2xl mx-auto px-4">
-            From smartphones to gaming consoles - comprehensive coverage for all your valuable devices
+            From smartphones to home appliances - comprehensive coverage for all your valuable assets
           </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
@@ -177,8 +177,8 @@ const LandingPage = ({ onGetStarted }) => {
                 </div>
                 <div className="absolute -top-2 -right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white text-primary-600 rounded-full flex items-center justify-center font-bold text-base sm:text-lg shadow-lg z-20">1</div>
               </div>
-              <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2 sm:mb-3">Choose Device</h3>
-              <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Select the device type you want to protect from our wide range</p>
+              <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2 sm:mb-3">Choose Item</h3>
+              <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Select the item you want to protect from our wide range</p>
             </div>
             
             <div className="relative text-center">
@@ -189,7 +189,7 @@ const LandingPage = ({ onGetStarted }) => {
                 <div className="absolute -top-2 -right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white text-secondary-600 rounded-full flex items-center justify-center font-bold text-base sm:text-lg shadow-lg z-20">2</div>
               </div>
               <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2 sm:mb-3">Enter Details</h3>
-              <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Provide device information and personal details securely</p>
+              <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Provide item information and personal details securely</p>
             </div>
             
             <div className="relative text-center">
@@ -200,7 +200,7 @@ const LandingPage = ({ onGetStarted }) => {
                 <div className="absolute -top-2 -right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white text-accent-600 rounded-full flex items-center justify-center font-bold text-base sm:text-lg shadow-lg z-20">3</div>
               </div>
               <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2 sm:mb-3">Get Fair Quote</h3>
-              <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Transparent pricing at 1% of your device value per month</p>
+              <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Transparent pricing at 1% of your asset's value per month</p>
             </div>
             
             <div className="relative text-center">
@@ -212,6 +212,131 @@ const LandingPage = ({ onGetStarted }) => {
               </div>
               <h3 className="font-bold text-base sm:text-lg md:text-xl mb-2 sm:mb-3">You're Protected</h3>
               <p className="text-xs sm:text-sm md:text-base text-slate-400 px-2">Instant coverage activation after secure payment</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile App Download Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
+        <div className="relative overflow-hidden glass-strong rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 border border-white/10">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-600/10 via-secondary-600/10 to-accent-600/10"></div>
+          <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Left Content */}
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-500/20 rounded-full mb-4 sm:mb-6 text-xs sm:text-sm">
+                <Smartphone className="w-4 h-4 text-primary-400" />
+                <span className="font-semibold text-primary-300">Download Our App</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
+                <span className="gradient-text">Manage Your Insurance</span>
+                <br />
+                <span className="text-white">On the Go</span>
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg text-slate-400 mb-6 sm:mb-8 max-w-xl mx-auto lg:mx-0">
+                Download the DigiInsure mobile app for instant access to your policies, quick claims filing, and 24/7 support - all from your smartphone.
+              </p>
+              
+              {/* App Features */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                <div className="flex items-center gap-2 sm:gap-3 text-left">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary-500/20 flex items-center justify-center flex-shrink-0">
+                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-primary-400" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-slate-300">File claims instantly</span>
+                </div>
+                <div className="flex items-center gap-2 sm:gap-3 text-left">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-secondary-500/20 flex items-center justify-center flex-shrink-0">
+                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-secondary-400" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-slate-300">Track claim status</span>
+                </div>
+                <div className="flex items-center gap-2 sm:gap-3 text-left">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-accent-500/20 flex items-center justify-center flex-shrink-0">
+                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-accent-400" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-slate-300">Manage policies</span>
+                </div>
+                <div className="flex items-center gap-2 sm:gap-3 text-left">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-warning-500/20 flex items-center justify-center flex-shrink-0">
+                    <Check className="w-4 h-4 sm:w-5 sm:h-5 text-warning-400" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-slate-300">24/7 support chat</span>
+                </div>
+              </div>
+
+              {/* App Store Badges */}
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+                {/* Google Play Store */}
+                <a
+                  href="#"
+                  className="group relative inline-flex items-center gap-3 px-5 py-3 bg-black/80 hover:bg-black rounded-xl sm:rounded-2xl transition-all hover:scale-105 border border-white/20 hover:border-white/40"
+                >
+                  <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none">
+                    <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92z" fill="#32BBFF"/>
+                    <path d="M14.5 12.707l3.842 3.842-10.72 6.03a1.007 1.007 0 01-.513.135L14.5 12.707z" fill="#32BBFF"/>
+                    <path d="M18.342 16.549l3.333-1.875c.546-.307.546-1.041 0-1.348l-3.333-1.875-3.842 3.842 3.842 3.842-.842-.842.842.842z" fill="#32BBFF"/>
+                    <path d="M14.5 11.293L7.109 3.9a1.007 1.007 0 01.513-.135l10.72 6.03-3.842 3.842z" fill="#32BBFF"/>
+                  </svg>
+                  <div className="text-left">
+                    <div className="text-[10px] text-slate-400 uppercase tracking-wide">Get it on</div>
+                    <div className="text-sm sm:text-base font-semibold text-white">Google Play</div>
+                  </div>
+                </a>
+
+                {/* Apple App Store */}
+                <a
+                  href="#"
+                  className="group relative inline-flex items-center gap-3 px-5 py-3 bg-black/80 hover:bg-black rounded-xl sm:rounded-2xl transition-all hover:scale-105 border border-white/20 hover:border-white/40"
+                >
+                  <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" fill="white"/>
+                  </svg>
+                  <div className="text-left">
+                    <div className="text-[10px] text-slate-400 uppercase tracking-wide">Download on the</div>
+                    <div className="text-sm sm:text-base font-semibold text-white">App Store</div>
+                  </div>
+                </a>
+
+                {/* Huawei AppGallery */}
+                <a
+                  href="#"
+                  className="group relative inline-flex items-center gap-3 px-5 py-3 bg-black/80 hover:bg-black rounded-xl sm:rounded-2xl transition-all hover:scale-105 border border-white/20 hover:border-white/40"
+                >
+                  <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" fill="#FF0000"/>
+                    <path d="M12 6l2.5 5h5l-4 3.5 1.5 5.5-5-3.5-5 3.5 1.5-5.5-4-3.5h5z" fill="white"/>
+                  </svg>
+                  <div className="text-left">
+                    <div className="text-[10px] text-slate-400 uppercase tracking-wide">Explore it on</div>
+                    <div className="text-sm sm:text-base font-semibold text-white">AppGallery</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            {/* Right Content - Phone Mockup */}
+            <div className="relative flex justify-center lg:justify-end">
+              <div className="relative">
+                {/* Glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-500/30 to-secondary-500/30 rounded-3xl blur-3xl"></div>
+                {/* Phone frame */}
+                <div className="relative w-64 sm:w-72 md:w-80 h-[500px] sm:h-[550px] md:h-[600px] bg-slate-900 rounded-[3rem] border-8 border-slate-800 shadow-2xl overflow-hidden">
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-800 rounded-b-3xl z-10"></div>
+                  {/* Screen content */}
+                  <div className="w-full h-full bg-gradient-to-br from-slate-900 via-primary-900/20 to-secondary-900/20 p-6 flex flex-col">
+                    <div className="flex-1 flex items-center justify-center">
+                      <Shield className="w-24 h-24 sm:w-28 sm:h-28 text-primary-400 animate-pulse-glow" />
+                    </div>
+                    <div className="space-y-3">
+                      <div className="h-16 bg-gradient-to-r from-primary-600/40 to-secondary-600/40 rounded-2xl backdrop-blur-sm border border-white/10"></div>
+                      <div className="h-16 bg-gradient-to-r from-secondary-600/40 to-accent-600/40 rounded-2xl backdrop-blur-sm border border-white/10"></div>
+                      <div className="h-16 bg-gradient-to-r from-accent-600/40 to-warning-600/40 rounded-2xl backdrop-blur-sm border border-white/10"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -231,7 +356,7 @@ const LandingPage = ({ onGetStarted }) => {
                 <span className="gradient-text">Fair, Simple Pricing</span>
               </h2>
               <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 px-2">
-                Pay only <strong className="text-primary-400">1% of your device's value</strong> per month. No hidden fees, no surprises.
+                Pay only <strong className="text-primary-400">1% of your asset's value</strong> per month. No hidden fees, no surprises.
               </p>
             </div>
             
@@ -241,7 +366,7 @@ const LandingPage = ({ onGetStarted }) => {
                 <div className="relative">
                   <div className="text-xs sm:text-sm text-primary-300 font-semibold mb-1 sm:mb-2 uppercase tracking-wide">Entry Level</div>
                   <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">{formatCurrency(20000)}</div>
-                  <div className="text-xs sm:text-sm text-slate-300 mb-4 sm:mb-6">Device Value</div>
+                  <div className="text-xs sm:text-sm text-slate-300 mb-4 sm:mb-6">Item Value</div>
                   <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent mb-4 sm:mb-6"></div>
                   <div className="text-xl sm:text-2xl font-bold text-white mb-1">{formatCurrency(200)}/month</div>
                   <div className="text-xs text-slate-300">Minimum premium</div>
@@ -256,10 +381,10 @@ const LandingPage = ({ onGetStarted }) => {
                 <div className="relative">
                   <div className="text-xs sm:text-sm text-secondary-300 font-semibold mb-1 sm:mb-2 uppercase tracking-wide">Mid Range</div>
                   <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">{formatCurrency(100000)}</div>
-                  <div className="text-xs sm:text-sm text-slate-300 mb-4 sm:mb-6">Device Value</div>
+                  <div className="text-xs sm:text-sm text-slate-300 mb-4 sm:mb-6">Item Value</div>
                   <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent mb-4 sm:mb-6"></div>
                   <div className="text-xl sm:text-2xl font-bold text-white mb-1">{formatCurrency(1000)}/month</div>
-                  <div className="text-xs text-slate-300">1.5% of device value</div>
+                  <div className="text-xs text-slate-300">1.5% of item value</div>
                 </div>
               </div>
               
@@ -268,7 +393,7 @@ const LandingPage = ({ onGetStarted }) => {
                 <div className="relative">
                   <div className="text-xs sm:text-sm text-accent-300 font-semibold mb-1 sm:mb-2 uppercase tracking-wide">Premium</div>
                   <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">{formatCurrency(200000)}</div>
-                  <div className="text-xs sm:text-sm text-slate-300 mb-4 sm:mb-6">Device Value</div>
+                  <div className="text-xs sm:text-sm text-slate-300 mb-4 sm:mb-6">Item Value</div>
                   <div className="h-px bg-gradient-to-r from-transparent via-white/30 to-transparent mb-4 sm:mb-6"></div>
                   <div className="text-xl sm:text-2xl font-bold text-white mb-1">{formatCurrency(2000)}/month</div>
                   <div className="text-xs text-slate-300">Premium protection</div>
@@ -279,7 +404,7 @@ const LandingPage = ({ onGetStarted }) => {
             <div className="text-center">
               <p className="text-xs sm:text-sm md:text-base text-slate-400 mb-4 sm:mb-6 px-2">
                 <Check className="w-3 h-3 sm:w-4 sm:h-4 inline text-security-400 mr-1 sm:mr-2" />
-                No hidden fees • No complicated tiers • Just fair pricing based on your device's value
+                No hidden fees • No complicated tiers • Just fair pricing based on your asset's value
               </p>
               <button 
                 onClick={onGetStarted}
@@ -310,7 +435,7 @@ const LandingPage = ({ onGetStarted }) => {
               <Zap className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
             </div>
             <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">Instant Activation</h3>
-            <p className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">Your coverage starts immediately after payment - no waiting periods, no delays. Protect your device right now.</p>
+            <p className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">Your coverage starts immediately after payment - no waiting periods, no delays. Protect your asset right now.</p>
           </div>
           
           <div className="group card-hover p-5 sm:p-6 md:p-8">
@@ -334,7 +459,7 @@ const LandingPage = ({ onGetStarted }) => {
               <DollarSign className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
             </div>
             <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">Fair Pricing</h3>
-            <p className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">Premium calculated based on device value - you only pay for what you protect. Transparent, no hidden fees.</p>
+            <p className="text-xs sm:text-sm md:text-base text-slate-400 leading-relaxed">Premium calculated based on asset value - you only pay for what you protect. Transparent, no hidden fees.</p>
           </div>
           
           <div className="group card-hover p-5 sm:p-6 md:p-8">
@@ -439,10 +564,10 @@ const LandingPage = ({ onGetStarted }) => {
           <div className="relative">
             <Shield className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-primary-400 mx-auto mb-4 sm:mb-6" />
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 px-2">
-              <span className="gradient-text">Ready to Protect Your Device?</span>
+              <span className="gradient-text">Ready to Protect Your Valuables?</span>
             </h2>
             <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-300 mb-6 sm:mb-8 md:mb-10 max-w-2xl mx-auto px-2">
-              Join 500,000+ satisfied customers who trust DigiInsure for comprehensive device protection
+              Join 500,000+ satisfied customers who trust DigiInsure for comprehensive asset protection
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 sm:mb-8">
               <button 

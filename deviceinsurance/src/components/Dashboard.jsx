@@ -92,9 +92,9 @@ const Dashboard = ({
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
-        <div className="bg-white/5 rounded-2xl p-12 backdrop-blur-sm text-center">
-          <Loader2 className="w-16 h-16 text-blue-400 mx-auto mb-4 animate-spin" />
+      <div className="w-full">
+        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-12 text-center shadow-lg shadow-black/20 backdrop-blur-sm">
+          <Loader2 className="w-16 h-16 text-primary-400 mx-auto mb-4 animate-spin" />
           <p className="text-slate-400">Loading dashboard...</p>
         </div>
       </div>
@@ -103,46 +103,41 @@ const Dashboard = ({
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
-        <div className="bg-red-500/20 border border-red-500/50 rounded-2xl p-8 backdrop-blur-sm text-center">
+      <div className="w-full">
+        <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-8 text-center backdrop-blur-sm">
           <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
-          <p className="text-red-400 mb-4">{error}</p>
+          <p className="text-red-300 mb-4">{error}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
-      <div className="mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">My Dashboard</h1>
-        <p className="text-sm sm:text-base text-slate-400">Welcome back, {user.name || user.username || user.email}!</p>
-      </div>
-
+    <div className="w-full">
       {/* Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-        <div className="bg-white/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-sm">
+        <div className="rounded-xl sm:rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4 sm:p-6 shadow-md shadow-black/10 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-slate-400 text-xs sm:text-sm">Active Policies</span>
             <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
           </div>
           <div className="text-xl sm:text-2xl lg:text-3xl font-bold break-words">{activePolicies}</div>
         </div>
-        <div className="bg-white/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-sm">
+        <div className="rounded-xl sm:rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4 sm:p-6 shadow-md shadow-black/10 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-slate-400 text-xs sm:text-sm">Monthly Premium</span>
             <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-green-400" />
           </div>
           <div className="text-xl sm:text-2xl lg:text-3xl font-bold break-words">{formatCurrency(totalMonthlyPremium)}</div>
         </div>
-        <div className="bg-white/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-sm">
+        <div className="rounded-xl sm:rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4 sm:p-6 shadow-md shadow-black/10 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-slate-400 text-xs sm:text-sm">Pending Claims</span>
             <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400" />
           </div>
           <div className="text-xl sm:text-2xl lg:text-3xl font-bold break-words">{pendingClaims}</div>
         </div>
-        <div className="bg-white/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-sm">
+        <div className="rounded-xl sm:rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4 sm:p-6 shadow-md shadow-black/10 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-slate-400 text-xs sm:text-sm">Total Device Value</span>
             <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" />
@@ -155,14 +150,14 @@ const Dashboard = ({
       <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-6 sm:mb-8">
         <button
           onClick={onPurchaseClick}
-          className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-purple-500 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-semibold hover:scale-105 transition-transform"
+          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-indigo-600 px-5 sm:px-6 py-3 text-sm sm:text-base font-semibold shadow-lg shadow-primary-900/30 transition hover:brightness-110 active:scale-[0.98]"
         >
           <PlusCircle className="w-4 h-4 sm:w-5 sm:h-5" />
           <span>Purchase New Policy</span>
         </button>
         <button
           onClick={onClaimClick}
-          className="flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-semibold hover:scale-105 transition-transform"
+          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accent-600 to-rose-600 px-5 sm:px-6 py-3 text-sm sm:text-base font-semibold shadow-lg shadow-accent-900/20 transition hover:brightness-110 active:scale-[0.98]"
         >
           <FileCheck className="w-4 h-4 sm:w-5 sm:h-5" />
           <span>File a Claim</span>
@@ -173,13 +168,13 @@ const Dashboard = ({
       <div className="mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl font-bold mb-4">Your Policies</h2>
         {displayPolicies.length === 0 ? (
-          <div className="bg-white/5 rounded-xl sm:rounded-2xl p-8 sm:p-12 text-center backdrop-blur-sm">
+          <div className="rounded-xl sm:rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 sm:p-12 text-center backdrop-blur-sm">
             <Shield className="w-12 h-12 sm:w-16 sm:h-16 text-slate-400 mx-auto mb-4 opacity-50" />
             <p className="text-sm sm:text-base text-slate-400 mb-4">You don't have any policies yet</p>
             {onPurchaseClick && (
               <button 
                 onClick={onPurchaseClick} 
-                className="bg-gradient-to-r from-blue-500 to-purple-500 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-semibold hover:scale-105 transition-transform"
+                className="rounded-xl bg-gradient-to-r from-primary-600 to-indigo-600 px-5 sm:px-6 py-3 text-sm sm:text-base font-semibold shadow-lg shadow-primary-900/30 transition hover:brightness-110"
               >
                 Get Protected Now
               </button>
@@ -191,7 +186,7 @@ const Dashboard = ({
               <button
                 key={policy.id}
                 onClick={() => onPolicyClick(policy.id)}
-                className="text-left bg-white/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-sm hover:bg-white/10 transition-all cursor-pointer w-full"
+                className="w-full cursor-pointer rounded-xl sm:rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4 sm:p-6 text-left shadow-md shadow-black/10 backdrop-blur-sm transition hover:border-white/[0.12] hover:bg-white/[0.07]"
               >
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-2">
                   <div className="min-w-0 flex-1">
@@ -231,7 +226,7 @@ const Dashboard = ({
       <div>
         <h2 className="text-xl sm:text-2xl font-bold mb-4">Your Claims</h2>
         {claims.length === 0 ? (
-          <div className="bg-white/5 rounded-xl sm:rounded-2xl p-8 sm:p-12 text-center backdrop-blur-sm">
+          <div className="rounded-xl sm:rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 sm:p-12 text-center backdrop-blur-sm">
             <FileText className="w-12 h-12 sm:w-16 sm:h-16 text-slate-400 mx-auto mb-4 opacity-50" />
             <p className="text-sm sm:text-base text-slate-400">No claims filed yet</p>
           </div>
@@ -243,7 +238,7 @@ const Dashboard = ({
                 <button
                   key={claim.id}
                   onClick={() => onClaimDetailClick(claim.id)}
-                  className="w-full text-left bg-white/5 rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-sm hover:bg-white/10 transition-all cursor-pointer"
+                  className="w-full cursor-pointer rounded-xl sm:rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4 sm:p-6 text-left shadow-md shadow-black/10 backdrop-blur-sm transition hover:border-white/[0.12] hover:bg-white/[0.07]"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-2">
                     <div className="min-w-0 flex-1">

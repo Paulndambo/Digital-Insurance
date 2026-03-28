@@ -5,7 +5,7 @@
 // For Vite, you can use: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 const API_BASE_URL = (typeof process !== 'undefined' && process.env?.REACT_APP_API_BASE_URL) 
   ? process.env.REACT_APP_API_BASE_URL 
-  : 'https://insure.collegeerp.co.ke';
+  : 'http://127.0.0.1:8000';
 
 export const fetchPricingPlans = async () => {
   try {

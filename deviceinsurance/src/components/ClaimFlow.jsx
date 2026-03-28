@@ -137,7 +137,7 @@ const ClaimFlow = ({
   const displayPolicies = isSalesAgent ? searchResults : policies;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
+    <div className="w-full py-2 sm:py-4">
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8">File a Claim</h1>
       
       {claimStep === 1 && (

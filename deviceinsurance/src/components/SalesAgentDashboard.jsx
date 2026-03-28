@@ -67,9 +67,9 @@ const SalesAgentDashboard = ({
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
-        <div className="bg-white/5 rounded-2xl p-12 backdrop-blur-sm text-center">
-          <Loader2 className="w-16 h-16 text-blue-400 mx-auto mb-4 animate-spin" />
+      <div className="w-full">
+        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-12 text-center shadow-lg shadow-black/20 backdrop-blur-sm">
+          <Loader2 className="w-16 h-16 text-primary-400 mx-auto mb-4 animate-spin" />
           <p className="text-slate-400">Loading dashboard...</p>
         </div>
       </div>
@@ -78,35 +78,29 @@ const SalesAgentDashboard = ({
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
-        <div className="bg-red-500/20 border border-red-500/50 rounded-2xl p-8 backdrop-blur-sm text-center">
+      <div className="w-full">
+        <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-8 text-center backdrop-blur-sm">
           <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
-          <p className="text-red-400 mb-4">{error}</p>
+          <p className="text-red-300 mb-4">{error}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
-      {/* Header */}
-      <div className="mb-6 sm:mb-8">
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Sales Agent Dashboard</h1>
-        <p className="text-sm sm:text-base text-slate-400">Welcome back, {user.name || user.username || user.email}!</p>
-      </div>
-
+    <div className="w-full">
       {/* Quick Actions */}
       <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-6 sm:mb-8">
         <button
           onClick={onPurchaseClick}
-          className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-blue-500 px-4 sm:px-6 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold hover:scale-105 transition-transform shadow-lg"
+          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-indigo-600 px-5 sm:px-6 py-3 sm:py-3.5 text-sm sm:text-base font-semibold shadow-lg shadow-primary-900/30 transition hover:brightness-110 active:scale-[0.98]"
         >
           <PlusCircle className="w-5 h-5" />
           <span>Create New Policy</span>
         </button>
         <button
           onClick={onClaimClick}
-          className="flex items-center justify-center gap-2 bg-gradient-to-r from-orange-600 to-orange-500 px-4 sm:px-6 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold hover:scale-105 transition-transform shadow-lg"
+          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accent-600 to-rose-600 px-5 sm:px-6 py-3 sm:py-3.5 text-sm sm:text-base font-semibold shadow-lg shadow-accent-900/20 transition hover:brightness-110 active:scale-[0.98]"
         >
           <FileCheck className="w-5 h-5" />
           <span>Lodge a Claim</span>
@@ -116,7 +110,7 @@ const SalesAgentDashboard = ({
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
         {/* Policies Metrics */}
-        <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-xl sm:rounded-2xl p-5 sm:p-6 backdrop-blur-sm border border-blue-500/20">
+        <div className="rounded-xl sm:rounded-2xl border border-primary-500/25 bg-gradient-to-br from-primary-500/10 to-primary-600/5 p-5 sm:p-6 shadow-md shadow-black/10 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-slate-400 text-xs sm:text-sm mb-1">Total Policies</p>
@@ -133,7 +127,7 @@ const SalesAgentDashboard = ({
         </div>
 
         {/* Total Claims */}
-        <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 rounded-xl sm:rounded-2xl p-5 sm:p-6 backdrop-blur-sm border border-purple-500/20">
+        <div className="rounded-xl sm:rounded-2xl border border-violet-500/25 bg-gradient-to-br from-violet-500/10 to-violet-600/5 p-5 sm:p-6 shadow-md shadow-black/10 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-slate-400 text-xs sm:text-sm mb-1">Total Claims</p>
@@ -149,7 +143,7 @@ const SalesAgentDashboard = ({
         </div>
 
         {/* Claims Paid */}
-        <div className="bg-gradient-to-br from-green-500/10 to-green-600/5 rounded-xl sm:rounded-2xl p-5 sm:p-6 backdrop-blur-sm border border-green-500/20">
+        <div className="rounded-xl sm:rounded-2xl border border-emerald-500/25 bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 p-5 sm:p-6 shadow-md shadow-black/10 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-slate-400 text-xs sm:text-sm mb-1">Claims Paid</p>
@@ -165,7 +159,7 @@ const SalesAgentDashboard = ({
         </div>
 
         {/* Claims Pending */}
-        <div className="bg-gradient-to-br from-orange-500/10 to-orange-600/5 rounded-xl sm:rounded-2xl p-5 sm:p-6 backdrop-blur-sm border border-orange-500/20">
+        <div className="rounded-xl sm:rounded-2xl border border-orange-500/25 bg-gradient-to-br from-orange-500/10 to-orange-600/5 p-5 sm:p-6 shadow-md shadow-black/10 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-slate-400 text-xs sm:text-sm mb-1">Claims Pending</p>
@@ -181,7 +175,7 @@ const SalesAgentDashboard = ({
         </div>
 
         {/* Claims Declined */}
-        <div className="bg-gradient-to-br from-red-500/10 to-red-600/5 rounded-xl sm:rounded-2xl p-5 sm:p-6 backdrop-blur-sm border border-red-500/20">
+        <div className="rounded-xl sm:rounded-2xl border border-red-500/25 bg-gradient-to-br from-red-500/10 to-red-600/5 p-5 sm:p-6 shadow-md shadow-black/10 backdrop-blur-sm">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-slate-400 text-xs sm:text-sm mb-1">Claims Declined</p>
@@ -209,7 +203,7 @@ const SalesAgentDashboard = ({
             Recent Policies
           </h2>
           {policies.length === 0 ? (
-            <div className="bg-white/5 rounded-xl sm:rounded-2xl p-8 sm:p-12 text-center backdrop-blur-sm">
+            <div className="rounded-xl sm:rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 sm:p-12 text-center backdrop-blur-sm">
               <Shield className="w-12 h-12 sm:w-16 sm:h-16 text-slate-400 mx-auto mb-4 opacity-50" />
               <p className="text-sm sm:text-base text-slate-400">No policies created yet</p>
             </div>
@@ -218,7 +212,7 @@ const SalesAgentDashboard = ({
               {policies.slice(0, 5).map((policy) => (
                 <div
                   key={policy.id}
-                  className="bg-white/5 rounded-lg sm:rounded-xl p-4 sm:p-5 backdrop-blur-sm hover:bg-white/10 transition-all border border-white/10"
+                  className="rounded-lg sm:rounded-xl border border-white/[0.08] bg-white/[0.04] p-4 sm:p-5 shadow-sm backdrop-blur-sm transition hover:border-white/[0.12] hover:bg-white/[0.07]"
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div className="min-w-0 flex-1">
@@ -250,7 +244,7 @@ const SalesAgentDashboard = ({
             Recent Claims
           </h2>
           {claims.length === 0 ? (
-            <div className="bg-white/5 rounded-xl sm:rounded-2xl p-8 sm:p-12 text-center backdrop-blur-sm">
+            <div className="rounded-xl sm:rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8 sm:p-12 text-center backdrop-blur-sm">
               <FileText className="w-12 h-12 sm:w-16 sm:h-16 text-slate-400 mx-auto mb-4 opacity-50" />
               <p className="text-sm sm:text-base text-slate-400">No claims filed yet</p>
             </div>
@@ -261,7 +255,7 @@ const SalesAgentDashboard = ({
                 return (
                   <div
                     key={claim.id}
-                    className="bg-white/5 rounded-lg sm:rounded-xl p-4 sm:p-5 backdrop-blur-sm hover:bg-white/10 transition-all border border-white/10"
+                    className="rounded-lg sm:rounded-xl border border-white/[0.08] bg-white/[0.04] p-4 sm:p-5 shadow-sm backdrop-blur-sm transition hover:border-white/[0.12] hover:bg-white/[0.07]"
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div className="min-w-0 flex-1">

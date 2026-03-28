@@ -152,7 +152,7 @@ const ClaimDetail = ({ claimId, onBack, onPolicyClick }) => {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="w-full py-4 sm:py-6">
         <div className="bg-white/5 rounded-2xl p-12 backdrop-blur-sm text-center">
           <Loader2 className="w-16 h-16 text-blue-400 mx-auto mb-4 animate-spin" />
           <p className="text-slate-400">Loading claim details...</p>
@@ -163,7 +163,7 @@ const ClaimDetail = ({ claimId, onBack, onPolicyClick }) => {
 
   if (error || !claim) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="w-full py-4 sm:py-6">
         <div className="bg-white/5 rounded-2xl p-8 backdrop-blur-sm text-center">
           <AlertCircle className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
           <p className="text-slate-400 mb-4">{error || 'Claim not found'}</p>
@@ -199,7 +199,7 @@ const ClaimDetail = ({ claimId, onBack, onPolicyClick }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="w-full py-2 sm:py-4">
       <button
         onClick={onBack}
         className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors mb-6"
