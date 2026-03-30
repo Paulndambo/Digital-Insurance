@@ -1,7 +1,9 @@
 from django.db import models
 from decimal import Decimal
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
+import uuid
+
 
 from django.contrib.auth.models import AbstractUser
 from apps.core.models import AbstractBaseModel
@@ -19,14 +21,15 @@ class User(AbstractUser, AbstractBaseModel):
     county = models.CharField(max_length=255, null=True)
     country = models.CharField(max_length=255, null=True)
     occupation = models.CharField(max_length=255, null=True)
-    
+    token = models.UUIDField(blank=True, null=True)
+
     def __str__(self):
         return self.get_full_name() if self.first_name else self.username
 
 
 class Membership(AbstractBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    policy = models.ForeignKey("policies.Policy", on_delete=models.CASCADE)
+    policy = models.ForeignKey("policies.Policy", on_delete=models.CASCADE, related_name="policymemberships")
     scheme_group = models.ForeignKey("schemes.SchemeGroup", on_delete=models.CASCADE)
     membership_certificate = models.FileField(upload_to="membership_certificates", null=True)
     dependent_premium = models.DecimalField(max_digits=100, decimal_places=2, default=Decimal('0'))
@@ -35,6 +38,8 @@ class Membership(AbstractBaseModel):
     main_member_cover_amount = models.DecimalField(max_digits=100, decimal_places=2, default=Decimal('0'))
     dependent_cover_amount = models.DecimalField(max_digits=100, decimal_places=2, default=Decimal('0'))
     total_cover_amount = models.DecimalField(max_digits=100, decimal_places=2, default=Decimal('0'))
+    preferred_communication_channel = models.CharField(max_length=255, null=True)
+    status = models.CharField(max_length=255, choices=PolicyStatuses.choices(), default=PolicyStatuses.CREATED.value)
     
     def __str__(self):
         return self.user.username
@@ -53,3 +58,4 @@ class MembershipStatusUpdate(AbstractBaseModel):
 def membership_deleted(sender, instance, **kwargs):
     if instance.user:
         instance.user.delete()
+

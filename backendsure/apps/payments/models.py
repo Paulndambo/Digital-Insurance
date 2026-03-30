@@ -69,6 +69,7 @@ class PayerDetail(AbstractBaseModel):
     debit_order_date = models.CharField(max_length=255, null=True)
     source_of_funds = models.CharField(max_length=255, null=True)
     payment_method = models.CharField(max_length=255, null=True)
+    phone_number = models.CharField(max_length=255, null=True)
     
     def __str__(self) -> Any:
         return self.account_name

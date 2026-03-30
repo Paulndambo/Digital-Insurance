@@ -37,7 +37,6 @@ const PaymentsTable = ({ policies }) => {
         payment.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         payment.ownerName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         payment.accountName?.toLowerCase().includes(searchTerm.toLowerCase());
-      
       return matchesSearch;
     });
 

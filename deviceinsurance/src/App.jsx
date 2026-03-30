@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import DeviceInsurance from './DeviceInsurance'
+import ActivateAccountPage from './components/ActivateAccountPage'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <DeviceInsurance />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/activate" element={<ActivateAccountPage />} />
+        <Route path="/*" element={<DeviceInsurance />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

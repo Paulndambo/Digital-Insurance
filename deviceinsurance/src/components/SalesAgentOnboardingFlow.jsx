@@ -186,7 +186,7 @@ const SalesAgentOnboardingFlow = ({ onExitToHome, onGoLogin }) => {
 
   if (phase === 'success' && success) {
     return (
-      <div className="mx-auto max-w-lg text-center">
+      <div className="mx-auto w-full max-w-2xl text-center">
         <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/15 ring-1 ring-emerald-500/30">
           <CheckCircle2 className="h-9 w-9 text-emerald-400" aria-hidden />
         </div>
@@ -231,7 +231,7 @@ const SalesAgentOnboardingFlow = ({ onExitToHome, onGoLogin }) => {
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="w-full">
       <button
         type="button"
         onClick={() => {

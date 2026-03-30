@@ -43,6 +43,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         access_token = str(data.access_token)
         refresh_token = str(data)
 
+        if not user.is_active:
+            raise serializers.ValidationError("Account is not active. Please activate your account.")
 
         return LoggedInUserDataMap(
             id=user.id,
@@ -86,3 +88,10 @@ class MembershipSerializer(serializers.ModelSerializer):
 
     def get_gender(self, obj):
         return obj.user.gender
+    
+
+
+class UserActivationSerializer(serializers.Serializer):
+    token = serializers.UUIDField()
+    password = serializers.CharField(write_only=True)
+    confirm_password = serializers.CharField(write_only=True)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.payments.models import Premium, PayerDetail
+from apps.payments.models import Premium, PayerDetail, Payment
 # Register your models here.
 @admin.register(Premium)
 class PremiumAdmin(admin.ModelAdmin):
@@ -10,3 +10,8 @@ class PremiumAdmin(admin.ModelAdmin):
 @admin.register(PayerDetail)
 class PayerDetailAdmin(admin.ModelAdmin):
     list_display = ["id", "membership", "account_name", "account_type", "account_number"]
+
+
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ["id", "membership", "amount", "payment_method", "reference", "status"]

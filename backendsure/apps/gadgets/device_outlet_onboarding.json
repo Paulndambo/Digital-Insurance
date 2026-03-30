@@ -1,0 +1,27 @@
+{
+    "owner_details": {
+        "first_name": "John",
+        "last_name": "Doe",
+        "phone_number": "+254712345678",
+        "id_number": "12345678",
+        "passport_number": "A1234567",
+        "gender": "Male",
+        "address": "123 Main Street",
+        "town": "Nairobi",
+        "county": "Nairobi",
+        "country": "Kenya"
+    },
+    "outlet_details": {
+        "name": "Tech Hub",
+        "location": "Nairobi CBD",
+        "email": "tech.hub@example.com",
+        "phone_number": "+254798765432",
+        "business_registration_number": "BRN123456",
+        "tax_identification_number": "TIN123456",
+        "city": "Nairobi",
+        "country": "Kenya",
+        "agent_type": "Seller",
+        "outlet_number": "OUTLET123",
+        "website": "https://www.techhub.com"
+    }
+}

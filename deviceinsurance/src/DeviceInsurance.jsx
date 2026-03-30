@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   PlusCircle,
@@ -18,7 +19,12 @@ import { usePolicies } from './hooks/usePolicies';
 import { useClaims } from './hooks/useClaims';
 import { validateEmail, validateCardNumber, validatePhone } from './utils/validation';
 import { formatPhoneNumber, formatCardNumber, formatExpiryDate, formatPrice } from './utils/formatters';
-import { getStoredPolicies, getStoredClaims, getStoredAccessToken } from './utils/storage';
+import {
+  getStoredPolicies,
+  getStoredClaims,
+  getStoredAccessToken,
+  getSessionUserOrClearStale,
+} from './utils/storage';
 import { devices } from './constants/devices';
 import { fetchPricingPlans, createPolicy, login as apiLogin, createClaim } from './utils/api';
 import {
@@ -45,8 +51,13 @@ import SalesAgentOnboardingFlow from './components/SalesAgentOnboardingFlow';
 import BecomeOutletPage from './components/BecomeOutletPage';
 
 export default function DeviceInsurance() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   // View states: 'landing' | 'login' | 'dashboard' | 'purchase' | 'request-quote' | 'claim' | 'policy-detail' | 'claim-detail'
-  const [currentView, setCurrentView] = useState('landing');
+  const [currentView, setCurrentView] = useState(() =>
+    getSessionUserOrClearStale() ? 'dashboard' : 'landing'
+  );
   const [selectedPolicyId, setSelectedPolicyId] = useState(null);
   const [selectedClaimId, setSelectedClaimId] = useState(null);
   const { user, login, logout } = useAuth();
@@ -120,6 +131,15 @@ export default function DeviceInsurance() {
   const [deviceTypeQueue, setDeviceTypeQueue] = useState([]);
   /** Frozen from deviceTypeQueue when leaving step 1 — drives which item is being detailed in step 3. */
   const [purchaseDeviceQueue, setPurchaseDeviceQueue] = useState([]);
+
+  useEffect(() => {
+    if (!location.state?.openLogin) return;
+    setCurrentView('login');
+    navigate(
+      { pathname: location.pathname, search: location.search, hash: location.hash },
+      { replace: true, state: {} }
+    );
+  }, [location.state?.openLogin, location.pathname, location.search, location.hash, navigate]);
 
   useEffect(() => {
     if (step !== 3 || purchaseDeviceQueue.length === 0) return;
@@ -656,6 +676,8 @@ export default function DeviceInsurance() {
         agentIdNumber: formData.purchasedViaAgent === 'yes' ? formData.agentIdNumber.trim() : undefined,
       };
 
+      const isFirstPolicyPurchase = policies.length === 0;
+
       addPolicy(localPolicy);
       setPolicySaved(true);
 
@@ -675,6 +697,7 @@ export default function DeviceInsurance() {
         email: formData.email,
         paymentMethod: payment_details.payment_method,
         policyId: localPolicy.id,
+        isFirstPolicyPurchase,
       });
 
       setShowFlow(false);
@@ -821,6 +844,12 @@ export default function DeviceInsurance() {
     setCurrentView('dashboard');
     refreshPolicies();
     refreshClaims();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handlePurchaseSuccessToLogin = () => {
+    setPurchaseSuccessSummary(null);
+    setCurrentView('login');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -1120,6 +1149,7 @@ export default function DeviceInsurance() {
           onGoToDashboard={handlePurchaseSuccessToDashboard}
           onOpenPolicy={user ? handlePurchaseSuccessOpenPolicy : undefined}
           onGoHome={handleHomeClick}
+          onProceedToLogin={handlePurchaseSuccessToLogin}
         />
       )}
 
@@ -1232,6 +1262,7 @@ export default function DeviceInsurance() {
           onGoToDashboard={handlePurchaseSuccessToDashboard}
           onOpenPolicy={undefined}
           onGoHome={handleHomeClick}
+          onProceedToLogin={handlePurchaseSuccessToLogin}
         />
       )}
 

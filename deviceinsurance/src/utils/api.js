@@ -8,6 +8,40 @@ const API_BASE_URL = (typeof process !== 'undefined' && process.env?.REACT_APP_A
   ? process.env.REACT_APP_API_BASE_URL 
   : 'http://127.0.0.1:8000';
 
+function parseApiErrorPayload(response, bodyText) {
+  try {
+    const err = JSON.parse(bodyText);
+    if (typeof err === 'string') return err;
+    if (err?.error) return err.error;
+    if (err?.detail) return typeof err.detail === 'string' ? err.detail : JSON.stringify(err.detail);
+    const firstField = Object.values(err).find(
+      (v) => typeof v === 'string' || (Array.isArray(v) && v.length)
+    );
+    if (Array.isArray(firstField)) return String(firstField[0]);
+    if (typeof firstField === 'string') return firstField;
+  } catch {
+    /* ignore */
+  }
+  return bodyText || `Request failed (${response.status})`;
+}
+
+/** 400 + DRF non_field_errors when account exists but is inactive */
+function messageForInactiveLoginAccount(status, bodyText) {
+  if (status !== 400 || !bodyText) return null;
+  try {
+    const err = JSON.parse(bodyText);
+    const nfe = err.non_field_errors;
+    if (!Array.isArray(nfe)) return null;
+    const joined = nfe.filter(Boolean).join(' ');
+    if (/not active|activate your account/i.test(joined)) {
+      return 'Check your mailbox (including spam) for an account activation link. Open the link to activate your account, then sign in again.';
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
 export const fetchPricingPlans = async () => {
   try {
     const headersList = {
@@ -53,7 +87,11 @@ export const login = async (username, password) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+      const inactiveMsg = messageForInactiveLoginAccount(response.status, errorText);
+      if (inactiveMsg) {
+        throw new Error(inactiveMsg);
+      }
+      throw new Error(parseApiErrorPayload(response, errorText));
     }
 
     const data = await response.json();
@@ -61,6 +99,39 @@ export const login = async (username, password) => {
   } catch (error) {
     console.error('Error logging in:', error);
     throw error;
+  }
+};
+
+export const activateAccount = async ({ token, password, confirmPassword }) => {
+  const headersList = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'User-Agent': BRAND_APP_USER_AGENT,
+  };
+
+  const bodyContent = JSON.stringify({
+    token,
+    password,
+    confirm_password: confirmPassword,
+  });
+
+  const response = await fetch(`${API_BASE_URL}/users/activate/`, {
+    method: 'POST',
+    headers: headersList,
+    body: bodyContent,
+  });
+
+  const text = await response.text();
+
+  if (!response.ok) {
+    const message = parseApiErrorPayload(response, text);
+    throw new Error(message);
+  }
+
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    return {};
   }
 };
 

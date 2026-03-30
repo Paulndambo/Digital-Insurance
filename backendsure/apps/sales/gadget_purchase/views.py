@@ -1,6 +1,6 @@
 from rest_framework import status, generics
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 from apps.sales.gadget_purchase.serializers import GadgetPolicyPurchaseSerializer
@@ -10,19 +10,16 @@ from apps.gadgets.models import DeviceOutlet
 
 class GadgetPolicyPurchaseAPIView(generics.CreateAPIView):
     serializer_class = GadgetPolicyPurchaseSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid(raise_exception=True):
             seller = DeviceOutlet.objects.filter(
-                owner=request.user
+                outlet_number=serializer.validated_data['additional_information'].get('agent_id_number')
             ).first()
-            if not seller:
-                seller = DeviceOutlet.objects.get(
-                    owner__username="admin"
-                )
+            
             GadgetPolicyPurchaseService(
                 data=serializer.validated_data,
                 seller=seller

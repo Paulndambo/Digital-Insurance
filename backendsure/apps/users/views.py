@@ -6,7 +6,10 @@ from rest_framework import status, generics
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 
-from apps.users.serializers import  CustomTokenObtainPairSerializer, RegisterUserSerializer, UserSerializer, MembershipSerializer
+from apps.users.serializers import (
+    CustomTokenObtainPairSerializer, RegisterUserSerializer, 
+    UserSerializer, MembershipSerializer, UserActivationSerializer
+)
 
 
 
@@ -47,3 +50,29 @@ class MembershipAPIView(generics.ListCreateAPIView):
     queryset = Membership.objects.all().order_by("-created_at")
     serializer_class = MembershipSerializer
     permission_classes = [IsAuthenticated]
+
+
+
+class UserActivationAPIView(generics.GenericAPIView):
+    serializer_class = UserActivationSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            token = serializer.validated_data["token"]
+            password = serializer.validated_data["password"]
+            confirm_password = serializer.validated_data["confirm_password"]
+
+            if password != confirm_password:
+                return Response({"error": "Passwords do not match."}, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                user = User.objects.get(token=token)
+            except User.DoesNotExist:
+                return Response({"error": "Invalid activation token."}, status=status.HTTP_400_BAD_REQUEST)
+
+            user.set_password(password)
+            user.is_active = True
+            user.activation_token = None
+            user.save()
+            return Response({"success": "Account activated successfully."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

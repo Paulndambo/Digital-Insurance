@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react';
-import { getStoredUser, saveUser, clearUser, saveAccessToken, saveRefreshToken, clearTokens } from '../utils/storage';
+import { useState } from 'react';
+import {
+  saveUser,
+  clearUser,
+  saveAccessToken,
+  saveRefreshToken,
+  clearTokens,
+  getSessionUserOrClearStale,
+} from '../utils/storage';
 
 export const useAuth = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const storedUser = getStoredUser();
-    if (storedUser) {
-      setUser(storedUser);
-    }
-  }, []);
+  const [user, setUser] = useState(() => getSessionUserOrClearStale());
 
   const login = async (loginData) => {
     // If loginData is an object (from API), save it directly

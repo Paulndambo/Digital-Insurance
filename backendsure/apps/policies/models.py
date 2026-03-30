@@ -15,6 +15,9 @@ class Policy(AbstractBaseModel):
     policy_document = models.FileField(upload_to="policy_documents/", null=True)
     policy_owner = models.ForeignKey("users.User", on_delete=models.SET_NULL, null=True)
     gadget_pricing = models.ForeignKey("pricing.GadgetPricing", on_delete=models.SET_NULL, null=True)
+    purchase_channel = models.CharField(max_length=255, default="Direct")
+    payment_method = models.CharField(max_length=255, default="Mpesa")
+    preferred_communication_channel = models.CharField(max_length=255, default="Email")
     
     def __str__(self):
         return self.policy_number    

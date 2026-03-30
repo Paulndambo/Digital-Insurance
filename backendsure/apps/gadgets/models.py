@@ -11,9 +11,13 @@ class DeviceOutlet(AbstractBaseModel):
     email = models.EmailField(null=True)
     phone_number = models.CharField(max_length=255)
     website = models.URLField(null=True)
+    business_registration_number = models.CharField(max_length=255, null=True, blank=True)
+    tax_identification_number = models.CharField(max_length=255, null=True, blank=True)
     location = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     country = models.CharField(max_length=255, default="Kenya")
+    business_registration_number = models.CharField(max_length=255, null=True)
+    tax_identification_number = models.CharField(max_length=255, null=True)
 
 
     def __str__(self):
@@ -36,6 +40,8 @@ class InsuredGadget(AbstractBaseModel):
     purchase_date = models.DateField()
     seller = models.ForeignKey(DeviceOutlet, on_delete=models.SET_NULL, null=True)
     pricing = models.ForeignKey("pricing.GadgetPricing", on_delete=models.CASCADE)
+    warranty_expiry_date = models.DateField(null=True)
+    warranty_period = models.IntegerField(null=True, help_text="Warranty period in months")
     premium = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'))
     seller_share = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'))
     platform_share = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0'))

@@ -18,6 +18,9 @@ export const STORAGE_KEYS = {
   refreshToken: 'coverkit_refreshToken',
 };
 
+/** Cookie name for JWT access token (3h expiry in storage layer) */
+export const ACCESS_TOKEN_COOKIE_NAME = 'coverkit_access_token';
+
 /** Previous prefix — read once and migrate to STORAGE_KEYS */
 export const STORAGE_KEYS_LEGACY = {
   policies: 'deviceShield_policies',

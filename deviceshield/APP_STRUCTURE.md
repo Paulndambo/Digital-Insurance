@@ -1,0 +1,586 @@
+# DeviceShield - Application Structure Guide
+
+Visual guide to understanding the DeviceShield app architecture and flow.
+
+---
+
+## 🏗️ Application Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Root Layout (_layout.tsx)                │
+│                                                               │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │              AppProvider (Context)                   │   │
+│  │  - User State                                        │   │
+│  │  - Policies State                                    │   │
+│  │  - Claims State                                      │   │
+│  │  - Devices State                                     │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                               │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │         ThemeProvider (React Navigation)             │   │
+│  │  - Light/Dark Mode                                   │   │
+│  │  - Color Scheme                                      │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                               │
+│                    Tab Navigation                             │
+│  ┌──────────┬──────────┬──────────┬──────────┐             │
+│  │   Home   │ Policies │  Claims  │ Profile  │             │
+│  └──────────┴──────────┴──────────┴──────────┘             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📱 Screen Flow Diagram
+
+```
+                    ┌─────────────┐
+                    │  App Start  │
+                    └──────┬──────┘
+                           │
+                    ┌──────▼──────┐
+                    │ Root Layout │
+                    │ (Providers) │
+                    └──────┬──────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   ┌────▼────┐      ┌─────▼─────┐     ┌─────▼─────┐
+   │  Tabs   │      │   Modal   │     │   Stack   │
+   │ Layout  │      │  Screens  │     │  Screens  │
+   └────┬────┘      └───────────┘     └───────────┘
+        │
+   ┌────┴────┬────────┬────────┬────────┐
+   │         │        │        │        │
+┌──▼──┐  ┌──▼──┐  ┌──▼──┐  ┌──▼──┐
+│Home │  │Poli-│  │Clai-│  │Prof-│
+│     │  │cies │  │ms   │  │ile  │
+└─────┘  └─────┘  └─────┘  └─────┘
+```
+
+---
+
+## 🏠 Home Screen Structure
+
+```
+┌───────────────────────────────────────┐
+│  📱 Home Screen (index.tsx)           │
+├───────────────────────────────────────┤
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Welcome Section                │ │
+│  │  - Greeting                     │ │
+│  │  - User Name                    │ │
+│  │  - Welcome Card                 │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Metrics Grid (2x2)             │ │
+│  │  ┌──────────┬──────────┐        │ │
+│  │  │ Active   │ Pending  │        │ │
+│  │  │ Policies │ Claims   │        │ │
+│  │  ├──────────┼──────────┤        │ │
+│  │  │  Total   │ Devices  │        │ │
+│  │  │ Coverage │Protected │        │ │
+│  │  └──────────┴──────────┘        │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Quick Actions (2x2)            │ │
+│  │  ┌──────────┬──────────┐        │ │
+│  │  │   New    │   File   │        │ │
+│  │  │  Policy  │  Claim   │        │ │
+│  │  ├──────────┼──────────┤        │ │
+│  │  │    My    │ Support  │        │ │
+│  │  │ Policies │          │        │ │
+│  │  └──────────┴──────────┘        │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Recent Activity                │ │
+│  │  - Claim 1                      │ │
+│  │  - Claim 2                      │ │
+│  │  - Claim 3                      │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+└───────────────────────────────────────┘
+```
+
+---
+
+## 🛡️ Policies Screen Structure
+
+```
+┌───────────────────────────────────────┐
+│  🛡️ Policies Screen (policies.tsx)   │
+├───────────────────────────────────────┤
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Active Policies Section        │ │
+│  │                                 │ │
+│  │  ┌─────────────────────────┐   │ │
+│  │  │  Policy Card 1          │   │ │
+│  │  │  - Device Info          │   │ │
+│  │  │  - Policy Details       │   │ │
+│  │  │  - Coverage Icons       │   │ │
+│  │  │  - Status Badge         │   │ │
+│  │  └─────────────────────────┘   │ │
+│  │                                 │ │
+│  │  ┌─────────────────────────┐   │ │
+│  │  │  Policy Card 2          │   │ │
+│  │  └─────────────────────────┘   │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Available Plans Section        │ │
+│  │                                 │ │
+│  │  ┌─────────────────────────┐   │ │
+│  │  │  Basic Plan             │   │ │
+│  │  │  $9.99/month            │   │ │
+│  │  │  - Features List        │   │ │
+│  │  │  [Purchase Button]      │   │ │
+│  │  └─────────────────────────┘   │ │
+│  │                                 │ │
+│  │  ┌─────────────────────────┐   │ │
+│  │  │  Standard Plan          │   │ │
+│  │  │  $19.99/month           │   │ │
+│  │  └─────────────────────────┘   │ │
+│  │                                 │ │
+│  │  ┌─────────────────────────┐   │ │
+│  │  │  Premium Plan           │   │ │
+│  │  │  $29.99/month           │   │ │
+│  │  └─────────────────────────┘   │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+└───────────────────────────────────────┘
+
+        │ (On Purchase Button Click)
+        ▼
+┌───────────────────────────────────────┐
+│  Purchase Modal                       │
+├───────────────────────────────────────┤
+│  - Plan Summary                       │
+│  - Pricing Details                    │
+│  - Confirm Button                     │
+│  - Cancel Button                      │
+└───────────────────────────────────────┘
+```
+
+---
+
+## 📋 Claims Screen Structure
+
+```
+┌───────────────────────────────────────┐
+│  📋 Claims Screen (claims.tsx)        │
+├───────────────────────────────────────┤
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Header with [+] Button         │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Summary Cards (3 cards)        │ │
+│  │  ┌────────┬────────┬────────┐   │ │
+│  │  │Pending │Approved│Rejected│   │ │
+│  │  │   2    │   3    │   1    │   │ │
+│  │  └────────┴────────┴────────┘   │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Claims List                    │ │
+│  │                                 │ │
+│  │  ┌─────────────────────────┐   │ │
+│  │  │  Claim Card 1           │   │ │
+│  │  │  - Claim Number         │   │ │
+│  │  │  - Device               │   │ │
+│  │  │  - Status Badge         │   │ │
+│  │  │  - Description          │   │ │
+│  │  │  - Dates                │   │ │
+│  │  └─────────────────────────┘   │ │
+│  │                                 │ │
+│  │  ┌─────────────────────────┐   │ │
+│  │  │  Claim Card 2           │   │ │
+│  │  └─────────────────────────┘   │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+└───────────────────────────────────────┘
+
+        │ (On [+] Button Click)
+        ▼
+┌───────────────────────────────────────┐
+│  Create Claim Modal                   │
+├───────────────────────────────────────┤
+│  Step 1: Select Policy                │
+│  ┌─────────────────────────────────┐ │
+│  │  [Policy Option 1]              │ │
+│  │  [Policy Option 2]              │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  Step 2: Choose Claim Type            │
+│  ┌────────┬────────┐                 │
+│  │ Damage │ Theft  │                 │
+│  ├────────┼────────┤                 │
+│  │Malfunc.│ Other  │                 │
+│  └────────┴────────┘                 │
+│                                       │
+│  Step 3: Add Description              │
+│  ┌─────────────────────────────────┐ │
+│  │  [Text Input Area]              │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  [Submit Claim Button]                │
+│  [Cancel Button]                      │
+└───────────────────────────────────────┘
+```
+
+---
+
+## 👤 Profile Screen Structure
+
+```
+┌───────────────────────────────────────┐
+│  👤 Profile Screen (profile.tsx)      │
+├───────────────────────────────────────┤
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Profile Card                   │ │
+│  │  ┌────┐                         │ │
+│  │  │ JD │  John Doe               │ │
+│  │  └────┘  john@example.com       │ │
+│  │          Member since Jan 2024  │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Statistics (3 cards)           │ │
+│  │  ┌────────┬────────┬────────┐   │ │
+│  │  │Active  │ Total  │Approved│   │ │
+│  │  │Policies│ Claims │ Claims │   │ │
+│  │  │   2    │   5    │   3    │   │ │
+│  │  └────────┴────────┴────────┘   │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Contact Information            │ │
+│  │  📧 Email                       │ │
+│  │  📱 Phone                       │ │
+│  │  🏠 Address                     │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Account Section                │ │
+│  │  - Personal Information    >    │ │
+│  │  - Email & Notifications   >    │ │
+│  │  - Security & Privacy      >    │ │
+│  │  - Payment Methods         >    │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  Support Section                │ │
+│  │  - Help Center             >    │ │
+│  │  - Contact Support         >    │ │
+│  │  - Terms & Conditions      >    │ │
+│  │  - Privacy Policy          >    │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  App Section                    │ │
+│  │  - Notifications           >    │ │
+│  │  - Dark Mode               >    │ │
+│  │  - About                   >    │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  ┌─────────────────────────────────┐ │
+│  │  🚪 Log Out                     │ │
+│  └─────────────────────────────────┘ │
+│                                       │
+│  App Version: v1.0.0                  │
+│  © 2026 DigiInsure                    │
+│                                       │
+└───────────────────────────────────────┘
+```
+
+---
+
+## 🔄 Data Flow
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    AppContext                            │
+│                  (Global State)                          │
+├─────────────────────────────────────────────────────────┤
+│                                                           │
+│  State:                                                   │
+│  ├─ user: User                                           │
+│  ├─ policies: Policy[]                                   │
+│  ├─ claims: Claim[]                                      │
+│  └─ devices: Device[]                                    │
+│                                                           │
+│  Actions:                                                 │
+│  ├─ addPolicy(policy)                                    │
+│  ├─ addClaim(claim)                                      │
+│  ├─ addDevice(device)                                    │
+│  └─ updateClaimStatus(id, status)                       │
+│                                                           │
+└─────────────────────────────────────────────────────────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   ┌────▼────┐      ┌─────▼─────┐     ┌─────▼─────┐
+   │  Home   │      │ Policies  │     │  Claims   │
+   │ Screen  │      │  Screen   │     │  Screen   │
+   └─────────┘      └───────────┘     └───────────┘
+        │                  │                  │
+        │                  │                  │
+   ┌────▼────────────┬────▼──────────────────▼────┐
+   │                                                │
+   │         useApp() Hook                          │
+   │         - Access state                         │
+   │         - Call actions                         │
+   │                                                │
+   └────────────────────────────────────────────────┘
+```
+
+---
+
+## 🎨 Component Hierarchy
+
+```
+App
+└── RootLayout (_layout.tsx)
+    ├── AppProvider
+    │   └── ThemeProvider
+    │       └── Stack Navigator
+    │           └── TabLayout
+    │               ├── Home Screen
+    │               │   ├── ThemedView
+    │               │   ├── ScrollView
+    │               │   │   ├── Card (Welcome)
+    │               │   │   ├── Card (Metrics) x4
+    │               │   │   ├── Card (Actions) x4
+    │               │   │   └── Card (Activity) x3
+    │               │   └── IconSymbol x12
+    │               │
+    │               ├── Policies Screen
+    │               │   ├── ThemedView
+    │               │   ├── ScrollView
+    │               │   │   ├── Card (Policy) x2
+    │               │   │   │   ├── Badge
+    │               │   │   │   └── IconSymbol
+    │               │   │   └── Card (Plan) x3
+    │               │   │       ├── Button
+    │               │   │       └── IconSymbol
+    │               │   └── Modal (Purchase)
+    │               │       ├── Card
+    │               │       └── Button x2
+    │               │
+    │               ├── Claims Screen
+    │               │   ├── ThemedView
+    │               │   ├── ScrollView
+    │               │   │   ├── Card (Summary) x3
+    │               │   │   └── Card (Claim) xN
+    │               │   │       ├── Badge
+    │               │   │       └── IconSymbol
+    │               │   └── Modal (Create)
+    │               │       ├── Card (Policy Select)
+    │               │       ├── Card (Type Select)
+    │               │       ├── TextInput
+    │               │       └── Button x2
+    │               │
+    │               └── Profile Screen
+    │                   ├── ThemedView
+    │                   └── ScrollView
+    │                       ├── Card (Profile)
+    │                       ├── Card (Stats) x3
+    │                       ├── Card (Contact)
+    │                       ├── Card (Menu) x3
+    │                       └── Card (Logout)
+    │
+    └── Reusable Components
+        ├── Card
+        ├── Button
+        ├── Badge
+        ├── ThemedText
+        ├── ThemedView
+        └── IconSymbol
+```
+
+---
+
+## 📦 File Dependencies
+
+```
+index.tsx (Home)
+├── @/components/themed-text
+├── @/components/themed-view
+├── @/components/ui/card
+├── @/components/ui/icon-symbol
+├── @/hooks/use-color-scheme
+├── @/constants/theme
+└── @/context/AppContext
+
+policies.tsx
+├── @/components/themed-text
+├── @/components/themed-view
+├── @/components/ui/card
+├── @/components/ui/button
+├── @/components/ui/badge
+├── @/components/ui/icon-symbol
+├── @/hooks/use-color-scheme
+├── @/constants/theme
+├── @/context/AppContext
+└── @/types
+
+claims.tsx
+├── @/components/themed-text
+├── @/components/themed-view
+├── @/components/ui/card
+├── @/components/ui/button
+├── @/components/ui/badge
+├── @/components/ui/icon-symbol
+├── @/hooks/use-color-scheme
+├── @/constants/theme
+├── @/context/AppContext
+└── @/types
+
+profile.tsx
+├── @/components/themed-text
+├── @/components/themed-view
+├── @/components/ui/card
+├── @/components/ui/icon-symbol
+├── @/hooks/use-color-scheme
+├── @/constants/theme
+└── @/context/AppContext
+```
+
+---
+
+## 🎯 User Journey Map
+
+```
+New User Journey:
+1. Open App → Home Screen
+2. View Dashboard → See Metrics
+3. Tap "New Policy" → Policies Screen
+4. Browse Plans → Select Plan
+5. Purchase → Modal Confirmation
+6. View Active Policy → Policy Card
+
+Claim Filing Journey:
+1. Home Screen → Tap "File Claim"
+2. Claims Screen → Tap [+] Button
+3. Select Policy → Choose Device
+4. Select Type → Damage/Theft/etc
+5. Add Description → Text Input
+6. Submit → Confirmation
+7. View Claim → Claims List
+
+Profile Management Journey:
+1. Tap Profile Tab
+2. View Statistics
+3. Check Contact Info
+4. Browse Settings
+5. Access Support
+```
+
+---
+
+## 🔧 State Management Flow
+
+```
+User Action → Component Event Handler → Context Action
+                                            ↓
+                                      Update State
+                                            ↓
+                                    Notify Subscribers
+                                            ↓
+                                    Re-render Components
+                                            ↓
+                                      UI Updates
+```
+
+**Example: Filing a Claim**
+```
+1. User fills form in Claims Screen
+2. User taps "Submit Claim"
+3. handleCreateClaim() called
+4. addClaim(newClaim) context action
+5. claims state updated
+6. All components using claims re-render
+7. New claim appears in list
+8. Modal closes
+```
+
+---
+
+## 📱 Navigation Flow
+
+```
+Tab Navigation (Always Visible)
+┌────────────────────────────────────┐
+│  🏠    🛡️    📋    👤             │
+│ Home  Poli  Clai  Prof             │
+│       cies  ms    ile              │
+└────────────────────────────────────┘
+        ↕️      ↕️     ↕️     ↕️
+    [Screens render based on selection]
+
+Modal Navigation (Overlay)
+┌────────────────────────────────────┐
+│  ← Back    Modal Title      ✕      │
+├────────────────────────────────────┤
+│                                    │
+│         Modal Content              │
+│                                    │
+└────────────────────────────────────┘
+```
+
+---
+
+## 🎨 Theme System
+
+```
+theme.ts (Constants)
+├── Colors
+│   ├── light
+│   │   ├── primary: #2563eb
+│   │   ├── secondary: #10b981
+│   │   ├── accent: #f59e0b
+│   │   ├── danger: #ef4444
+│   │   └── ...
+│   └── dark
+│       ├── primary: #60a5fa
+│       ├── secondary: #34d399
+│       └── ...
+└── Fonts
+    ├── sans
+    ├── serif
+    ├── rounded
+    └── mono
+
+↓ Used by ↓
+
+Components
+├── ThemedText (uses Colors.text)
+├── ThemedView (uses Colors.background)
+├── Card (uses Colors.card, Colors.border)
+├── Button (uses Colors.primary, etc.)
+└── Badge (uses Colors.success, etc.)
+```
+
+---
+
+This structure guide provides a visual representation of how the DeviceShield app is organized and how different parts interact with each other.
+
+**For more details, see:**
+- README.md - Complete documentation
+- FEATURES.md - Feature descriptions
+- DEVELOPMENT.md - Technical guide
+- QUICKSTART.md - Getting started
+
+---
+
+**Version**: 1.0.0  
+**Last Updated**: January 2026

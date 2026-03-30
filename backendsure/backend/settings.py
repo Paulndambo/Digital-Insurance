@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "apps.business",
     "apps.gadgets",
     "apps.claims",
+    "apps.notifications",
 ]
 
 MIDDLEWARE = [
@@ -73,7 +74,7 @@ ROOT_URLCONF = "backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -199,3 +200,19 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+
+EMAIL_HOST_PASSWORD = "akacnconppcdpeth"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "digicafeteria@gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_PORT = 587
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL=False
+DEFAULT_FROM_EMAIL = "digicafeteria@gmail.com"
+SITE_EMAIL = "digicafeteria@gmail.com"
+EMAIL_SUBJECT = "CoverKit"
+
+
+FRONTEND_BASE_URL = "http://localhost:5173"

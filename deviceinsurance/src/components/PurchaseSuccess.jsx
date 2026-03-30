@@ -22,6 +22,7 @@ const PurchaseSuccess = ({
   onGoToDashboard,
   onOpenPolicy,
   onGoHome,
+  onProceedToLogin,
 }) => {
   const [revealed, setRevealed] = useState(false);
 
@@ -32,7 +33,18 @@ const PurchaseSuccess = ({
 
   if (!summary) return null;
 
-  const { policyNumber, firstName, coverType, monthlyPremium, deviceLabel, email, paymentMethod, policyId } = summary;
+  const {
+    policyNumber,
+    firstName,
+    coverType,
+    monthlyPremium,
+    deviceLabel,
+    email,
+    paymentMethod,
+    policyId,
+    isFirstPolicyPurchase: isFirstPolicyFlag,
+  } = summary;
+  const isFirstPolicyPurchase = isFirstPolicyFlag !== false;
 
   return (
     <>
@@ -118,8 +130,30 @@ const PurchaseSuccess = ({
             className="purchase-slide-up text-center text-slate-400 text-sm sm:text-base mb-10 max-w-md mx-auto leading-relaxed"
             style={{ animationDelay: '0.28s' }}
           >
-            Your device is on cover. We&apos;ve registered everything securely — sit tight for your confirmation
-            {paymentMethod === 'Card' ? ' and card subscription link' : ''} by email.
+            {user ? (
+              <>
+                Your device is on cover. We&apos;ve registered everything securely — sit tight for your confirmation
+                {paymentMethod === 'Card' ? ' and card subscription link' : ''} by email.
+              </>
+            ) : isFirstPolicyPurchase ? (
+              <>
+                Your device is on cover. We&apos;ve registered everything securely — you&apos;ll receive your confirmation
+                {paymentMethod === 'Card' ? ' and card subscription link' : ''} by email.{' '}
+                <span className="text-slate-300">
+                  Check your mailbox (including spam) for an account activation link. Use that link to set your password
+                  and activate your account before you sign in.
+                </span>
+              </>
+            ) : (
+              <>
+                Your device is on cover. We&apos;ve registered everything securely — sit tight for your confirmation
+                {paymentMethod === 'Card' ? ' and card subscription link' : ''} by email.{' '}
+                <span className="text-slate-300">
+                  You already have cover with us — sign in with your email and password to view this policy and manage
+                  your account.
+                </span>
+              </>
+            )}
           </p>
 
           {/* Policy ticket */}
@@ -189,7 +223,7 @@ const PurchaseSuccess = ({
                 View this policy
               </button>
             )}
-            {!user && (
+            {!user && isFirstPolicyPurchase && (
               <button
                 type="button"
                 onClick={onGoHome}
@@ -198,6 +232,25 @@ const PurchaseSuccess = ({
                 Back to home
                 <ArrowRight className="w-4 h-4" />
               </button>
+            )}
+            {!user && !isFirstPolicyPurchase && onProceedToLogin && (
+              <>
+                <button
+                  type="button"
+                  onClick={onProceedToLogin}
+                  className="group flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 hover:to-emerald-500 text-white shadow-lg shadow-teal-500/25 active:scale-[0.98] transition-all"
+                >
+                  Sign in
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </button>
+                <button
+                  type="button"
+                  onClick={onGoHome}
+                  className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-semibold text-sm border border-white/15 bg-white/5 hover:bg-white/10 text-white active:scale-[0.98] transition-all"
+                >
+                  Back to home
+                </button>
+              </>
             )}
           </div>
 

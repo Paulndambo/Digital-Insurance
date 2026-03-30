@@ -5,7 +5,7 @@ from apps.users.models import User, Membership, MembershipStatusUpdate
 # Register your models here.
 @admin.register(User)
 class UsersAdmin(admin.ModelAdmin):
-    list_display = ["id", "username", "email", "phone_number", "gender", "role", "created_at"]
+    list_display = ["id", "username", "email", "phone_number", "gender", "role", "token", "is_active", "created_at"]
     
 @admin.register(Membership)
 class MembershipAdmin(admin.ModelAdmin):

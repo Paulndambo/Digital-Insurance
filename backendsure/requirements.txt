@@ -1,3 +1,6 @@
 django
 django-cors-headers
 djangorestframework
+djangorestframework-simplejwt
+# Use PyJWT only — do not install the PyPI package named "jwt" (different project, same import name).
+PyJWT>=2.8.0
